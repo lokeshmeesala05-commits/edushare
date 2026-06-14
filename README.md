@@ -3,7 +3,7 @@
 
 ![EduShare Banner](https://img.shields.io/badge/Status-Live-success) ![React](https://img.shields.io/badge/Frontend-React-blue) ![Supabase](https://img.shields.io/badge/Backend-Supabase-green) ![Vite PWA](https://img.shields.io/badge/PWA-Enabled-purple)
 
-🔗 **Live Demo:** [https://edushare-laziqqi2o-lokeshmeesala05-commits-projects.vercel.app/](https://edushare-laziqqi2o-lokeshmeesala05-commits-projects.vercel.app/)
+🔗 **Live Demo:** [https://edushare-mu.vercel.app/](https://edushare-mu.vercel.app/)
 
 EduShare is a full-stack Progressive Web Application (PWA) built specifically to bridge the digital divide for government school students in Andhra Pradesh and Telangana. It serves as a free digital library providing organized study materials (PDFs, notes, past papers) in regional languages (Telugu and English).
 

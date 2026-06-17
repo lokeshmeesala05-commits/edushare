@@ -60,6 +60,8 @@ const BrowseNotes: React.FC = () => {
   const [sortBy, setSortBy] = useState<'newest' | 'popular'>('newest');
   const [availableSubjects, setAvailableSubjects] = useState<string[]>(DEFAULT_SUBJECTS);
   const [voiceLang, setVoiceLang] = useState<'te-IN' | 'en-IN'>('te-IN');
+  const [showFilters, setShowFilters] = useState(false);
+  const [downloadedSession, setDownloadedSession] = useState<Set<string>>(new Set());
   const searchRef = useRef<HTMLInputElement>(null);
 
   /* ── Voice search ── */
@@ -157,24 +159,22 @@ const BrowseNotes: React.FC = () => {
   const handleDownload = async (note: Note) => {
     setDownloadingId(note.id);
     try {
-      // Increment download count securely via RPC
-      const { error: rpcError } = await supabase.rpc('increment_download', { note_id: note.id });
-      if (rpcError) {
-        console.error("RPC Error:", rpcError);
-      }
-
-      // Log download if user is logged in
-      if (user) {
-        await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]).select();
+      if (!downloadedSession.has(note.id)) {
+        // Increment download count securely via RPC
+        const { error: rpcError } = await supabase.rpc('track_download_secure', { p_note_id: note.id });
+        if (rpcError) {
+          console.error("RPC Error:", rpcError);
+        } else {
+          setDownloadedSession(prev => new Set(prev).add(note.id));
+          // Update local state
+          setNotes(prev => prev.map(n =>
+            n.id === note.id ? { ...n, downloads_count: n.downloads_count + 1 } : n
+          ));
+        }
       }
 
       // Open the file
       window.open(note.file_url, '_blank');
-
-      // Update local state
-      setNotes(prev => prev.map(n =>
-        n.id === note.id ? { ...n, downloads_count: n.downloads_count + 1 } : n
-      ));
     } catch (err) {
       console.error('Download error:', err);
       window.open(note.file_url, '_blank');

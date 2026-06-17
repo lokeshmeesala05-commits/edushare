@@ -51,6 +51,7 @@ const NoteDetail: React.FC = () => {
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [showPDF, setShowPDF] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [downloadedSession, setDownloadedSession] = useState(false);
 
   useEffect(() => {
     if (id) fetchNote();
@@ -118,16 +119,16 @@ const NoteDetail: React.FC = () => {
     // 2. Track download asynchronously in the background
     (async () => {
       try {
-        // Call secure RPC function to bypass RLS and increment count
-        const { error: rpcError } = await supabase.rpc('increment_download', { note_id: note.id });
-        if (rpcError) {
-          alert("Database Error tracking download: " + rpcError.message);
+        if (!downloadedSession) {
+          // Call secure RPC function to bypass RLS and prevent duplicates
+          const { error: rpcError } = await supabase.rpc('track_download_secure', { p_note_id: note.id });
+          if (rpcError) {
+            console.error("Database Error tracking download: " + rpcError.message);
+          } else {
+            setDownloadedSession(true);
+            setNote(prev => prev ? { ...prev, downloads_count: prev.downloads_count + 1 } : prev);
+          }
         }
-
-        if (user) {
-          await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);
-        }
-        setNote(prev => prev ? { ...prev, downloads_count: prev.downloads_count + 1 } : prev);
       } catch (error) {
         console.error('Error tracking download:', error);
       }

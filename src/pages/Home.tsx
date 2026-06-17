@@ -192,7 +192,7 @@ const Home: React.FC = () => {
                 to="/register"
                 className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 text-white font-semibold rounded-2xl transition-all text-sm"
               >
-                Join Community →
+                Sign Up Free →
               </Link>
             ) : (
               <Link

@@ -28,12 +28,6 @@ const subjectIcons: Record<string, string> = {
   Telugu: 'అ', English: 'A', Physics: '⚡', Chemistry: '🧪', Biology: '🧬',
 };
 
-const STATS = [
-  { value: '500+', label: 'Notes Available', icon: '📚' },
-  { value: '10K+', label: 'Students Helped', icon: '🎓' },
-  { value: '8',    label: 'Subjects Covered', icon: '📖' },
-  { value: '2',    label: 'Language Mediums', icon: '🗣️' },
-];
 
 const FEATURES = [
   {
@@ -69,6 +63,7 @@ const Home: React.FC = () => {
   const [featuredNotes, setFeaturedNotes] = useState<FeaturedNote[]>([]);
   const [totalNotes, setTotalNotes] = useState(0);
   const [isListening, setIsListening] = useState(false);
+  const [realStats, setRealStats] = useState({ notes: 0, downloads: 0, subjects: 0, users: 0 });
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -80,6 +75,27 @@ const Home: React.FC = () => {
         .limit(6);
       setFeaturedNotes(data || []);
       setTotalNotes(count || 0);
+
+      // Fetch real stats
+      const { data: allNotes } = await supabase
+        .from('notes')
+        .select('subject, downloads_count')
+        .eq('approval_status', 'approved');
+
+      const { count: userCount } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true });
+
+      if (allNotes) {
+        const totalDownloads = allNotes.reduce((s, n) => s + (n.downloads_count || 0), 0);
+        const uniqueSubjects = new Set(allNotes.map(n => n.subject)).size;
+        setRealStats({
+          notes: allNotes.length,
+          downloads: totalDownloads,
+          subjects: uniqueSubjects,
+          users: userCount || 0,
+        });
+      }
     };
     fetchFeatured();
   }, []);
@@ -209,10 +225,17 @@ const Home: React.FC = () => {
       {/* ── Live Stats ── */}
       <section className="relative max-w-5xl mx-auto px-4 mb-16">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {STATS.map((s, i) => (
+          {[
+            { icon: '📚', value: realStats.notes, label: 'Notes Available' },
+            { icon: '⬇️', value: realStats.downloads, label: 'Total Downloads' },
+            { icon: '📖', value: realStats.subjects, label: 'Subjects Covered' },
+            { icon: '🎓', value: realStats.users, label: 'Registered Students' },
+          ].map((s, i) => (
             <div key={i} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 text-center hover:border-indigo-500/30 transition-all">
               <div className="text-3xl mb-2">{s.icon}</div>
-              <div className="text-2xl font-bold text-white">{s.value}</div>
+              <div className="text-2xl font-bold text-white">
+                {s.value > 0 ? s.value.toLocaleString() : '—'}
+              </div>
               <div className="text-slate-400 text-sm mt-1">{s.label}</div>
             </div>
           ))}

@@ -11,6 +11,7 @@ interface Note {
   class_name: string;
   language: string;
   approval_status: string;
+  rejection_reason?: string;
   created_at: string;
   file_url: string;
   downloads_count: number;
@@ -112,9 +113,12 @@ const Dashboard: React.FC = () => {
   };
 
   const rejectNote = async (noteId: string) => {
+    const reason = window.prompt('Why are you rejecting this note? (Optional but recommended so the student knows)');
+    if (reason === null) return; // Admin cancelled the prompt
+
     const { error } = await supabase
       .from('notes')
-      .update({ approval_status: 'rejected' })
+      .update({ approval_status: 'rejected', rejection_reason: reason })
       .eq('id', noteId);
     if (!error) {
       setActionMsg('🗑 Note rejected.');
@@ -420,6 +424,12 @@ const NoteCard: React.FC<{ note: Note; statusBadge: (s: string) => React.ReactNo
         </a>
       )}
     </div>
+    {note.approval_status === 'rejected' && note.rejection_reason && (
+      <div className="mt-3 p-2.5 bg-red-500/10 border border-red-500/20 rounded-lg">
+        <p className="text-xs text-red-400 font-medium">Rejection Reason:</p>
+        <p className="text-xs text-slate-300 mt-0.5">{note.rejection_reason}</p>
+      </div>
+    )}
   </div>
 );
 

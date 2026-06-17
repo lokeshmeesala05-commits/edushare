@@ -34,6 +34,9 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Nav Links */}
             <div className="hidden md:flex items-center gap-1">
+              <Link to="/" className="px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
+                Home
+              </Link>
               <Link to="/notes" className="px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
                 Browse Notes
               </Link>
@@ -104,6 +107,7 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu */}
         {mobileOpen && (
           <div className="md:hidden border-t border-white/10 py-3 space-y-1">
+            <Link to="/" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Home</Link>
             <Link to="/notes" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Browse Notes</Link>
             {user && (
               <>

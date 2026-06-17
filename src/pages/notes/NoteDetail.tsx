@@ -119,7 +119,10 @@ const NoteDetail: React.FC = () => {
     (async () => {
       try {
         // Call secure RPC function to bypass RLS and increment count
-        await supabase.rpc('increment_download', { note_id: note.id });
+        const { error: rpcError } = await supabase.rpc('increment_download', { note_id: note.id });
+        if (rpcError) {
+          alert("Database Error tracking download: " + rpcError.message);
+        }
 
         if (user) {
           await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);

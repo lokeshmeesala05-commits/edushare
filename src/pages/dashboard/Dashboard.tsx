@@ -25,11 +25,11 @@ interface Stats {
 
 const Dashboard: React.FC = () => {
   const { user, signOut } = useAuth();
-  const [tab, setTab] = useState<'overview' | 'my-notes' | 'my-downloads' | 'pending' | 'analytics'>('overview');
+  const [tab, setTab] = useState<'overview' | 'my-notes' | 'saved-notes' | 'pending' | 'analytics'>('overview');
   const [notes, setNotes] = useState<Note[]>([]);
   const [pendingNotes, setPendingNotes] = useState<Note[]>([]);
   const [myNotes, setMyNotes] = useState<Note[]>([]);
-  const [myDownloads, setMyDownloads] = useState<Note[]>([]);
+  const [savedNotes, setSavedNotes] = useState<Note[]>([]);
   const [stats, setStats] = useState<Stats>({ totalNotes: 0, pendingNotes: 0, approvedNotes: 0, totalDownloads: 0 });
   const [loading, setLoading] = useState(true);
   const [actionMsg, setActionMsg] = useState('');
@@ -58,18 +58,18 @@ const Dashboard: React.FC = () => {
           .order('created_at', { ascending: false });
         setMyNotes(mine || []);
 
-        const { data: dls } = await supabase
-          .from('downloads')
+        const { data: saved } = await supabase
+          .from('saved_notes')
           .select('note_id')
           .eq('user_id', user.id);
         
-        if (dls && dls.length > 0) {
-          const noteIds = dls.map(d => d.note_id);
-          const { data: dlNotes } = await supabase
+        if (saved && saved.length > 0) {
+          const noteIds = saved.map(d => d.note_id);
+          const { data: sNotes } = await supabase
             .from('notes')
             .select('*')
             .in('id', noteIds);
-          setMyDownloads(dlNotes || []);
+          setSavedNotes(sNotes || []);
         }
       }
 
@@ -216,7 +216,7 @@ const Dashboard: React.FC = () => {
           {[
             { key: 'overview', label: '📊 Overview' },
             { key: 'my-notes', label: '📤 My Notes' },
-            { key: 'my-downloads', label: '📥 My Downloads' },
+            { key: 'saved-notes', label: '🔖 Saved Notes' },
             ...(isAdmin ? [
               { key: 'pending',   label: `⏳ Pending (${pendingNotes.length})` },
               { key: 'analytics', label: '📈 Analytics' },
@@ -290,18 +290,18 @@ const Dashboard: React.FC = () => {
               </div>
             )}
 
-            {/* My Downloads Tab */}
-            {tab === 'my-downloads' && (
+            {/* Saved Notes Tab */}
+            {tab === 'saved-notes' && (
               <div>
-                <h2 className="text-xl font-semibold text-white mb-4">My Downloaded Notes</h2>
-                {myDownloads.length === 0 ? (
+                <h2 className="text-xl font-semibold text-white mb-4">My Saved Notes</h2>
+                {savedNotes.length === 0 ? (
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-10 text-center text-slate-400">
-                    You haven't downloaded any notes yet.{' '}
+                    You haven't saved any notes yet.{' '}
                     <Link to="/notes" className="text-indigo-400 hover:underline">Browse notes</Link>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {myDownloads.map(note => (
+                    {savedNotes.map(note => (
                       <NoteCard 
                         key={note.id} 
                         note={note} 

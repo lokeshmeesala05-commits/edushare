@@ -50,6 +50,7 @@ const NoteDetail: React.FC = () => {
   const [ratingCount, setRatingCount] = useState(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [showPDF, setShowPDF] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (id) fetchNote();
@@ -96,6 +97,15 @@ const NoteDetail: React.FC = () => {
         setUserRating(myRating.rating);
         setRatingSubmitted(true);
       }
+
+      // Check if user saved the note
+      const { data: mySave } = await supabase
+        .from('saved_notes')
+        .select('*')
+        .eq('note_id', noteId)
+        .eq('user_id', user.id)
+        .maybeSingle();
+      if (mySave) setIsSaved(true);
     }
   };
 
@@ -138,6 +148,19 @@ const NoteDetail: React.FC = () => {
       const newCount = ratingCount + 1;
       setAvgRating(Math.round((newTotal / newCount) * 10) / 10);
       setRatingCount(newCount);
+    }
+  };
+
+  const toggleSave = async () => {
+    if (!user) { navigate('/login'); return; }
+    if (!note) return;
+
+    if (isSaved) {
+      setIsSaved(false);
+      await supabase.from('saved_notes').delete().eq('note_id', note.id).eq('user_id', user.id);
+    } else {
+      setIsSaved(true);
+      await supabase.from('saved_notes').insert([{ note_id: note.id, user_id: user.id }]);
     }
   };
 
@@ -257,6 +280,24 @@ const NoteDetail: React.FC = () => {
                   {showPDF ? 'Hide Preview' : 'Preview PDF'}
                 </button>
               )}
+
+              <button
+                onClick={toggleSave}
+                className={`flex items-center gap-2 px-6 py-3 border font-semibold rounded-xl transition-all ${
+                  isSaved 
+                    ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20' 
+                    : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'
+                }`}
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  {isSaved ? (
+                    <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  ) : (
+                    <path fillRule="evenodd" clipRule="evenodd" d="M7 3a2 2 0 00-2 2v16l7-3.5 7 3.5V5a2 2 0 00-2-2H7zm2 2h6v12.2l-3-1.5-3 1.5V5z" />
+                  )}
+                </svg>
+                {isSaved ? 'Saved' : 'Save Note'}
+              </button>
 
               <Link
                 to="/notes"

@@ -157,11 +157,11 @@ const BrowseNotes: React.FC = () => {
   const handleDownload = async (note: Note) => {
     setDownloadingId(note.id);
     try {
-      // Increment download count
-      await supabase
-        .from('notes')
-        .update({ downloads_count: (note.downloads_count || 0) + 1 })
-        .eq('id', note.id);
+      // Increment download count securely via RPC
+      const { error: rpcError } = await supabase.rpc('increment_download', { note_id: note.id });
+      if (rpcError) {
+        console.error("RPC Error:", rpcError);
+      }
 
       // Log download if user is logged in
       if (user) {

@@ -99,25 +99,28 @@ const NoteDetail: React.FC = () => {
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     if (!note) return;
-    setDownloading(true);
-    try {
-      await supabase
-        .from('notes')
-        .update({ downloads_count: (note.downloads_count || 0) + 1 })
-        .eq('id', note.id);
+    
+    // 1. Open file immediately to bypass browser popup blockers
+    window.open(note.file_url, '_blank');
 
-      if (user) {
-        await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);
+    // 2. Track download asynchronously in the background
+    (async () => {
+      try {
+        await supabase
+          .from('notes')
+          .update({ downloads_count: (note.downloads_count || 0) + 1 })
+          .eq('id', note.id);
+
+        if (user) {
+          await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);
+        }
+        setNote(prev => prev ? { ...prev, downloads_count: prev.downloads_count + 1 } : prev);
+      } catch (error) {
+        console.error('Error tracking download:', error);
       }
-      window.open(note.file_url, '_blank');
-      setNote(prev => prev ? { ...prev, downloads_count: prev.downloads_count + 1 } : prev);
-    } catch {
-      window.open(note.file_url, '_blank');
-    } finally {
-      setDownloading(false);
-    }
+    })();
   };
 
   const submitRating = async (rating: number) => {

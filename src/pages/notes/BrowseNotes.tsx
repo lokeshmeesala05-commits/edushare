@@ -60,7 +60,6 @@ const BrowseNotes: React.FC = () => {
   const [sortBy, setSortBy] = useState<'newest' | 'popular'>('newest');
   const [availableSubjects, setAvailableSubjects] = useState<string[]>(DEFAULT_SUBJECTS);
   const [voiceLang, setVoiceLang] = useState<'te-IN' | 'en-IN'>('te-IN');
-  const [showFilters, setShowFilters] = useState(false);
   const [downloadedSession, setDownloadedSession] = useState<Set<string>>(new Set());
   const searchRef = useRef<HTMLInputElement>(null);
 

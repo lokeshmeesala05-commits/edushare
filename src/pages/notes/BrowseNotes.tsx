@@ -11,6 +11,7 @@ interface Note {
   class_name: string;
   subject: string;
   language: string;
+  doc_type: string;
   file_url: string;
   downloads_count: number;
   created_at: string;
@@ -20,6 +21,13 @@ interface Note {
 const DEFAULT_SUBJECTS = ['Mathematics', 'Science', 'Social Studies', 'Telugu', 'Hindi', 'English', 'Physics', 'Chemistry', 'Biology'];
 const CLASSES  = ['6th Class', '7th Class', '8th Class', '9th Class', '10th Class', 'Intermediate 1st Year', 'Intermediate 2nd Year'];
 const LANGUAGES = ['Telugu Medium', 'English Medium'];
+const DOC_TYPES = [
+  { value: 'notes',       label: '📝 Notes' },
+  { value: 'textbook',    label: '📚 Textbook' },
+  { value: 'guide',       label: '📋 Study Guide' },
+  { value: 'exam_paper',  label: '📄 Exam Paper' },
+  { value: 'model_paper', label: '🎯 Model Paper' },
+];
 
 const subjectColors: Record<string, string> = {
   Mathematics:    'from-blue-500 to-blue-600',
@@ -54,6 +62,7 @@ const BrowseNotes: React.FC = () => {
   const [selectedClass, setSelectedClass] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedDocType, setSelectedDocType]   = useState('');
   const [isListening, setIsListening] = useState(false);
   const [gapLogged, setGapLogged] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
@@ -121,6 +130,7 @@ const BrowseNotes: React.FC = () => {
       if (selectedClass)    q = q.eq('class_name', selectedClass);
       if (selectedSubject)  q = q.eq('subject', selectedSubject);
       if (selectedLanguage) q = q.eq('language', selectedLanguage);
+      if (selectedDocType)  q = q.eq('doc_type', selectedDocType);
 
       q = sortBy === 'popular'
         ? q.order('downloads_count', { ascending: false })
@@ -290,7 +300,7 @@ const BrowseNotes: React.FC = () => {
             </div>
 
             {/* Filters row */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <select
                 value={selectedClass}
                 onChange={e => setSelectedClass(e.target.value)}
@@ -316,6 +326,14 @@ const BrowseNotes: React.FC = () => {
               >
                 <option value="" className="bg-slate-900">All Languages</option>
                 {LANGUAGES.map(o => <option key={o} value={o} className="bg-slate-900">{o}</option>)}
+              </select>
+              <select
+                value={selectedDocType}
+                onChange={e => setSelectedDocType(e.target.value)}
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none cursor-pointer"
+              >
+                <option value="" className="bg-slate-900">All Types</option>
+                {DOC_TYPES.map(d => <option key={d.value} value={d.value} className="bg-slate-900">{d.label}</option>)}
               </select>
             </div>
           </form>

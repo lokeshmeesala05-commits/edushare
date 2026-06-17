@@ -6,6 +6,13 @@ import { useAuth } from '../../contexts/AuthContext';
 const CLASSES   = ['6th Class','7th Class','8th Class','9th Class','10th Class','Intermediate 1st Year','Intermediate 2nd Year'];
 const SUBJECTS  = ['Mathematics','Science','Social Studies','Telugu','Hindi','English','Physics','Chemistry','Biology','Other'];
 const LANGUAGES = ['Telugu Medium','English Medium'];
+const DOC_TYPES = [
+  { value: 'notes',      label: '📝 Notes',       desc: 'Handwritten or typed chapter notes' },
+  { value: 'textbook',   label: '📚 Textbook',     desc: 'Full SCERT / NCERT textbooks' },
+  { value: 'guide',      label: '📋 Study Guide',  desc: 'Summary sheets, revision guides' },
+  { value: 'exam_paper', label: '📄 Exam Paper',   desc: 'Previous year question papers' },
+  { value: 'model_paper',label: '🎯 Model Paper',  desc: 'Practice / model papers' },
+];
 
 const UploadNote: React.FC = () => {
   const { user } = useAuth();
@@ -17,6 +24,7 @@ const UploadNote: React.FC = () => {
   const [customSubject, setCustomSubject] = useState('');
   const [chapter, setChapter]       = useState('');
   const [language, setLanguage]     = useState('Telugu Medium');
+  const [docType, setDocType]       = useState('notes');
   const [file, setFile]             = useState<File | null>(null);
   const [dragOver, setDragOver]     = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -72,6 +80,7 @@ const UploadNote: React.FC = () => {
         subject: finalSubject,
         chapter,
         language,
+        doc_type: docType,
         file_url: publicUrl,
         uploaded_by: user?.id || null,
         approval_status: 'pending',
@@ -208,6 +217,19 @@ const UploadNote: React.FC = () => {
                   required
                 >
                   {LANGUAGES.map(l => <option key={l} value={l} className="bg-slate-900">{l}</option>)}
+                </select>
+              </div>
+              {/* Document Type */}
+              <div>
+                <label htmlFor="upload-doctype" className="block text-sm font-medium text-slate-300 mb-2">Document Type *</label>
+                <select
+                  id="upload-doctype"
+                  value={docType}
+                  onChange={e => setDocType(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm appearance-none"
+                  required
+                >
+                  {DOC_TYPES.map(d => <option key={d.value} value={d.value} className="bg-slate-900">{d.label}</option>)}
                 </select>
               </div>
               {/* Chapter */}

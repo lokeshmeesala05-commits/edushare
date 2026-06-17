@@ -118,10 +118,8 @@ const NoteDetail: React.FC = () => {
     // 2. Track download asynchronously in the background
     (async () => {
       try {
-        await supabase
-          .from('notes')
-          .update({ downloads_count: (note.downloads_count || 0) + 1 })
-          .eq('id', note.id);
+        // Call secure RPC function to bypass RLS and increment count
+        await supabase.rpc('increment_download', { note_id: note.id });
 
         if (user) {
           await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);

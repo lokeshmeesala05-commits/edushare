@@ -271,8 +271,8 @@ const Home: React.FC = () => {
                     <h3 className="text-white font-semibold text-sm mb-3 line-clamp-2 group-hover:text-indigo-300 transition-colors">{note.title}</h3>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-slate-400">{note.language}</span>
-                      <Link to="/notes" className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition">
-                        Download →
+                      <Link to={`/notes/${note.id}`} className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition">
+                        View Details →
                       </Link>
                     </div>
                   </div>

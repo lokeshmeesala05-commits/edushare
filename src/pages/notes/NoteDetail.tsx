@@ -52,9 +52,21 @@ const NoteDetail: React.FC = () => {
   const [showPDF, setShowPDF] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [downloadedSession, setDownloadedSession] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
-    if (id) fetchNote();
+    if (id) {
+      fetchNote();
+      try {
+        const saved = localStorage.getItem('edushare_downloaded_notes');
+        const downloadedIds = saved ? JSON.parse(saved) : [];
+        if (Array.isArray(downloadedIds) && downloadedIds.includes(id)) {
+          setDownloadedSession(true);
+        }
+      } catch (err) {
+        console.error('Error loading downloaded notes from localStorage', err);
+      }
+    }
   }, [id]);
 
   const fetchNote = async () => {
@@ -119,6 +131,7 @@ const NoteDetail: React.FC = () => {
     // 2. Track download asynchronously in the background
     (async () => {
       try {
+        setDownloading(true);
         if (!downloadedSession) {
           // Call secure RPC function to bypass RLS and prevent duplicates
           const { error: rpcError } = await supabase.rpc('track_download_secure', { p_note_id: note.id });
@@ -127,10 +140,24 @@ const NoteDetail: React.FC = () => {
           } else {
             setDownloadedSession(true);
             setNote(prev => prev ? { ...prev, downloads_count: prev.downloads_count + 1 } : prev);
+            
+            // Save to localStorage
+            try {
+              const saved = localStorage.getItem('edushare_downloaded_notes');
+              const downloadedIds = saved ? JSON.parse(saved) : [];
+              if (Array.isArray(downloadedIds) && !downloadedIds.includes(note.id)) {
+                downloadedIds.push(note.id);
+                localStorage.setItem('edushare_downloaded_notes', JSON.stringify(downloadedIds));
+              }
+            } catch (err) {
+              console.error('Error saving downloaded notes to localStorage', err);
+            }
           }
         }
       } catch (error) {
         console.error('Error tracking download:', error);
+      } finally {
+        setDownloading(false);
       }
     })();
   };
@@ -261,14 +288,42 @@ const NoteDetail: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-3">
+              {/* View Button - always available */}
+              <button
+                onClick={() => window.open(note.file_url, '_blank')}
+                className="py-3.5 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-lg bg-white/10 hover:bg-white/20 border border-white/10 text-slate-200"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                View
+              </button>
+
+              {/* Download Button - shows status */}
               <div className="flex flex-col gap-1">
                 <button
                   onClick={handleDownload}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-500/25 disabled:opacity-60"
+                  disabled={downloading || downloadedSession}
+                  className={`py-3.5 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-lg ${
+                    downloading 
+                      ? 'bg-indigo-500/30 text-indigo-300 cursor-wait'
+                      : downloadedSession
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-default'
+                      : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-indigo-500/25'
+                  }`}
                 >
-                  <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                  </svg>View / Download</>
+                  {downloading ? (
+                    <><div className="w-5 h-5 border-2 border-indigo-300 border-t-transparent rounded-full animate-spin" />Saving…</>
+                  ) : downloadedSession ? (
+                    <><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>Downloaded</>
+                  ) : (
+                    <><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>Download</>
+                  )}
                 </button>
                 <span className="text-xs text-slate-500 ml-1">Tip: In the new tab, use your browser's menu to save it to your device.</span>
               </div>

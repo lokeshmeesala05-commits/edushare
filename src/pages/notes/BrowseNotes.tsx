@@ -67,9 +67,19 @@ const BrowseNotes: React.FC = () => {
   const [gapLogged, setGapLogged] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'newest' | 'popular'>('newest');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const ITEMS_PER_PAGE = 12;
   const [availableSubjects, setAvailableSubjects] = useState<string[]>(DEFAULT_SUBJECTS);
   const [voiceLang, setVoiceLang] = useState<'te-IN' | 'en-IN'>('te-IN');
-  const [downloadedSession, setDownloadedSession] = useState<Set<string>>(new Set());
+  const [downloadedSession, setDownloadedSession] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem('edushare_downloaded_notes');
+      return saved ? new Set<string>(JSON.parse(saved)) : new Set<string>();
+    } catch {
+      return new Set<string>();
+    }
+  });
   const searchRef = useRef<HTMLInputElement>(null);
 
   /* ── Voice search ── */
@@ -90,17 +100,29 @@ const BrowseNotes: React.FC = () => {
       const transcript = event.results[0][0].transcript;
       setSearchQuery(transcript);
       setIsListening(false);
-      fetchNotes(transcript);
+      setPage(1);
+      fetchNotes(transcript, 1);
     };
     recognition.start();
   };
 
-  /* ── Fetch notes ── */
   useEffect(() => {
-    fetchNotes();
     fetchUniqueSubjects();
+    try {
+      const saved = localStorage.getItem('edushare_downloaded_notes');
+      if (saved) {
+        setDownloadedSession(new Set<string>(JSON.parse(saved)));
+      }
+    } catch (err) {
+      console.error('Error loading downloaded notes from localStorage:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
+    fetchNotes(searchQuery, 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedClass, selectedSubject, selectedLanguage, sortBy]);
+  }, [selectedClass, selectedSubject, selectedLanguage, selectedDocType, sortBy]);
 
   const fetchUniqueSubjects = async () => {
     try {
@@ -115,13 +137,13 @@ const BrowseNotes: React.FC = () => {
     }
   };
 
-  const fetchNotes = async (query = searchQuery) => {
-    setLoading(true);
+  const fetchNotes = async (query = searchQuery, pageNum = 1) => {
+    if (pageNum === 1) setLoading(true);
     setGapLogged(false);
     try {
       let q = supabase
         .from('notes')
-        .select('*')
+        .select('*', { count: 'exact' })
         .eq('approval_status', 'approved');
 
       if (query.trim()) {
@@ -136,18 +158,29 @@ const BrowseNotes: React.FC = () => {
         ? q.order('downloads_count', { ascending: false })
         : q.order('created_at',      { ascending: false });
 
-      const { data, error } = await q;
+      const from = (pageNum - 1) * ITEMS_PER_PAGE;
+      const to = from + ITEMS_PER_PAGE - 1;
+      q = q.range(from, to);
+
+      const { data, count, error } = await q;
       if (error) throw error;
 
-      if (data && data.length === 0 && query.trim()) {
+      if (pageNum === 1) {
+        setNotes(data || []);
+      } else {
+        setNotes(prev => [...prev, ...(data || [])]);
+      }
+      
+      setHasMore(count ? (from + (data?.length || 0) < count) : false);
+
+      if (data && data.length === 0 && query.trim() && pageNum === 1) {
         logResourceGap(query);
         setGapLogged(true);
       }
-      setNotes(data || []);
     } catch (err) {
       console.error('Error fetching notes:', err);
     } finally {
-      setLoading(false);
+      if (pageNum === 1) setLoading(false);
     }
   };
 
@@ -174,7 +207,15 @@ const BrowseNotes: React.FC = () => {
         if (rpcError) {
           console.error("RPC Error:", rpcError);
         } else {
-          setDownloadedSession(prev => new Set(prev).add(note.id));
+          setDownloadedSession(prev => {
+            const next = new Set(prev).add(note.id);
+            try {
+              localStorage.setItem('edushare_downloaded_notes', JSON.stringify(Array.from(next)));
+            } catch (err) {
+              console.error('Error saving downloaded notes to localStorage:', err);
+            }
+            return next;
+          });
           // Update local state
           setNotes(prev => prev.map(n =>
             n.id === note.id ? { ...n, downloads_count: n.downloads_count + 1 } : n
@@ -205,7 +246,8 @@ const BrowseNotes: React.FC = () => {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchNotes();
+    setPage(1);
+    fetchNotes(searchQuery, 1);
   };
 
   const clearFilters = () => {
@@ -213,6 +255,8 @@ const BrowseNotes: React.FC = () => {
     setSelectedClass('');
     setSelectedSubject('');
     setSelectedLanguage('');
+    setSelectedDocType('');
+    setPage(1);
   };
 
   const hasFilters = searchQuery || selectedClass || selectedSubject || selectedLanguage;
@@ -483,16 +527,32 @@ const BrowseNotes: React.FC = () => {
                         Details
                       </Link>
                       <button
+                        onClick={() => window.open(note.file_url, '_blank')}
+                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/10 text-slate-200 transition-all duration-200 flex items-center justify-center gap-1.5"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        View
+                      </button>
+                      <button
                         onClick={() => handleDownload(note)}
-                        disabled={downloadingId === note.id}
+                        disabled={downloadingId === note.id || downloadedSession.has(note.id)}
                         className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 ${
                           downloadingId === note.id
                             ? 'bg-indigo-500/30 text-indigo-300 cursor-not-allowed'
+                            : downloadedSession.has(note.id)
+                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-default'
                             : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-500/20 active:scale-95'
                         }`}
                       >
                         {downloadingId === note.id ? (
-                          <><div className="w-4 h-4 border-2 border-indigo-300 border-t-transparent rounded-full animate-spin" />Opening…</>
+                          <><div className="w-4 h-4 border-2 border-indigo-300 border-t-transparent rounded-full animate-spin" />Saving…</>
+                        ) : downloadedSession.has(note.id) ? (
+                          <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>Downloaded</>
                         ) : (
                           <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -505,6 +565,22 @@ const BrowseNotes: React.FC = () => {
                 );
               })}
             </div>
+
+            {/* Load More Button */}
+            {!loading && hasMore && (
+              <div className="mt-10 flex justify-center">
+                <button
+                  onClick={() => {
+                    const nextPage = page + 1;
+                    setPage(nextPage);
+                    fetchNotes(searchQuery, nextPage);
+                  }}
+                  className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-xl transition-all border border-white/10 hover:border-indigo-500/30"
+                >
+                  Load More Notes
+                </button>
+              </div>
+            )}
 
             {/* AI Recommendations */}
             <Recommendations

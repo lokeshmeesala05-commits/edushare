@@ -34,6 +34,8 @@ const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<Stats>({ totalNotes: 0, pendingNotes: 0, approvedNotes: 0, totalDownloads: 0 });
   const [loading, setLoading] = useState(true);
   const [actionMsg, setActionMsg] = useState('');
+  const [rejectModalId, setRejectModalId] = useState<string | null>(null);
+  const [rejectReason, setRejectReason] = useState('');
 
   const isAdmin = user?.user_metadata?.role === 'admin';
 
@@ -75,13 +77,15 @@ const Dashboard: React.FC = () => {
       }
 
       // Admins also fetch pending notes
+      let pendingList = [];
       if (isAdmin) {
         const { data: pending } = await supabase
           .from('notes')
           .select('*')
           .eq('approval_status', 'pending')
           .order('created_at', { ascending: false });
-        setPendingNotes(pending || []);
+        pendingList = pending || [];
+        setPendingNotes(pendingList);
       }
 
       const approvedList = approved || [];
@@ -90,7 +94,7 @@ const Dashboard: React.FC = () => {
       setStats({
         totalNotes: approvedList.length,
         approvedNotes: approvedList.length,
-        pendingNotes: isAdmin ? (pendingNotes.length) : 0,
+        pendingNotes: isAdmin ? pendingList.length : 0,
         totalDownloads,
       });
     } catch (err) {
@@ -112,19 +116,25 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const rejectNote = async (noteId: string) => {
-    const reason = window.prompt('Why are you rejecting this note? (Optional but recommended so the student knows)');
-    if (reason === null) return; // Admin cancelled the prompt
+  const openRejectModal = (noteId: string) => {
+    setRejectModalId(noteId);
+    setRejectReason('');
+  };
+
+  const submitReject = async () => {
+    if (!rejectModalId) return;
 
     const { error } = await supabase
       .from('notes')
-      .update({ approval_status: 'rejected', rejection_reason: reason })
-      .eq('id', noteId);
+      .update({ approval_status: 'rejected', rejection_reason: rejectReason })
+      .eq('id', rejectModalId);
     if (!error) {
       setActionMsg('🗑 Note rejected.');
-      setPendingNotes(prev => prev.filter(n => n.id !== noteId));
+      setPendingNotes(prev => prev.filter(n => n.id !== rejectModalId));
       setTimeout(() => setActionMsg(''), 3000);
     }
+    setRejectModalId(null);
+    setRejectReason('');
   };
 
   const deleteNote = async (noteId: string) => {
@@ -362,7 +372,7 @@ const Dashboard: React.FC = () => {
                             Approve
                           </button>
                           <button
-                            onClick={() => rejectNote(note.id)}
+                            onClick={() => openRejectModal(note.id)}
                             className="px-3 py-1.5 bg-yellow-600/80 hover:bg-yellow-500 text-white text-xs font-medium rounded-lg transition-all"
                           >
                             Reject
@@ -383,6 +393,39 @@ const Dashboard: React.FC = () => {
           </>
         )}
       </div>
+
+      {/* Reject Modal */}
+      {rejectModalId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-slate-900 border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h3 className="text-xl font-bold text-white mb-2">Reject Note</h3>
+            <p className="text-sm text-slate-400 mb-4">
+              Why are you rejecting this note? (Optional but recommended so the student knows how to improve it)
+            </p>
+            <textarea
+              rows={3}
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none mb-6"
+              placeholder="e.g., The handwriting is unreadable, please scan it clearly..."
+              value={rejectReason}
+              onChange={e => setRejectReason(e.target.value)}
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setRejectModalId(null)}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-xl transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={submitReject}
+                className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-red-500/25"
+              >
+                Confirm Rejection
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -420,7 +463,7 @@ const NoteCard: React.FC<{ note: Note; statusBadge: (s: string) => React.ReactNo
           rel="noopener noreferrer"
           className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition group-hover:underline"
         >
-          View PDF →
+          View File →
         </a>
       )}
     </div>

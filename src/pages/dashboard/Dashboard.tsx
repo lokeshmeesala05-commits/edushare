@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
           .from('saved_notes')
           .select('note_id')
           .eq('user_id', user.id);
-        
+
         if (saved && saved.length > 0) {
           const noteIds = saved.map(d => d.note_id);
           const { data: sNotes } = await supabase
@@ -232,18 +232,17 @@ const Dashboard: React.FC = () => {
             { key: 'my-notes', label: '📤 My Notes' },
             { key: 'saved-notes', label: '🔖 Saved Notes' },
             ...(isAdmin ? [
-              { key: 'pending',   label: `⏳ Pending (${pendingNotes.length})` },
+              { key: 'pending', label: `⏳ Pending (${pendingNotes.length})` },
               { key: 'analytics', label: '📈 Analytics' },
             ] : []),
           ].map(t => (
             <button
               key={t.key}
               onClick={() => setTab(t.key as any)}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                tab === t.key
-                  ? 'bg-indigo-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${tab === t.key
+                ? 'bg-indigo-600 text-white shadow-lg'
+                : 'text-slate-400 hover:text-white'
+                }`}
             >
               {t.label}
             </button>
@@ -268,11 +267,11 @@ const Dashboard: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {notes.slice(0, 6).map(note => (
-                      <NoteCard 
-                        key={note.id} 
-                        note={note} 
-                        statusBadge={statusBadge} 
-                        onDelete={isAdmin ? () => deleteNote(note.id) : undefined} 
+                      <NoteCard
+                        key={note.id}
+                        note={note}
+                        statusBadge={statusBadge}
+                        onDelete={isAdmin ? () => deleteNote(note.id) : undefined}
                       />
                     ))}
                   </div>
@@ -292,11 +291,11 @@ const Dashboard: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {myNotes.map(note => (
-                      <NoteCard 
-                        key={note.id} 
-                        note={note} 
-                        statusBadge={statusBadge} 
-                        onDelete={() => deleteNote(note.id)} 
+                      <NoteCard
+                        key={note.id}
+                        note={note}
+                        statusBadge={statusBadge}
+                        onDelete={() => deleteNote(note.id)}
                       />
                     ))}
                   </div>
@@ -316,10 +315,10 @@ const Dashboard: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {savedNotes.map(note => (
-                      <NoteCard 
-                        key={note.id} 
-                        note={note} 
-                        statusBadge={statusBadge} 
+                      <NoteCard
+                        key={note.id}
+                        note={note}
+                        statusBadge={statusBadge}
                       />
                     ))}
                   </div>
@@ -434,7 +433,7 @@ const Dashboard: React.FC = () => {
 const NoteCard: React.FC<{ note: Note; statusBadge: (s: string) => React.ReactNode; onDelete?: () => void }> = ({ note, statusBadge, onDelete }) => (
   <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 hover:border-indigo-500/40 transition-all group relative">
     {onDelete && (
-      <button 
+      <button
         onClick={onDelete}
         title="Delete Note"
         className="absolute top-4 right-4 p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition opacity-0 group-hover:opacity-100"

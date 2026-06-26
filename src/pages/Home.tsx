@@ -49,10 +49,10 @@ const FEATURES = [
     gradient: 'from-orange-500 to-amber-600',
   },
   {
-    icon: '📡',
-    title: 'Offline Ready',
-    desc: 'Download once, study anywhere. No internet needed after you save the files.',
-    gradient: 'from-pink-500 to-rose-600',
+    icon: '🤖',
+    title: 'AI Tutor (EduBot)',
+    desc: 'Chat with our smart AI. It reads your PDFs and answers your questions in English and Telugu.',
+    gradient: 'from-blue-500 to-cyan-600',
   },
 ];
 
@@ -61,20 +61,19 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [featuredNotes, setFeaturedNotes] = useState<FeaturedNote[]>([]);
-  const [totalNotes, setTotalNotes] = useState(0);
   const [isListening, setIsListening] = useState(false);
   const [realStats, setRealStats] = useState({ notes: 0, downloads: 0, subjects: 0, users: 0 });
 
   useEffect(() => {
     const fetchFeatured = async () => {
-      const { data, count } = await supabase
+      const { data } = await supabase
         .from('notes')
         .select('id,title,subject,class_name,language,downloads_count', { count: 'exact' })
         .eq('approval_status', 'approved')
         .order('downloads_count', { ascending: false })
         .limit(6);
       setFeaturedNotes(data || []);
-      setTotalNotes(count || 0);
+
 
       // Fetch real stats
       const { data: allNotes } = await supabase
@@ -247,8 +246,8 @@ const Home: React.FC = () => {
         <section className="relative max-w-7xl mx-auto px-4 mb-20">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-white">🔥 Most Downloaded</h2>
-              <p className="text-slate-400 text-sm mt-1">{totalNotes} notes available in the library</p>
+              <h2 className="text-2xl font-bold text-white">🔥 Popular Notes</h2>
+              <p className="text-slate-400 text-sm mt-1">Top downloaded materials in the library</p>
             </div>
             <Link to="/notes" className="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition">
               View all →
@@ -268,7 +267,15 @@ const Home: React.FC = () => {
                   </div>
                   <div className="p-4">
                     <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide mb-1">{note.subject}</p>
-                    <h3 className="text-white font-semibold text-sm mb-3 line-clamp-2 group-hover:text-indigo-300 transition-colors">{note.title}</h3>
+                    <h3 className="text-white font-semibold text-sm mb-2 line-clamp-2 group-hover:text-indigo-300 transition-colors">{note.title}</h3>
+                    
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-3">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      {note.downloads_count || 0} downloads
+                    </div>
+
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-slate-400">{note.language}</span>
                       <Link to={`/notes/${note.id}`} className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition">

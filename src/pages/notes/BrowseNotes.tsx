@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import Recommendations from '../../components/notes/Recommendations';
+import RequestNoteModal from '../../components/notes/RequestNoteModal';
 
 interface Note {
   id: string;
@@ -69,6 +70,7 @@ const BrowseNotes: React.FC = () => {
   const [sortBy, setSortBy] = useState<'newest' | 'popular'>('newest');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const [isRequestModalOpen, setRequestModalOpen] = useState(false);
   const ITEMS_PER_PAGE = 12;
   const [availableSubjects, setAvailableSubjects] = useState<string[]>(DEFAULT_SUBJECTS);
   const [voiceLang, setVoiceLang] = useState<'te-IN' | 'en-IN'>('te-IN');
@@ -173,8 +175,11 @@ const BrowseNotes: React.FC = () => {
       
       setHasMore(count ? (from + (data?.length || 0) < count) : false);
 
+      if (pageNum === 1 && (query.trim() || selectedClass || selectedSubject)) {
+        logSearch(query, data?.length || 0);
+      }
+
       if (data && data.length === 0 && query.trim() && pageNum === 1) {
-        logResourceGap(query);
         setGapLogged(true);
       }
     } catch (err) {
@@ -184,16 +189,17 @@ const BrowseNotes: React.FC = () => {
     }
   };
 
-  const logResourceGap = async (query: string) => {
+  const logSearch = async (query: string, resultsCount: number) => {
     try {
       await supabase.from('search_logs').insert([{
-        search_query: query,
+        search_query: query || null,
         class_name:   selectedClass || null,
         subject:      selectedSubject || null,
-        results_found: 0,
+        results_found_count: resultsCount,
+        user_id: user?.id || null
       }]);
     } catch (err) {
-      console.error('Failed to log resource gap:', err);
+      console.error('Failed to log search:', err);
     }
   };
 
@@ -207,6 +213,9 @@ const BrowseNotes: React.FC = () => {
         if (rpcError) {
           console.error("RPC Error:", rpcError);
         } else {
+          if (user) {
+            await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);
+          }
           setDownloadedSession(prev => {
             const next = new Set(prev).add(note.id);
             try {
@@ -437,12 +446,12 @@ const BrowseNotes: React.FC = () => {
               >
                 Clear filters
               </button>
-              <Link
-                to="/upload"
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-xl transition-all"
+              <button
+                onClick={() => setRequestModalOpen(true)}
+                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/25"
               >
-                Upload this note
-              </Link>
+                Request this note
+              </button>
             </div>
           </div>
         )}
@@ -599,6 +608,14 @@ const BrowseNotes: React.FC = () => {
           </div>
         )}
       </div>
+
+      <RequestNoteModal 
+        isOpen={isRequestModalOpen} 
+        onClose={() => setRequestModalOpen(false)} 
+        initialQuery={searchQuery}
+        initialClass={selectedClass}
+        initialSubject={selectedSubject}
+      />
     </div>
   );
 };

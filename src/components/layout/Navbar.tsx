@@ -48,6 +48,12 @@ const Navbar: React.FC = () => {
                   <Link to="/dashboard" className="px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
                     Dashboard
                   </Link>
+                  <Link to="/student/downloads" className="px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
+                    Downloads
+                  </Link>
+                  <Link to="/student/requests" className="px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">
+                    Requests
+                  </Link>
                 </>
               )}
             </div>
@@ -58,7 +64,7 @@ const Navbar: React.FC = () => {
             {user ? (
               <div className="flex items-center gap-3">
                 {/* User Avatar */}
-                <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition">
+                <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition" title="My Profile">
                   <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                     {initials}
                   </div>
@@ -111,8 +117,11 @@ const Navbar: React.FC = () => {
             <Link to="/notes" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Browse Notes</Link>
             {user && (
               <>
+                <Link to="/profile" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Profile</Link>
                 <Link to="/upload" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Upload</Link>
                 <Link to="/dashboard" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Dashboard</Link>
+                <Link to="/student/downloads" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Downloads</Link>
+                <Link to="/student/requests" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg">Requests</Link>
                 <button onClick={handleSignOut} className="block w-full text-left px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-white/5 rounded-lg">Sign out</button>
               </>
             )}

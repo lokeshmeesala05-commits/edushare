@@ -11,6 +11,11 @@ import Dashboard from './pages/dashboard/Dashboard';
 import BrowseNotes from './pages/notes/BrowseNotes';
 import UploadNote from './pages/notes/UploadNote';
 import NoteDetail from './pages/notes/NoteDetail';
+import StudentDownloads from './pages/dashboard/StudentDownloads';
+import StudentRequests from './pages/dashboard/StudentRequests';
+import MissingResourcesAnalytics from './pages/admin/MissingResourcesAnalytics';
+import ManageNoteRequests from './pages/admin/ManageNoteRequests';
+import Profile from './pages/dashboard/Profile';
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -59,6 +64,31 @@ function App() {
               <Route path="/dashboard" element={
                 <AuthGuard>
                   <Dashboard />
+                </AuthGuard>
+              } />
+              <Route path="/student/downloads" element={
+                <AuthGuard>
+                  <StudentDownloads />
+                </AuthGuard>
+              } />
+              <Route path="/student/requests" element={
+                <AuthGuard>
+                  <StudentRequests />
+                </AuthGuard>
+              } />
+              <Route path="/profile" element={
+                <AuthGuard>
+                  <Profile />
+                </AuthGuard>
+              } />
+              <Route path="/admin/missing-resources" element={
+                <AuthGuard>
+                  <MissingResourcesAnalytics />
+                </AuthGuard>
+              } />
+              <Route path="/admin/note-requests" element={
+                <AuthGuard>
+                  <ManageNoteRequests />
                 </AuthGuard>
               } />
             </Routes>

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import Recommendations from '../../components/notes/Recommendations';
+import AIChatTutor from '../../components/notes/AIChatTutor';
 
 interface Note {
   id: string;
@@ -53,6 +54,8 @@ const NoteDetail: React.FC = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [downloadedSession, setDownloadedSession] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [targetPage, setTargetPage] = useState<number | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -138,6 +141,9 @@ const NoteDetail: React.FC = () => {
           if (rpcError) {
             console.error("Database Error tracking download: " + rpcError.message);
           } else {
+            if (user) {
+              await supabase.from('downloads').insert([{ note_id: note.id, user_id: user.id }]);
+            }
             setDownloadedSession(true);
             setNote(prev => prev ? { ...prev, downloads_count: prev.downloads_count + 1 } : prev);
             
@@ -191,6 +197,33 @@ const NoteDetail: React.FC = () => {
       setIsSaved(true);
       await supabase.from('saved_notes').insert([{ note_id: note.id, user_id: user.id }]);
     }
+  };
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: note?.title,
+          text: `Check out ${note?.title} on EduShare!`,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
+
+  const handleNavigateToPage = (page: number) => {
+    setTargetPage(page);
+    setShowPDF(true);
+    
+    // Attempt to scroll to the PDF viewer container
+    setTimeout(() => {
+      document.getElementById('pdf-viewer-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const isPDF = note?.file_url?.toLowerCase().includes('.pdf') ||
@@ -342,6 +375,24 @@ const NoteDetail: React.FC = () => {
               )}
 
               <button
+                onClick={() => setIsChatOpen(true)}
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 hover:from-indigo-600/40 hover:to-purple-600/40 border border-indigo-500/30 text-indigo-300 font-semibold rounded-xl transition-all shadow-lg"
+              >
+                🤖 Ask AI Tutor
+              </button>
+
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold rounded-xl transition-all"
+                title="Share this note"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                Share
+              </button>
+
+              <button
                 onClick={toggleSave}
                 className={`flex items-center gap-2 px-6 py-3 border font-semibold rounded-xl transition-all ${
                   isSaved 
@@ -371,7 +422,7 @@ const NoteDetail: React.FC = () => {
 
         {/* PDF Preview */}
         {showPDF && isPDF && (
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden mb-6">
+          <div id="pdf-viewer-container" className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden mb-6">
             <div className="flex items-center justify-between p-4 border-b border-white/10">
               <h2 className="text-white font-semibold text-sm flex items-center gap-2">
                 <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -386,7 +437,7 @@ const NoteDetail: React.FC = () => {
               </button>
             </div>
             <iframe
-              src={`${note.file_url}#view=FitH`}
+              src={targetPage ? `${note.file_url}#page=${targetPage}&view=FitH` : `${note.file_url}#view=FitH`}
               title="PDF Preview"
               className="w-full"
               style={{ height: '70vh' }}
@@ -442,6 +493,19 @@ const NoteDetail: React.FC = () => {
           excludeIds={[note.id]}
         />
       </div>
+
+      <AIChatTutor 
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        onNavigateToPage={handleNavigateToPage}
+        note={{
+          title: note.title,
+          subject: note.subject,
+          class_name: note.class_name,
+          description: note.description,
+          file_url: note.file_url
+        }}
+      />
     </div>
   );
 };

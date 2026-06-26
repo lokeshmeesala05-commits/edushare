@@ -241,20 +241,11 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     const tocChunks = chunks.slice(0, 2).filter(c => !exactMatches.includes(c));
     finalChunks = [...tocChunks, ...exactMatches].sort((a, b) => a.index - b.index);
   } else if (exactMatches.length === 0 && hasStructuralMetadata) {
-    console.log('🛑 Structural metadata requested but not found. Aborting BM25 fallback.');
-    let targetStrs = [];
-    if (parsed.chapterNumber !== undefined) targetStrs.push(`Chapter ${parsed.chapterNumber}`);
-    if (parsed.lessonNumber !== undefined) targetStrs.push(`Lesson ${parsed.lessonNumber}`);
-    if (parsed.exerciseNumber !== undefined) targetStrs.push(`Exercise ${parsed.exerciseNumber}`);
-    if (parsed.questionNumber !== undefined) targetStrs.push(`Question ${parsed.questionNumber}`);
-    const targetStr = targetStrs.join(' ');
-    
-    const fallbackMsg = `I couldn't reliably locate ${targetStr} in this document. Please specify the page number or copy the question text.`;
-    
-    return {
-      contextString: `\n\n=== SYSTEM DIRECTIVE ===\nThe user asked for a specific section (${targetStr}) that could not be reliably located in the index. \nYOU MUST REPLY EXACTLY WITH THIS TEXT AND NOTHING ELSE:\n"${fallbackMsg}"\nDo not provide any other answer.\n=== END ===`,
-      sourceChunks: []
-    };
+    console.log('⚠️ Structural metadata requested but not found. Falling back to BM25 with disclaimer.');
+    // Still use BM25 to find best available content — disclaimer is added below
+    const bm25Results = bm25Search(userMessage, chunks);
+    const tocChunks = chunks.slice(0, 2).filter(c => !bm25Results.includes(c));
+    finalChunks = [...tocChunks, ...bm25Results].sort((a, b) => a.index - b.index);
   } else {
     // Fallback to BM25
     console.log('🔄 Falling back to BM25 search because no suitable exact matches.');
@@ -263,8 +254,21 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     finalChunks = [...tocChunks, ...bm25Results].sort((a, b) => a.index - b.index);
   }
 
-  // Build context string as before
-  const contextString = `\n\n=== RELEVANT SECTIONS FROM DOCUMENT ===\n` +
+  // Build disclaimer if structural metadata was requested but not found
+  let disclaimer = '';
+  if (hasStructuralMetadata && exactMatches.length === 0) {
+    let targetStrs: string[] = [];
+    if (parsed.chapterNumber !== undefined) targetStrs.push(`Chapter ${parsed.chapterNumber}`);
+    if (parsed.lessonNumber !== undefined) targetStrs.push(`Lesson ${parsed.lessonNumber}`);
+    if (parsed.exerciseNumber !== undefined) targetStrs.push(`Exercise ${parsed.exerciseNumber}`);
+    if (parsed.questionNumber !== undefined) targetStrs.push(`Question ${parsed.questionNumber}`);
+    const targetStr = targetStrs.join(' ');
+    disclaimer = `\n\n⚠️ IMPORTANT: The user asked for "${targetStr}" but this exact section could not be pinpointed in the document index. Start your response with: "⚠️ I couldn't pinpoint the exact ${targetStr} in this document, but here's the closest relevant content I found:"\nThen answer from the content below.\n`;
+  }
+
+  // Build context string
+  const contextString = disclaimer +
+    `\n\n=== RELEVANT SECTIONS FROM DOCUMENT ===\n` +
     finalChunks.map(c => {
       const meta = [
         `Page ${c.page}`,

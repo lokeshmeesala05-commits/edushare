@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import AuthGuard from './components/auth/AuthGuard';
 import Navbar from './components/layout/Navbar';
 import Home from './pages/Home';
@@ -32,9 +33,10 @@ function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-slate-950 flex flex-col font-sans">
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white flex flex-col font-sans transition-colors duration-200">
           {/* Offline banner */}
           {!isOnline && (
             <div className="bg-orange-500 text-white text-center text-sm py-2 px-4 font-medium flex items-center justify-center gap-2">
@@ -93,9 +95,10 @@ function App() {
               } />
             </Routes>
           </main>
-        </div>
-      </Router>
-    </AuthProvider>
+          </div>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
 
 interface FeaturedNote {
   id: string;
@@ -57,7 +56,6 @@ const FEATURES = [
 ];
 
 const Home: React.FC = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [featuredNotes, setFeaturedNotes] = useState<FeaturedNote[]>([]);
@@ -129,203 +127,133 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
-      {/* Decorative blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-60 -left-40 w-[500px] h-[500px] bg-indigo-600 rounded-full opacity-10 blur-3xl" />
-        <div className="absolute top-1/3 -right-40 w-80 h-80 bg-purple-600 rounded-full opacity-10 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-indigo-800 rounded-full opacity-10 blur-3xl" />
-      </div>
-
-      {/* ── Hero ── */}
-      <section className="relative pt-20 pb-16 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5 mb-6">
-            <span className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
-            <span className="text-indigo-300 text-sm font-medium">Free for all AP & TS students</span>
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-            Education for
-            <span className="block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              everyone, everywhere.
-            </span>
-          </h1>
-          <p className="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10">
-            Discover free notes, textbooks & question papers for government school students.
-            Find resources in <strong className="text-white">Telugu & English medium</strong> — verified by admins.
-          </p>
-
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto relative mb-8">
-            <div className="relative flex items-center">
-              <div className="absolute left-5 pointer-events-none">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                id="home-search"
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search — e.g. '10th class science notes'…"
-                className="w-full pl-14 pr-36 py-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base shadow-2xl"
-              />
-              <div className="absolute right-2 flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={handleVoiceSearch}
-                  className={`p-2.5 rounded-xl transition-all ${isListening ? 'bg-red-500/20 text-red-400 animate-pulse' : 'text-slate-400 hover:text-white hover:bg-white/10'}`}
-                  title="Voice search"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                  </svg>
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-xl text-sm transition-all shadow-lg"
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </form>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/notes"
-              className="px-7 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-indigo-500/30 text-sm"
-            >
-              📚 Browse Library
-            </Link>
-            {!user ? (
-              <Link
-                to="/register"
-                className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 text-white font-semibold rounded-2xl transition-all text-sm"
-              >
-                Sign Up Free →
-              </Link>
-            ) : (
-              <Link
-                to="/upload"
-                className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 text-white font-semibold rounded-2xl transition-all text-sm"
-              >
-                ⬆️ Upload a Note
-              </Link>
-            )}
-          </div>
+    <div className="flex-1 w-full bg-slate-50 dark:bg-transparent transition-colors duration-200">
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pt-32 lg:pb-24 max-w-7xl mx-auto flex flex-col items-center text-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-indigo-500/20 to-purple-500/20 blur-[100px] rounded-full pointer-events-none hidden dark:block" />
+        
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-sm font-medium mb-8">
+          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          Free for all AP & TS students
         </div>
-      </section>
 
-      {/* ── Live Stats ── */}
-      <section className="relative max-w-5xl mx-auto px-4 mb-16">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            { icon: '📚', value: realStats.notes, label: 'Notes Available' },
-            { icon: '⬇️', value: realStats.downloads, label: 'Total Downloads' },
-            { icon: '📖', value: realStats.subjects, label: 'Subjects Covered' },
-            { icon: '🎓', value: realStats.users, label: 'Registered Students' },
-          ].map((s, i) => (
-            <div key={i} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 text-center hover:border-indigo-500/30 transition-all">
-              <div className="text-3xl mb-2">{s.icon}</div>
-              <div className="text-2xl font-bold text-white">
-                {s.value > 0 ? s.value.toLocaleString() : '—'}
-              </div>
-              <div className="text-slate-400 text-sm mt-1">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+        <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 relative z-10">
+          Education for <span className="text-indigo-600 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-indigo-400 dark:to-purple-400">everyone,</span> everywhere.
+        </h1>
+        
+        <p className="text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mb-10 relative z-10">
+          Discover free notes, textbooks & question papers for government school students. 
+          Find resources in <span className="text-slate-900 dark:text-white font-semibold">Telugu & English medium</span> — verified by admins.
+        </p>
 
-      {/* ── Featured Notes ── */}
-      {featuredNotes.length > 0 && (
-        <section className="relative max-w-7xl mx-auto px-4 mb-20">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-white">🔥 Popular Notes</h2>
-              <p className="text-slate-400 text-sm mt-1">Top downloaded materials in the library</p>
-            </div>
-            <Link to="/notes" className="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition">
-              View all →
-            </Link>
+        <form onSubmit={handleSearch} className="relative w-full max-w-2xl mb-12 group z-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity hidden dark:block" />
+          <div className="relative flex items-center bg-white dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-2 shadow-sm dark:shadow-none transition-all">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search — e.g. '10th class science notes'..."
+              className="flex-1 bg-transparent border-none px-4 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-0"
+            />
+            <button type="button" onClick={handleVoiceSearch} className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+              </svg>
+            </button>
+            <button type="submit" className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition-all shadow-md">
+              Search
+            </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featuredNotes.map(note => {
-              const gradient = subjectColors[note.subject] || 'from-indigo-500 to-purple-600';
-              const icon = subjectIcons[note.subject] || '📄';
-              return (
-                <div key={note.id} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all group">
-                  <div className={`bg-gradient-to-br ${gradient} p-4 flex items-center justify-between`}>
-                    <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-xl font-bold text-white">
-                      {icon}
-                    </div>
-                    <span className="text-white/80 text-xs bg-white/20 px-2 py-0.5 rounded-full">{note.class_name}</span>
-                  </div>
-                  <div className="p-4">
-                    <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide mb-1">{note.subject}</p>
-                    <h3 className="text-white font-semibold text-sm mb-2 line-clamp-2 group-hover:text-indigo-300 transition-colors">{note.title}</h3>
-                    
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-3">
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                      </svg>
-                      {note.downloads_count || 0} downloads
-                    </div>
+        </form>
 
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-slate-400">{note.language}</span>
-                      <Link to={`/notes/${note.id}`} className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition">
-                        View Details →
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* ── Features ── */}
-      <section className="relative max-w-7xl mx-auto px-4 mb-20">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-white mb-3">Why EduShare?</h2>
-          <p className="text-slate-400 max-w-xl mx-auto">Built for government school students across Andhra Pradesh & Telangana.</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {FEATURES.map(f => (
-            <div key={f.title} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-indigo-500/30 transition-all group">
-              <div className={`w-12 h-12 bg-gradient-to-br ${f.gradient} rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform`}>
-                {f.icon}
-              </div>
-              <h3 className="text-white font-semibold mb-2">{f.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{f.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── CTA Banner ── */}
-      <section className="relative max-w-4xl mx-auto px-4 mb-20">
-        <div className="bg-gradient-to-r from-indigo-600/30 to-purple-600/30 backdrop-blur-xl border border-indigo-500/20 rounded-3xl p-10 text-center">
-          <h2 className="text-3xl font-bold text-white mb-3">Have notes to share?</h2>
-          <p className="text-slate-300 mb-7 max-w-lg mx-auto">
-            Help thousands of students by uploading your notes. Every contribution makes a difference.
-          </p>
-          <Link
-            to={user ? '/upload' : '/register'}
-            className="inline-block px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-2xl transition-all shadow-xl shadow-indigo-500/30"
-          >
-            {user ? '⬆️ Upload Now' : 'Get Started Free'}
+        <div className="flex flex-wrap justify-center gap-4 relative z-10">
+          <Link to="/notes" className="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-indigo-500/25 flex items-center gap-2">
+            <span>📚</span> Browse Library
+          </Link>
+          <Link to="/upload" className="px-8 py-3.5 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-white font-semibold border border-slate-200 dark:border-white/10 rounded-xl transition-all shadow-sm dark:shadow-none flex items-center gap-2">
+            <span>📤</span> Upload a Note
           </Link>
         </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 w-full max-w-4xl mx-auto relative z-10">
+          {[
+            { label: 'Notes Available', value: realStats.notes, icon: '📚' },
+            { label: 'Total Downloads', value: realStats.downloads, icon: '⬇️' },
+            { label: 'Subjects Covered', value: realStats.subjects, icon: '📖' },
+            { label: 'Registered Students', value: realStats.users, icon: '🎓' },
+          ].map((stat, i) => (
+            <div key={i} className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-6 text-center hover:-translate-y-1 transition-transform shadow-sm dark:shadow-none">
+              <div className="text-3xl mb-2">{stat.icon}</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">{stat.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* Voice listening indicator */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 max-w-7xl mx-auto">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">🔥 Popular Notes</h2>
+            <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">Top downloaded materials in the library</p>
+          </div>
+          <Link to="/notes" className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">View all →</Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredNotes.map((note) => {
+            const gradient = subjectColors[note.subject] || 'from-indigo-500 to-purple-600';
+            const icon = subjectIcons[note.subject] || '📄';
+            return (
+              <div key={note.id} className="group relative bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-indigo-500/10">
+                <div className={`h-24 bg-gradient-to-br ${gradient} p-4 flex flex-col justify-between`}>
+                  <div className="flex justify-between items-start">
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md text-white font-bold text-sm">
+                      {icon}
+                    </div>
+                    <span className="px-2.5 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-medium rounded-lg">{note.class_name} Class</span>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">{note.subject}</p>
+                  <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-2 truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{note.title}</h3>
+                  <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4">
+                    <span className="flex items-center gap-1"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>{note.downloads_count || 0} downloads</span>
+                  </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-white/5">
+                    <span className="text-xs font-medium text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md">{note.language} Medium</span>
+                    <Link to={`/notes/${note.id}`} className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform flex items-center">View Details <span className="ml-1">→</span></Link>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="px-4 sm:px-6 lg:px-8 py-20 max-w-7xl mx-auto border-t border-slate-200 dark:border-white/10">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Why EduShare?</h2>
+          <p className="text-slate-600 dark:text-slate-400">Built for government school students across Andhra Pradesh & Telangana.</p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {FEATURES.map((feature, i) => (
+            <div key={i} className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-6 hover:-translate-y-1 transition-transform shadow-sm dark:shadow-none">
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center text-2xl mb-4 shadow-lg`}>{feature.icon}</div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{feature.title}</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-4xl mx-auto bg-indigo-600 dark:bg-gradient-to-br dark:from-indigo-900 dark:to-purple-900 border border-indigo-500 dark:border-white/10 rounded-3xl p-10 md:p-16 text-center shadow-xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Have notes to share?</h2>
+          <p className="text-indigo-100 dark:text-indigo-200 text-lg mb-8 max-w-2xl mx-auto">Help thousands of students by uploading your notes.</p>
+          <Link to="/upload" className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-indigo-600 font-bold rounded-xl hover:scale-105 transition-transform shadow-lg"><span>✨</span> Upload Now</Link>
+        </div>
+      </section>
+
       {isListening && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-xl border border-red-500/30 rounded-2xl px-6 py-4 flex items-center gap-3 shadow-2xl z-50">
           <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse" />

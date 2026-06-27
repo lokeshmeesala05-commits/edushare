@@ -7,3 +7,70 @@
     @apply bg-slate-50 text-slate-900;
   }
 }
+
+/* Global "Warm Notebook" theme overrides for light mode */
+html:not(.dark) body {
+  background-color: #fdfbf7 !important; /* Warm ivory cream background */
+  color: #1c2434 !important; /* Dark charcoal text */
+}
+
+html:not(.dark) .bg-slate-50 {
+  background-color: #fdfbf7 !important;
+}
+
+html:not(.dark) .bg-white {
+  background-color: #faf6f0 !important; /* Warm notebook card background */
+}
+
+html:not(.dark) .border-slate-200 {
+  border-color: #ebdcb9 !important; /* Warm paper golden/sand border */
+}
+
+html:not(.dark) .border-slate-100 {
+  border-color: #ebdcb9 !important;
+}
+
+html:not(.dark) .text-slate-900 {
+  color: #1a2332 !important;
+}
+
+html:not(.dark) .text-slate-700 {
+  color: #334155 !important;
+}
+
+html:not(.dark) .text-indigo-600 {
+  color: #1e3a8a !important; /* Royal Blue */
+}
+
+html:not(.dark) .bg-indigo-600 {
+  background-color: #1e3a8a !important; /* Royal Blue */
+}
+
+html:not(.dark) .hover\:bg-indigo-500:hover {
+  background-color: #2563eb !important; /* Royal Blue Hover */
+}
+
+html:not(.dark) .text-indigo-400 {
+  color: #1e3a8a !important;
+}
+
+html:not(.dark) .bg-indigo-500\/10 {
+  background-color: rgba(30, 58, 138, 0.08) !important;
+}
+
+html:not(.dark) .border-indigo-500\/20 {
+  border-color: rgba(30, 58, 138, 0.15) !important;
+}
+
+html:not(.dark) .text-indigo-300 {
+  color: #1e3a8a !important;
+}
+
+html:not(.dark) .bg-slate-100 {
+  background-color: #f1ebd9 !important;
+}
+
+html:not(.dark) .text-slate-600 {
+  color: #475569 !important;
+}
+

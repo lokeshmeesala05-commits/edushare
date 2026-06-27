@@ -36,6 +36,7 @@ const Dashboard: React.FC = () => {
   const [actionMsg, setActionMsg] = useState('');
   const [rejectModalId, setRejectModalId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState('');
+  const [pendingSubjectFilter, setPendingSubjectFilter] = useState<string>('all');
 
   const isAdmin = user?.user_metadata?.role === 'admin';
 
@@ -334,14 +335,35 @@ const Dashboard: React.FC = () => {
             {/* Admin Pending Tab */}
             {tab === 'pending' && isAdmin && (
               <div>
-                <h2 className="text-xl font-semibold text-white mb-4">Pending Review</h2>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+                  <h2 className="text-xl font-semibold text-white">Pending Review</h2>
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm text-slate-400">Filter by Subject:</label>
+                    <select
+                      value={pendingSubjectFilter}
+                      onChange={(e) => setPendingSubjectFilter(e.target.value)}
+                      className="bg-white/5 border border-white/10 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500"
+                    >
+                      <option value="all" className="bg-slate-800">All Subjects</option>
+                      {Array.from(new Set(pendingNotes.map(n => n.subject))).map(subject => (
+                        <option key={subject} value={subject} className="bg-slate-800">{subject}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
                 {pendingNotes.length === 0 ? (
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-10 text-center text-slate-400">
                     🎉 No notes pending review. Everything is up to date!
                   </div>
+                ) : pendingNotes.filter(n => pendingSubjectFilter === 'all' || n.subject === pendingSubjectFilter).length === 0 ? (
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-10 text-center text-slate-400">
+                    No pending notes found for subject: {pendingSubjectFilter}
+                  </div>
                 ) : (
                   <div className="space-y-3">
-                    {pendingNotes.map(note => (
+                    {pendingNotes
+                      .filter(n => pendingSubjectFilter === 'all' || n.subject === pendingSubjectFilter)
+                      .map(note => (
                       <div key={note.id} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 flex items-center gap-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
                           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

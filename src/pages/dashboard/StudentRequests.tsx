@@ -56,6 +56,19 @@ const StudentRequests: React.FC = () => {
     }
   };
 
+  const deleteRequest = async (id: string) => {
+    if (!window.confirm('Are you sure you want to permanently delete this request?')) return;
+    const { error } = await supabase
+      .from('note_requests')
+      .delete()
+      .eq('id', id);
+    if (!error) {
+      setRequests(prev => prev.filter(r => r.id !== id));
+    } else {
+      alert('Failed to delete request: ' + error.message);
+    }
+  };
+
   const statusBadge = (status: string) => {
     switch (status) {
       case 'fulfilled': return <span className="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-xs font-medium">Fulfilled</span>;
@@ -140,6 +153,13 @@ const StudentRequests: React.FC = () => {
                             Mark Fulfilled
                           </button>
                         )}
+                        <button
+                          onClick={() => deleteRequest(req.id)}
+                          className="ml-2 px-3 py-1 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg text-xs font-medium transition-all"
+                          title="Permanently delete this request"
+                        >
+                          🗑 Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

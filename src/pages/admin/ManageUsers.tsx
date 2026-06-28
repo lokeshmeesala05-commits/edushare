@@ -72,6 +72,24 @@ const ManageUsers: React.FC = () => {
     }
   };
 
+  const handleMakeAdmin = async (teacherId: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to promote ${name} to an Admin? They will have full control over the website.`)) return;
+    
+    setActionLoading(teacherId);
+    try {
+      const { error } = await supabase.rpc('promote_to_admin', { target_user_id: teacherId });
+      if (error) throw error;
+      
+      setApprovedTeachers(prev => prev.filter(t => t.id !== teacherId));
+      alert(`${name} has been promoted to Admin successfully!`);
+    } catch (err: any) {
+      console.error('Error promoting to admin:', err);
+      alert("Failed to promote: " + err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const handleDelete = async (teacherId: string, name: string) => {
     if (!window.confirm(`Are you SURE you want to completely delete ${name}'s account? This action cannot be undone.`)) return;
     
@@ -187,6 +205,15 @@ const ManageUsers: React.FC = () => {
                             className="px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-medium rounded-lg transition-all disabled:opacity-50 shadow-sm"
                           >
                             {actionLoading === t.id ? 'Approving...' : 'Approve'}
+                          </button>
+                        )}
+                        {tab === 'approved' && (
+                          <button
+                            onClick={() => handleMakeAdmin(t.id, t.raw_user_meta_data?.full_name || 'this user')}
+                            disabled={actionLoading === t.id}
+                            className="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500 hover:text-white border border-indigo-200 dark:border-indigo-500/20 text-xs font-medium rounded-lg transition-all disabled:opacity-50"
+                          >
+                            {actionLoading === t.id ? 'Processing...' : 'Make Admin'}
                           </button>
                         )}
                         <button

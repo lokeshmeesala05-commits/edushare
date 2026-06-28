@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
     ? user.user_metadata.full_name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
     : user?.email?.[0]?.toUpperCase() ?? 'U';
 
-  const isAdmin = user?.user_metadata?.role === 'admin';
+  const isAdmin = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'super_admin';
 
   return (
     <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 sticky top-0 z-50 transition-colors duration-200">

@@ -56,7 +56,7 @@ const subjectIcons: Record<string, string> = {
 
 const BrowseNotes: React.FC = () => {
   const { user } = useAuth();
-  const isAdmin = user?.user_metadata?.role === 'admin';
+  const isAdmin = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'super_admin';
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

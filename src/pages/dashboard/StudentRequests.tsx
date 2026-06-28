@@ -18,7 +18,7 @@ const StudentRequests: React.FC = () => {
   const [requests, setRequests] = useState<NoteRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const isAdmin = user?.user_metadata?.role === 'admin';
+  const isAdmin = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'super_admin';
 
   useEffect(() => {
     if (user) fetchRequests();

@@ -20,7 +20,7 @@ interface NoteRequest {
 const ManageNoteRequests: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const isAdmin = user?.user_metadata?.role === 'admin';
+  const isAdmin = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'super_admin';
 
   const [requests, setRequests] = useState<NoteRequest[]>([]);
   const [loading, setLoading] = useState(true);

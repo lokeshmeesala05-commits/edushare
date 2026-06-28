@@ -9,25 +9,50 @@
 }
 
 /* Global "Warm Notebook" theme overrides for light mode */
-html:not(.dark) body {
+html:not(.dark) body,
+html:not(.dark) .min-h-screen,
+html:not(.dark) [class*="bg-slate-950"],
+html:not(.dark) [class*="bg-slate-900"] {
   background-color: #fdfbf7 !important; /* Warm ivory cream background */
+  background-image: none !important; /* Disable dark gradients */
   color: #1c2434 !important; /* Dark charcoal text */
 }
 
-html:not(.dark) .bg-slate-50 {
-  background-color: #fdfbf7 !important;
+/* Override containers/cards and forms */
+html:not(.dark) .bg-white\/5,
+html:not(.dark) .bg-white\/10,
+html:not(.dark) .bg-slate-900\/50,
+html:not(.dark) .bg-slate-900\/80,
+html:not(.dark) .bg-slate-900 {
+  background-color: #faf6f0 !important; /* Warm notebook card background */
+  background-image: none !important;
 }
 
 html:not(.dark) .bg-white {
-  background-color: #faf6f0 !important; /* Warm notebook card background */
+  background-color: #faf6f0 !important;
 }
 
-html:not(.dark) .border-slate-200 {
-  border-color: #ebdcb9 !important; /* Warm paper golden/sand border */
+/* Fix text colors */
+html:not(.dark) .text-white {
+  color: #1a2332 !important; /* Deep charcoal for normal white text */
 }
 
+/* Ensure button white texts remain white */
+html:not(.dark) button.text-white,
+html:not(.dark) a.text-white,
+html:not(.dark) .bg-indigo-600 .text-white,
+html:not(.dark) .bg-indigo-600 *,
+html:not(.dark) .bg-gradient-to-r .text-white,
+html:not(.dark) .bg-gradient-to-r * {
+  color: #ffffff !important;
+}
+
+/* Borders */
+html:not(.dark) .border-white\/10,
+html:not(.dark) .border-white\/20,
+html:not(.dark) .border-slate-200,
 html:not(.dark) .border-slate-100 {
-  border-color: #ebdcb9 !important;
+  border-color: #ebdcb9 !important; /* Warm paper golden/sand border */
 }
 
 html:not(.dark) .text-slate-900 {
@@ -38,7 +63,14 @@ html:not(.dark) .text-slate-700 {
   color: #334155 !important;
 }
 
-html:not(.dark) .text-indigo-600 {
+html:not(.dark) .text-slate-400,
+html:not(.dark) .text-slate-300 {
+  color: #475569 !important; /* Darker slate for readability */
+}
+
+html:not(.dark) .text-indigo-600,
+html:not(.dark) .text-indigo-400,
+html:not(.dark) .text-indigo-300 {
   color: #1e3a8a !important; /* Royal Blue */
 }
 
@@ -50,20 +82,12 @@ html:not(.dark) .hover\:bg-indigo-500:hover {
   background-color: #2563eb !important; /* Royal Blue Hover */
 }
 
-html:not(.dark) .text-indigo-400 {
-  color: #1e3a8a !important;
-}
-
 html:not(.dark) .bg-indigo-500\/10 {
   background-color: rgba(30, 58, 138, 0.08) !important;
 }
 
 html:not(.dark) .border-indigo-500\/20 {
   border-color: rgba(30, 58, 138, 0.15) !important;
-}
-
-html:not(.dark) .text-indigo-300 {
-  color: #1e3a8a !important;
 }
 
 html:not(.dark) .bg-slate-100 {
@@ -74,3 +98,15 @@ html:not(.dark) .text-slate-600 {
   color: #475569 !important;
 }
 
+/* Form Inputs */
+html:not(.dark) input,
+html:not(.dark) select,
+html:not(.dark) textarea {
+  background-color: #fcfaf2 !important;
+  border-color: #ebdcb9 !important;
+  color: #1a2332 !important;
+}
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #94a3b8 !important;
+}

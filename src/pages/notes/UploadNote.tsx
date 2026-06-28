@@ -73,6 +73,8 @@ const UploadNote: React.FC = () => {
       const { data: { publicUrl } } = supabase.storage.from('notes').getPublicUrl(filePath);
 
       setProgress(85);
+      const isAutoApproved = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'teacher';
+      
       const { error: insertError } = await supabase.from('notes').insert([{
         title,
         description,
@@ -83,12 +85,15 @@ const UploadNote: React.FC = () => {
         doc_type: docType,
         file_url: publicUrl,
         uploaded_by: user?.id || null,
-        approval_status: 'pending',
+        approval_status: isAutoApproved ? 'approved' : 'pending',
       }]);
       if (insertError) throw insertError;
 
       setProgress(100);
-      setStatus({type:'success', message:'🎉 Note uploaded! It will be visible once an admin approves it.'});
+      setStatus({
+        type: 'success', 
+        message: isAutoApproved ? '🎉 Note uploaded and published instantly!' : '🎉 Note uploaded! It will be visible once an admin approves it.'
+      });
       setTitle(''); setDescription(''); setChapter(''); setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
       setTimeout(() => setProgress(0), 1500);

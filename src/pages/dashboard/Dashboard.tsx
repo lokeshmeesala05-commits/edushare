@@ -350,7 +350,10 @@ const Dashboard: React.FC = () => {
                         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-brand-text dark:text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-brand-primary shadow-sm"
                       >
                         <option value="all">All Subjects</option>
-                        {Array.from(new Set(pendingNotes.map(n => n.subject))).map(subject => (
+                        {Array.from(new Set([
+                          'Mathematics', 'Science', 'Social Studies', 'Telugu', 'Hindi', 'English', 'Physics', 'Chemistry', 'Biology',
+                          ...pendingNotes.map(n => n.subject)
+                        ])).map(subject => (
                           <option key={subject} value={subject}>{subject}</option>
                         ))}
                       </select>

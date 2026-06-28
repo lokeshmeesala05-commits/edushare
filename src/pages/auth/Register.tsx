@@ -13,6 +13,7 @@ const Register: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [schoolName, setSchoolName] = useState('');
   const [subject, setSubject] = useState('');
+  const [customSubject, setCustomSubject] = useState('');
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -38,7 +39,9 @@ const Register: React.FC = () => {
       setError('Please fill in all required fields.');
       return;
     }
-    if (role === 'teacher' && (!phone || !schoolName || !subject)) {
+    const finalSubject = subject === 'Other' ? customSubject.trim() : subject;
+
+    if (role === 'teacher' && (!phone || !schoolName || !finalSubject)) {
       setError('Phone number, School name, and Subject are required for teachers.');
       return;
     }
@@ -53,7 +56,7 @@ const Register: React.FC = () => {
 
     setLoading(true);
     const signupRole = role === 'teacher' ? 'pending_teacher' : 'student';
-    const { error } = await signUp(email, password, fullName, signupRole, phone, schoolName, subject);
+    const { error } = await signUp(email, password, fullName, signupRole, phone, schoolName, finalSubject);
     setLoading(false);
 
     if (error) {
@@ -241,12 +244,24 @@ const Register: React.FC = () => {
                     <option value="Mathematics">Mathematics</option>
                     <option value="Science">Science</option>
                     <option value="Social Studies">Social Studies</option>
-                    <option value="English">English</option>
                     <option value="Telugu">Telugu</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="English">English</option>
                     <option value="Physics">Physics</option>
                     <option value="Chemistry">Chemistry</option>
                     <option value="Biology">Biology</option>
+                    <option value="Other">Other (Custom Subject)</option>
                   </select>
+                  {subject === 'Other' && (
+                    <input
+                      type="text"
+                      value={customSubject}
+                      onChange={e => setCustomSubject(e.target.value)}
+                      placeholder="Type your custom subject..."
+                      className="mt-2 w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-primary outline-none text-brand-text dark:text-white transition-all"
+                      required
+                    />
+                  )}
                 </div>
               </>
             )}

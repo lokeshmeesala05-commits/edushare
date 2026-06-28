@@ -173,19 +173,15 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
       .replace(/^\s*-\s+(.*)/gm, '<li class="ml-4 list-disc">$1</li>')
       .replace(/\n/g, '<br />');
 
-    // Parse the new citation format:
+    // Parse the new simplified citation format:
     // 📄 Title
     // 📖 Page X
-    // 📗 Lesson Y (optional)
-    // 📕 Chapter Z (optional)
     // 📘 Section
-    const citationRegex = /📄 (.*?)<br \/>\s*📖 Page (\d+)(?:<br \/>\s*📗 Lesson (\d+))?(?:<br \/>\s*📕 Chapter (\d+))?(?:<br \/>\s*📘 (.*?))(?:<br \/>|$)/g;
-    html = html.replace(citationRegex, (_match, title, pageNum, lessonNum, chapterNum, section) => {
+    const citationRegex = /📄 (.*?)<br \/>\s*📖 Page (\d+)(?:<br \/>\s*📘 (.*?))(?:<br \/>|$)/g;
+    html = html.replace(citationRegex, (_match, title, pageNum, section) => {
       // Build button markup with available metadata
       let metaLines = `📄 ${title}<br/>📖 Page ${pageNum}`;
-      if (lessonNum) metaLines += `<br/>📗 Lesson ${lessonNum}`;
-      if (chapterNum) metaLines += `<br/>📕 Chapter ${chapterNum}`;
-      metaLines += `<br/>📘 ${section}`;
+      if (section) metaLines += `<br/>📘 ${section}`;
       return `
         <div class="mt-4 p-3 bg-slate-800/50 rounded-xl border border-white/5 shadow-inner">
           <div class="text-xs font-bold text-slate-300 mb-1 flex items-center gap-1.5">
@@ -202,6 +198,9 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
         </div>
       `;
     });
+
+    // Clean up any stray emojis that the AI might have accidentally generated
+    html = html.replace(/📗/g, '').replace(/📕/g, '');
 
     return html;
   };

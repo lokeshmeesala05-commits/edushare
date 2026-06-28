@@ -101,68 +101,63 @@ const UploadNote: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600 rounded-full opacity-5 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-5 blur-3xl" />
-      </div>
-
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300">
       <div className="relative max-w-2xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg mb-4">
-            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-primary/10 rounded-2xl shadow-sm mb-4 text-brand-primary">
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white">Upload Educational Material</h1>
-          <p className="text-slate-400 mt-2 text-sm">Share notes, guides or question papers. Reviewed by admin before publishing.</p>
+          <h1 className="text-3xl font-bold text-brand-text dark:text-white">Upload Educational Material</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">Share notes, guides or question papers. Reviewed by admin before publishing.</p>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl">
+        <div className="card-base p-8">
           {/* Status Messages */}
           {status.type === 'success' && (
-            <div className="mb-6 flex items-center gap-3 bg-green-500/10 border border-green-500/30 rounded-xl px-4 py-3">
-              <svg className="w-5 h-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <div className="mb-6 flex items-center gap-3 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 rounded-xl px-4 py-3">
+              <svg className="w-5 h-5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <p className="text-green-300 text-sm">{status.message}</p>
+              <p className="text-green-800 dark:text-green-300 text-sm">{status.message}</p>
             </div>
           )}
           {status.type === 'error' && (
-            <div className="mb-6 flex items-center gap-3 bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3">
-              <svg className="w-5 h-5 text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <div className="mb-6 flex items-center gap-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl px-4 py-3">
+              <svg className="w-5 h-5 text-red-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
               </svg>
-              <p className="text-red-300 text-sm">{status.message}</p>
+              <p className="text-red-800 dark:text-red-300 text-sm">{status.message}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Title */}
             <div>
-              <label htmlFor="upload-title" className="block text-sm font-medium text-slate-300 mb-2">Document Title *</label>
+              <label htmlFor="upload-title" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Document Title *</label>
               <input
                 id="upload-title"
                 type="text"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 placeholder="e.g. 10th Class Physics Chapter 1 Notes"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm"
                 required
               />
             </div>
 
             {/* Description */}
             <div>
-              <label htmlFor="upload-desc" className="block text-sm font-medium text-slate-300 mb-2">Description <span className="text-slate-500">(Optional)</span></label>
+              <label htmlFor="upload-desc" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Description <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span></label>
               <textarea
                 id="upload-desc"
                 rows={3}
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 placeholder="Briefly describe what this document covers…"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm resize-none"
+                className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm resize-none"
               />
             </div>
 
@@ -170,29 +165,29 @@ const UploadNote: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Class */}
               <div>
-                <label htmlFor="upload-class" className="block text-sm font-medium text-slate-300 mb-2">Class *</label>
+                <label htmlFor="upload-class" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Class *</label>
                 <select
                   id="upload-class"
                   value={className}
                   onChange={e => setClassName(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm appearance-none"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm appearance-none"
                   required
                 >
-                  {CLASSES.map(c => <option key={c} value={c} className="bg-slate-900">{c}</option>)}
+                  {CLASSES.map(c => <option key={c} value={c} className="bg-white dark:bg-slate-900">{c}</option>)}
                 </select>
               </div>
               {/* Subject */}
               <div>
-                <label htmlFor="upload-subject" className="block text-sm font-medium text-slate-300 mb-2">Subject *</label>
+                <label htmlFor="upload-subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Subject *</label>
                 <div className="flex gap-2">
                   <select
                     id="upload-subject"
                     value={subject}
                     onChange={e => setSubject(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm appearance-none"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm appearance-none"
                     required
                   >
-                    {SUBJECTS.map(s => <option key={s} value={s} className="bg-slate-900">{s}</option>)}
+                    {SUBJECTS.map(s => <option key={s} value={s} className="bg-white dark:bg-slate-900">{s}</option>)}
                   </select>
                   {subject === 'Other' && (
                     <input
@@ -200,7 +195,7 @@ const UploadNote: React.FC = () => {
                       value={customSubject}
                       onChange={e => setCustomSubject(e.target.value)}
                       placeholder="Type custom subject..."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm"
                       required
                     />
                   )}
@@ -208,47 +203,47 @@ const UploadNote: React.FC = () => {
               </div>
               {/* Language */}
               <div>
-                <label htmlFor="upload-lang" className="block text-sm font-medium text-slate-300 mb-2">Language Medium *</label>
+                <label htmlFor="upload-lang" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Language Medium *</label>
                 <select
                   id="upload-lang"
                   value={language}
                   onChange={e => setLanguage(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm appearance-none"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm appearance-none"
                   required
                 >
-                  {LANGUAGES.map(l => <option key={l} value={l} className="bg-slate-900">{l}</option>)}
+                  {LANGUAGES.map(l => <option key={l} value={l} className="bg-white dark:bg-slate-900">{l}</option>)}
                 </select>
               </div>
               {/* Document Type */}
               <div>
-                <label htmlFor="upload-doctype" className="block text-sm font-medium text-slate-300 mb-2">Document Type *</label>
+                <label htmlFor="upload-doctype" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Document Type *</label>
                 <select
                   id="upload-doctype"
                   value={docType}
                   onChange={e => setDocType(e.target.value)}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm appearance-none"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm appearance-none"
                   required
                 >
-                  {DOC_TYPES.map(d => <option key={d.value} value={d.value} className="bg-slate-900">{d.label}</option>)}
+                  {DOC_TYPES.map(d => <option key={d.value} value={d.value} className="bg-white dark:bg-slate-900">{d.label}</option>)}
                 </select>
               </div>
               {/* Chapter */}
               <div>
-                <label htmlFor="upload-chapter" className="block text-sm font-medium text-slate-300 mb-2">Chapter / Unit <span className="text-slate-500">(Optional)</span></label>
+                <label htmlFor="upload-chapter" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Chapter / Unit <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span></label>
                 <input
                   id="upload-chapter"
                   type="text"
                   value={chapter}
                   onChange={e => setChapter(e.target.value)}
                   placeholder="e.g. Kinematics"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm"
                 />
               </div>
             </div>
 
             {/* File Drop Zone */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">File Upload *</label>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">File Upload *</label>
               <div
                 onDragOver={e => { e.preventDefault(); setDragOver(true); }}
                 onDragLeave={() => setDragOver(false)}
@@ -256,10 +251,10 @@ const UploadNote: React.FC = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className={`relative border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
                   dragOver
-                    ? 'border-indigo-500 bg-indigo-500/10'
+                    ? 'border-brand-primary bg-brand-primary/10'
                     : file
-                    ? 'border-green-500/50 bg-green-500/5'
-                    : 'border-white/20 hover:border-indigo-500/50 hover:bg-white/5'
+                    ? 'border-brand-emerald bg-brand-emerald/10'
+                    : 'border-slate-300 dark:border-slate-700 hover:border-brand-primary hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
               >
                 <input
@@ -272,23 +267,23 @@ const UploadNote: React.FC = () => {
                 />
                 {file ? (
                   <>
-                    <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                      <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-12 h-12 bg-brand-emerald/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <svg className="w-6 h-6 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
-                    <p className="text-green-400 font-medium text-sm">{file.name}</p>
-                    <p className="text-slate-400 text-xs mt-1">{formatBytes(file.size)} · Click to change</p>
+                    <p className="text-brand-emerald font-medium text-sm">{file.name}</p>
+                    <p className="text-slate-500 text-xs mt-1">{formatBytes(file.size)} · Click to change</p>
                   </>
                 ) : (
                   <>
-                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center mx-auto mb-3">
                       <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                       </svg>
                     </div>
-                    <p className="text-white font-medium text-sm mb-1">Drag & drop or click to browse</p>
-                    <p className="text-slate-400 text-xs">PDF, DOC, DOCX, JPG, PNG — up to 20 MB</p>
+                    <p className="text-brand-text dark:text-white font-medium text-sm mb-1">Drag & drop or click to browse</p>
+                    <p className="text-slate-500 text-xs">PDF, DOC, DOCX, JPG, PNG — up to 20 MB</p>
                   </>
                 )}
               </div>
@@ -297,13 +292,13 @@ const UploadNote: React.FC = () => {
             {/* Progress Bar */}
             {isUploading && (
               <div>
-                <div className="flex justify-between text-xs text-slate-400 mb-1">
+                <div className="flex justify-between text-xs text-slate-500 mb-1">
                   <span>Uploading…</span>
                   <span>{progress}%</span>
                 </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full transition-all duration-500"
+                    className="h-full bg-brand-primary rounded-full transition-all duration-500"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -315,7 +310,7 @@ const UploadNote: React.FC = () => {
               id="upload-submit"
               type="submit"
               disabled={isUploading}
-              className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3.5 bg-brand-primary hover:bg-brand-navy text-white font-semibold rounded-xl transition-all shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isUploading ? (
                 <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />Uploading…</>

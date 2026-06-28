@@ -32,7 +32,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-transparent transition-colors duration-200 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 flex items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Background blobs - Dark mode only */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden dark:block">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-10 blur-3xl" />
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-navy rounded-2xl shadow-lg mb-4">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -53,7 +53,7 @@ const Login: React.FC = () => {
         </div>
 
         {/* Card */}
-        <div className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-8 shadow-xl dark:shadow-2xl">
+        <div className="card-base p-8">
           {error && (
             <div className="mb-5 flex items-center gap-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl px-4 py-3">
               <svg className="w-5 h-5 text-red-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -75,7 +75,7 @@ const Login: React.FC = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 autoComplete="email"
                 required
               />
@@ -87,7 +87,7 @@ const Login: React.FC = () => {
                 <label htmlFor="login-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Password
                 </label>
-                <Link to="/forgot-password" className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition">
+                <Link to="/forgot-password" className="text-xs text-brand-primary hover:text-brand-navy dark:text-brand-primary dark:hover:text-white transition">
                   Forgot password?
                 </Link>
               </div>
@@ -98,7 +98,7 @@ const Login: React.FC = () => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 pr-12 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 pr-12 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                   autoComplete="current-password"
                   required
                 />
@@ -126,7 +126,7 @@ const Login: React.FC = () => {
               id="login-submit"
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 bg-brand-primary hover:bg-brand-navy text-white font-semibold rounded-xl transition-all duration-200 shadow-md shadow-brand-primary/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -141,7 +141,7 @@ const Login: React.FC = () => {
 
           <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
             Don't have an account?{' '}
-            <Link to="/register" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition">
+            <Link to="/register" className="text-brand-primary hover:text-brand-navy dark:text-brand-primary dark:hover:text-white font-medium transition">
               Create one free
             </Link>
           </p>

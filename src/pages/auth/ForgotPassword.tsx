@@ -25,7 +25,7 @@ const ForgotPassword: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-transparent transition-colors duration-200 flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 flex items-center justify-center px-4 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden dark:block">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-10 blur-3xl" />
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600 rounded-full opacity-10 blur-3xl" />
@@ -33,7 +33,7 @@ const ForgotPassword: React.FC = () => {
 
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-navy rounded-2xl shadow-lg mb-4">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
@@ -42,7 +42,7 @@ const ForgotPassword: React.FC = () => {
           <p className="text-slate-600 dark:text-slate-400 mt-2">Enter your email and we'll send a reset link</p>
         </div>
 
-        <div className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-8 shadow-xl dark:shadow-2xl">
+        <div className="card-base p-8">
           {sent ? (
             <div className="text-center">
               <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -52,10 +52,10 @@ const ForgotPassword: React.FC = () => {
               </div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Check your email!</h2>
               <p className="text-slate-600 dark:text-slate-400 text-sm mb-6">
-                We sent a password reset link to <span className="text-indigo-650 dark:text-indigo-400 font-medium">{email}</span>.
+                We sent a password reset link to <span className="text-brand-primary font-medium">{email}</span>.
                 Click the link in the email to reset your password.
               </p>
-              <Link to="/login" className="inline-block px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all text-sm shadow-md">
+              <Link to="/login" className="inline-block px-6 py-2.5 bg-brand-primary hover:bg-brand-navy text-white font-semibold rounded-xl transition-all text-sm shadow-md">
                 Back to Login
               </Link>
             </div>
@@ -80,7 +80,7 @@ const ForgotPassword: React.FC = () => {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                     required
                   />
                 </div>
@@ -88,7 +88,7 @@ const ForgotPassword: React.FC = () => {
                   id="forgot-submit"
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-brand-primary hover:bg-brand-navy text-white font-semibold rounded-xl transition-all shadow-md shadow-brand-primary/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />Sending…</>
@@ -97,7 +97,7 @@ const ForgotPassword: React.FC = () => {
               </form>
               <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
                 Remember your password?{' '}
-                <Link to="/login" className="text-indigo-650 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition">Sign in</Link>
+                <Link to="/login" className="text-brand-primary hover:text-brand-navy dark:text-brand-primary dark:hover:text-white font-medium transition">Sign in</Link>
               </p>
             </>
           )}

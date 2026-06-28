@@ -60,45 +60,45 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-10">
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 py-10">
       <div className="max-w-2xl mx-auto px-4">
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
-          <div className="flex items-center gap-4 mb-8 border-b border-white/10 pb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold text-white shadow-lg">
+        <div className="card-base p-8">
+          <div className="flex items-center gap-4 mb-8 border-b border-slate-200 dark:border-slate-800 pb-6">
+            <div className="w-16 h-16 bg-brand-primary/10 text-brand-primary rounded-full flex items-center justify-center text-2xl font-bold">
               {name.charAt(0).toUpperCase() || 'U'}
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">My Profile</h1>
-              <p className="text-slate-400 text-sm">{user?.email}</p>
+              <h1 className="text-2xl font-bold text-brand-text dark:text-white">My Profile</h1>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">{user?.email}</p>
             </div>
           </div>
 
           {msg.text && (
-            <div className={`p-4 rounded-xl mb-6 text-sm ${msg.type === 'success' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+            <div className={`p-4 rounded-xl mb-6 text-sm ${msg.type === 'success' ? 'bg-green-50 dark:bg-emerald-500/10 text-green-700 dark:text-emerald-400 border border-green-200 dark:border-emerald-500/20' : 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20'}`}>
               {msg.text}
             </div>
           )}
 
           <form onSubmit={handleUpdate} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary transition-colors"
                 placeholder="John Doe"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">School / College Name (Optional)</label>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">School / College Name (Optional)</label>
               <input
                 type="text"
                 value={schoolName}
                 onChange={(e) => setSchoolName(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary transition-colors"
                 placeholder="ZPHS High School"
               />
             </div>
@@ -107,7 +107,7 @@ const Profile: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/25"
+                className="px-6 py-3 bg-brand-primary hover:bg-brand-navy disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-all shadow-md"
               >
                 {loading ? 'Saving...' : 'Save Changes'}
               </button>

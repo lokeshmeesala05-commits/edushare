@@ -48,38 +48,56 @@ const StudentDownloads: React.FC = () => {
     }
   };
 
+  const deleteDownload = async (id: string) => {
+    if (!window.confirm('Are you sure you want to remove this download from your history?')) return;
+    
+    try {
+      const { error } = await supabase
+        .from('downloads')
+        .delete()
+        .eq('id', id);
+        
+      if (error) throw error;
+      
+      setDownloads(prev => prev.filter(d => d.id !== id));
+    } catch (err) {
+      console.error('Failed to delete download:', err);
+      alert('Failed to remove download history.');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-10">
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 py-10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white">My Downloads</h1>
-            <p className="text-slate-400 mt-1">History of all the notes you've downloaded.</p>
+            <h1 className="text-3xl font-bold text-brand-text dark:text-white">My Downloads</h1>
+            <p className="text-slate-500 dark:text-slate-400 mt-1">History of all the notes you've downloaded.</p>
           </div>
-          <Link to="/dashboard" className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-medium transition-all">
+          <Link to="/dashboard" className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-brand-text dark:text-white rounded-xl text-sm font-medium transition-all">
             Back to Dashboard
           </Link>
         </div>
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
           </div>
         ) : downloads.length === 0 ? (
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-14 text-center">
+          <div className="card-base p-14 text-center">
             <div className="text-5xl mb-4">📥</div>
-            <h3 className="text-xl font-bold text-white mb-2">No downloads yet</h3>
-            <p className="text-slate-400 mb-6">You haven't downloaded any notes from the digital library yet.</p>
-            <Link to="/notes" className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition-all">
+            <h3 className="text-xl font-bold text-brand-text dark:text-white mb-2">No downloads yet</h3>
+            <p className="text-slate-500 dark:text-slate-400 mb-6">You haven't downloaded any notes from the digital library yet.</p>
+            <Link to="/notes" className="px-6 py-3 bg-brand-primary hover:bg-brand-navy text-white font-medium rounded-xl transition-all shadow-md">
               Browse Notes
             </Link>
           </div>
         ) : (
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+          <div className="card-base overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-white/5 text-sm font-semibold text-slate-300 border-b border-white/10">
+                  <tr className="bg-slate-50 dark:bg-slate-800/50 text-sm font-semibold text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800">
                     <th className="px-6 py-4">Note Title</th>
                     <th className="px-6 py-4">Subject</th>
                     <th className="px-6 py-4">Class</th>
@@ -87,29 +105,38 @@ const StudentDownloads: React.FC = () => {
                     <th className="px-6 py-4 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {downloads.map((item) => (
-                    <tr key={item.id} className="hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-4 font-medium text-white max-w-[200px] truncate">
+                    <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                      <td className="px-6 py-4 font-medium text-brand-text dark:text-white max-w-[200px] truncate">
                         {item.note.title}
                       </td>
-                      <td className="px-6 py-4 text-slate-300 text-sm">{item.note.subject}</td>
-                      <td className="px-6 py-4 text-slate-300 text-sm">{item.note.class_name}</td>
-                      <td className="px-6 py-4 text-slate-400 text-sm">
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300 text-sm">{item.note.subject}</td>
+                      <td className="px-6 py-4 text-slate-600 dark:text-slate-300 text-sm">{item.note.class_name}</td>
+                      <td className="px-6 py-4 text-slate-500 dark:text-slate-400 text-sm">
                         {new Date(item.downloaded_at).toLocaleDateString('en-IN', {
                           day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                         })}
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-3">
-                          <Link to={`/notes/${item.note.id}`} className="text-sm text-indigo-400 hover:text-indigo-300 font-medium">
+                          <Link to={`/notes/${item.note.id}`} className="text-sm text-brand-primary hover:text-brand-navy font-medium">
                             Details
                           </Link>
                           <button
                             onClick={() => window.open(item.note.file_url, '_blank')}
-                            className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-medium rounded-lg transition-all"
+                            className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-brand-text dark:text-white text-sm font-medium rounded-lg transition-all"
                           >
                             Re-download
+                          </button>
+                          <button
+                            onClick={() => deleteDownload(item.id)}
+                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
+                            title="Remove from history"
+                          >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
                           </button>
                         </div>
                       </td>

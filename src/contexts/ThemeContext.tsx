@@ -18,7 +18,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('edushare-theme');
     if (saved === 'dark' || saved === 'light') return saved;
-    // Default to light theme as the welcoming default
+    // Default to light theme for a welcoming educational platform
     return 'light';
   });
 

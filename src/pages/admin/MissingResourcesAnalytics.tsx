@@ -89,20 +89,20 @@ const MissingResourcesAnalytics: React.FC = () => {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 py-10">
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">Missing Resources Analytics</h1>
-            <p className="text-slate-400 mt-1">Identify content gaps based on student searches and requests.</p>
+            <h1 className="text-3xl font-bold text-brand-text dark:text-white">Missing Resources Analytics</h1>
+            <p className="text-slate-500 dark:text-slate-400 mt-1">Identify content gaps based on student searches and requests.</p>
           </div>
           <div className="flex gap-3">
-            <Link to="/admin/note-requests" className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-medium transition-all shadow-lg shadow-indigo-500/20">
+            <Link to="/admin/note-requests" className="px-4 py-2 bg-brand-primary hover:bg-brand-navy text-white rounded-xl text-sm font-medium transition-all shadow-md">
               Manage Requests
             </Link>
-            <Link to="/dashboard" className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-medium transition-all">
+            <Link to="/dashboard" className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-brand-text dark:text-white rounded-xl text-sm font-medium transition-all">
               Dashboard
             </Link>
           </div>
@@ -110,7 +110,7 @@ const MissingResourcesAnalytics: React.FC = () => {
 
         {loading || !data ? (
           <div className="flex justify-center py-20">
-            <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
           <>
@@ -122,31 +122,31 @@ const MissingResourcesAnalytics: React.FC = () => {
                 { label: 'Explicit Requests', value: data.totalRequests, icon: '📬', color: 'from-purple-500 to-pink-500' },
                 { label: 'Pending Fulfillment', value: data.pendingRequests, icon: '⏳', color: 'from-amber-500 to-yellow-500' },
               ].map((stat, i) => (
-                <div key={i} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 relative overflow-hidden">
+                <div key={i} className="card-base p-6 relative overflow-hidden">
                   <div className={`absolute -right-4 -top-4 w-24 h-24 bg-gradient-to-br ${stat.color} opacity-10 rounded-full blur-2xl`} />
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-3xl">{stat.icon}</span>
                   </div>
-                  <h3 className="text-3xl font-bold text-white mb-1">{stat.value}</h3>
-                  <p className="text-slate-400 text-sm">{stat.label}</p>
+                  <h3 className="text-3xl font-bold text-brand-text dark:text-white mb-1">{stat.value}</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">{stat.label}</p>
                 </div>
               ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Top Missing Topics */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="text-indigo-400">🔥</span> Top Failed Search Queries
+              <div className="card-base p-6">
+                <h2 className="text-xl font-bold text-brand-text dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-brand-primary">🔥</span> Top Failed Search Queries
                 </h2>
                 {data.topSearches.length === 0 ? (
-                  <p className="text-slate-400 text-sm italic">No failed searches logged yet.</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm italic">No failed searches logged yet.</p>
                 ) : (
                   <div className="space-y-4">
                     {data.topSearches.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl p-4">
-                        <span className="text-white font-medium">"{item.query}"</span>
-                        <span className="px-3 py-1 bg-red-500/20 text-red-400 text-xs font-bold rounded-full">
+                      <div key={i} className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl p-4">
+                        <span className="text-brand-text dark:text-white font-medium">"{item.query}"</span>
+                        <span className="px-3 py-1 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-bold rounded-full border border-red-100 dark:border-red-500/20">
                           {item.count} searches
                         </span>
                       </div>
@@ -156,21 +156,21 @@ const MissingResourcesAnalytics: React.FC = () => {
               </div>
 
               {/* Class & Subject Gaps */}
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                  <span className="text-indigo-400">📊</span> Most Requested Subjects
+              <div className="card-base p-6">
+                <h2 className="text-xl font-bold text-brand-text dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-brand-primary">📊</span> Most Requested Subjects
                 </h2>
                 {data.subjectGaps.length === 0 ? (
-                  <p className="text-slate-400 text-sm italic">No pending requests.</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm italic">No pending requests.</p>
                 ) : (
                   <div className="space-y-4">
                     {data.subjectGaps.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl p-4">
+                      <div key={i} className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl p-4">
                         <div>
-                          <p className="text-white font-medium">{item.subject}</p>
-                          <p className="text-xs text-slate-400">{item.class}</p>
+                          <p className="text-brand-text dark:text-white font-medium">{item.subject}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{item.class}</p>
                         </div>
-                        <span className="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full">
+                        <span className="px-3 py-1 bg-brand-primary/10 text-brand-primary text-xs font-bold rounded-full">
                           {item.requested_count} requests
                         </span>
                       </div>

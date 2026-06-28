@@ -18,6 +18,8 @@ const Navbar: React.FC = () => {
     ? user.user_metadata.full_name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
     : user?.email?.[0]?.toUpperCase() ?? 'U';
 
+  const isAdmin = user?.user_metadata?.role === 'admin';
+
   return (
     <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 sticky top-0 z-50 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,37 +27,42 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <div className="w-8 h-8 bg-gradient-to-br from-brand-primary to-brand-navy rounded-lg flex items-center justify-center shadow-lg shadow-brand-primary/20 group-hover:scale-110 transition-transform">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <span className="font-bold text-xl text-slate-900 dark:text-white tracking-tight">Edu<span className="text-indigo-600 dark:text-indigo-400">Share</span></span>
+              <span className="font-bold text-xl text-brand-text dark:text-white tracking-tight">Edu<span className="text-brand-primary">Share</span></span>
             </Link>
 
             {/* Desktop Nav Links */}
             <div className="hidden md:flex items-center gap-1">
-              <Link to="/" className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all">
+              <Link to="/" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
                 Home
               </Link>
-              <Link to="/notes" className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all">
+              <Link to="/notes" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
                 Browse Notes
               </Link>
               {user && (
                 <>
-                  <Link to="/upload" className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/upload" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
                     Upload
                   </Link>
-                  <Link to="/dashboard" className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/dashboard" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
                     Dashboard
                   </Link>
-                  <Link to="/student/downloads" className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/student/downloads" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
                     Downloads
                   </Link>
-                  <Link to="/student/requests" className="px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/student/requests" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
                     Requests
                   </Link>
+                  {isAdmin && (
+                    <Link to="/admin/users" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+                      Manage Users
+                    </Link>
+                  )}
                 </>
               )}
             </div>
@@ -66,7 +73,7 @@ const Navbar: React.FC = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg transition-all"
+              className="p-2 text-slate-500 hover:text-brand-primary dark:text-slate-400 dark:hover:text-amber-400 hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {theme === 'dark' ? (
@@ -84,16 +91,16 @@ const Navbar: React.FC = () => {
               <div className="flex items-center gap-3">
                 {/* User Avatar */}
                 <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition" title="My Profile">
-                  <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm">
+                  <div className="w-8 h-8 bg-gradient-to-br from-brand-primary to-brand-navy rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm shadow-brand-primary/20">
                     {initials}
                   </div>
-                  <span className="hidden md:block text-sm text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
+                  <span className="hidden md:block text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
                     {user?.user_metadata?.full_name || user.email}
                   </span>
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg transition-all"
+                  className="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border border-slate-200 dark:border-white/10 rounded-lg transition-all"
                 >
                   Sign out
                 </button>
@@ -102,13 +109,13 @@ const Navbar: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
+                  className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-white transition"
                 >
                   Log in
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/25"
+                  className="px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-navy hover:from-brand-navy hover:to-brand-primary text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-brand-primary/25"
                 >
                   Sign up
                 </Link>
@@ -141,6 +148,9 @@ const Navbar: React.FC = () => {
                 <Link to="/dashboard" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Dashboard</Link>
                 <Link to="/student/downloads" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Downloads</Link>
                 <Link to="/student/requests" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Requests</Link>
+                {isAdmin && (
+                  <Link to="/admin/users" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Manage Users</Link>
+                )}
                 <button onClick={handleSignOut} className="block w-full text-left px-3 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-white/5 rounded-lg">Sign out</button>
               </>
             )}

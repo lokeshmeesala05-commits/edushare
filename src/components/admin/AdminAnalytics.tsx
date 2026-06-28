@@ -148,38 +148,38 @@ const AdminAnalytics: React.FC = () => {
       {/* Overview Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Published Notes',  value: data.totalNotes,     icon: '📚', color: 'text-indigo-400' },
-          { label: 'Total Downloads',  value: data.totalDownloads, icon: '⬇️', color: 'text-green-400'  },
-          { label: 'Pending Review',   value: data.pendingCount,   icon: '⏳', color: 'text-yellow-400' },
-          { label: 'Rejected',         value: data.rejectedCount,  icon: '❌', color: 'text-red-400'    },
+          { label: 'Published Notes',  value: data.totalNotes,     icon: '📚', color: 'text-brand-primary dark:text-indigo-400' },
+          { label: 'Total Downloads',  value: data.totalDownloads, icon: '⬇️', color: 'text-green-600 dark:text-green-400'  },
+          { label: 'Pending Review',   value: data.pendingCount,   icon: '⏳', color: 'text-amber-500 dark:text-yellow-400' },
+          { label: 'Rejected',         value: data.rejectedCount,  icon: '❌', color: 'text-red-500 dark:text-red-400'    },
         ].map(s => (
-          <div key={s.label} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+          <div key={s.label} className="card-base p-5">
             <div className="text-2xl mb-2">{s.icon}</div>
             <p className={`text-3xl font-bold ${s.color}`}>{s.value}</p>
-            <p className="text-slate-400 text-sm mt-1">{s.label}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{s.label}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Downloads by Subject */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-white font-semibold mb-5 flex items-center gap-2">
+        <div className="card-base p-6">
+          <h3 className="text-brand-text dark:text-white font-semibold mb-5 flex items-center gap-2">
             📊 Downloads by Subject
           </h3>
           {data.subjectStats.length === 0 ? (
-            <p className="text-slate-400 text-sm">No data yet.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">No data yet.</p>
           ) : (
             <div className="space-y-4">
               {data.subjectStats.map(s => (
                 <div key={s.subject}>
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-slate-300 text-sm">{s.subject}</span>
-                    <span className="text-slate-400 text-xs">{s.downloads} downloads · {s.count} notes</span>
+                    <span className="text-slate-700 dark:text-slate-300 text-sm">{s.subject}</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-xs">{s.downloads} downloads · {s.count} notes</span>
                   </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-700 ${subjectColors[s.subject] || 'bg-indigo-500'}`}
+                      className={`h-full rounded-full transition-all duration-700 ${subjectColors[s.subject] || 'bg-brand-primary'}`}
                       style={{ width: `${Math.round((s.downloads / maxDownloads) * 100)}%` }}
                     />
                   </div>
@@ -190,22 +190,22 @@ const AdminAnalytics: React.FC = () => {
         </div>
 
         {/* Top Downloaded Notes */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-white font-semibold mb-5 flex items-center gap-2">
+        <div className="card-base p-6">
+          <h3 className="text-brand-text dark:text-white font-semibold mb-5 flex items-center gap-2">
             🔥 Top Downloaded Notes
           </h3>
           {data.topDownloaded.length === 0 ? (
-            <p className="text-slate-400 text-sm">No downloads yet.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">No downloads yet.</p>
           ) : (
             <div className="space-y-3">
               {data.topDownloaded.map((note, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="text-slate-500 text-sm font-mono w-5">#{i + 1}</span>
+                  <span className="text-slate-400 dark:text-slate-500 text-sm font-mono w-5">#{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white text-sm font-medium truncate">{note.title}</p>
-                    <p className="text-slate-400 text-xs">{note.subject}</p>
+                    <p className="text-brand-text dark:text-white text-sm font-medium truncate">{note.title}</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-xs">{note.subject}</p>
                   </div>
-                  <span className="text-green-400 text-sm font-bold">{note.downloads_count}</span>
+                  <span className="text-green-600 dark:text-green-400 text-sm font-bold">{note.downloads_count}</span>
                 </div>
               ))}
             </div>
@@ -214,43 +214,43 @@ const AdminAnalytics: React.FC = () => {
       </div>
 
       {/* AI Automated Demand Predictor */}
-      <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/30 rounded-2xl p-6 shadow-[0_0_15px_rgba(79,70,229,0.15)] relative overflow-hidden">
+      <div className="bg-brand-primary/10 dark:bg-gradient-to-br dark:from-indigo-900/40 dark:to-purple-900/40 border border-brand-primary/20 dark:border-indigo-500/30 rounded-2xl p-6 shadow-sm dark:shadow-[0_0_15px_rgba(79,70,229,0.15)] relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4 opacity-10">
-          <svg className="w-24 h-24 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-24 h-24 text-brand-primary dark:text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
           </svg>
         </div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="bg-indigo-500 p-2 rounded-lg">
+            <div className="bg-brand-primary p-2 rounded-lg">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 className="text-white text-lg font-bold">Automated Demand Predictor (Smart Gap Alerts)</h3>
+            <h3 className="text-brand-navy dark:text-white text-lg font-bold">Automated Demand Predictor (Smart Gap Alerts)</h3>
           </div>
-          <p className="text-indigo-200/70 text-sm mb-6">
+          <p className="text-brand-text/70 dark:text-indigo-200/70 text-sm mb-6">
             Our algorithm detects curriculum resource deficits by analyzing regional voice-search fail-states. 
             Topics with multiple failed searches generate an automated high-priority curriculum request.
           </p>
 
           {data.searchGaps.length === 0 ? (
-            <p className="text-indigo-300 text-sm">No gap data detected yet.</p>
+            <p className="text-brand-primary dark:text-indigo-300 text-sm">No gap data detected yet.</p>
           ) : (
             <div className="space-y-4">
               {/* High Priority Alerts */}
               {data.searchGaps.filter(g => g.count >= 2).length > 0 && (
                 <div className="space-y-3">
-                  <h4 className="text-red-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <h4 className="text-red-500 dark:text-red-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                     High Priority Gap Alerts
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {data.searchGaps.filter(g => g.count >= 2).map((gap, i) => (
-                      <div key={`high-${i}`} className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center justify-between">
+                      <div key={`high-${i}`} className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl p-4 flex items-center justify-between">
                         <div>
-                          <p className="text-red-300 font-semibold text-lg">"{gap.search_query}"</p>
-                          <p className="text-red-400/60 text-xs mt-1">Status: Unfulfilled Demand</p>
+                          <p className="text-red-700 dark:text-red-300 font-semibold text-lg">"{gap.search_query}"</p>
+                          <p className="text-red-500/80 dark:text-red-400/60 text-xs mt-1">Status: Unfulfilled Demand</p>
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="bg-red-500 text-white font-bold text-lg px-3 py-1.5 rounded-lg">
@@ -259,7 +259,7 @@ const AdminAnalytics: React.FC = () => {
                           <button
                             onClick={() => deleteGap(gap.search_query)}
                             title="Remove this entry"
-                            className="p-1.5 bg-white/10 hover:bg-red-700 text-white rounded-lg transition text-xs font-bold"
+                            className="p-1.5 bg-red-500/10 dark:bg-white/10 hover:bg-red-600 dark:hover:bg-red-700 text-red-600 hover:text-white dark:text-white rounded-lg transition text-xs font-bold"
                           >
                             ×
                           </button>
@@ -272,13 +272,13 @@ const AdminAnalytics: React.FC = () => {
 
               {/* Standard Tracking */}
               <div>
-                <h4 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3 mt-6">
+                <h4 className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-3 mt-6">
                   Early Detection Tracking
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {data.searchGaps.filter(g => g.count < 2).map((gap, i) => (
-                    <div key={`low-${i}`} className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-xl pl-3 pr-1.5 py-1.5">
-                      <span className="text-slate-300 text-sm">"{gap.search_query}"</span>
+                    <div key={`low-${i}`} className="flex items-center gap-1.5 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl pl-3 pr-1.5 py-1.5 shadow-sm">
+                      <span className="text-brand-text dark:text-slate-300 text-sm">"{gap.search_query}"</span>
                       <button
                         onClick={() => deleteGap(gap.search_query)}
                         title="Remove this entry"

@@ -161,8 +161,6 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     const meta = [
       `Page ${c.page}`,
       c.section,
-      c.chapterNumber !== undefined ? `Ch.${c.chapterNumber}` : '',
-      c.lessonNumber !== undefined ? `Lesson ${c.lessonNumber}` : '',
       c.questionNumber !== undefined ? `Q.${c.questionNumber}` : '',
       c.contentType !== 'paragraph' ? `[${c.contentType.toUpperCase()}]` : ''
     ].filter(Boolean).join(' | ');
@@ -263,7 +261,9 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     if (parsed.exerciseNumber !== undefined) targetStrs.push(`Exercise ${parsed.exerciseNumber}`);
     if (parsed.questionNumber !== undefined) targetStrs.push(`Question ${parsed.questionNumber}`);
     const targetStr = targetStrs.join(' ');
-    disclaimer = `\n\n⚠️ IMPORTANT: The user asked for "${targetStr}" but this exact section could not be pinpointed in the document index. Start your response with: "⚠️ I couldn't pinpoint the exact ${targetStr} in this document, but here's the closest relevant content I found:"\nThen answer from the content below.\n`;
+    disclaimer = `\n\n⚠️ IMPORTANT: The user asked for "${targetStr}" but this exact section could not be pinpointed in the document index. 
+    You MUST reply exactly with: "⚠️ I couldn't pinpoint the exact ${targetStr} in this document. Could you please type out the actual question you are looking for?"
+    Do not try to answer from the content below, just ask the user to provide the question directly.\n`;
   }
 
   // Build context string
@@ -273,8 +273,6 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
       const meta = [
         `Page ${c.page}`,
         c.section,
-        c.chapterNumber !== undefined ? `Ch.${c.chapterNumber}` : '',
-        c.lessonNumber !== undefined ? `Lesson ${c.lessonNumber}` : '',
         c.questionNumber !== undefined ? `Q.${c.questionNumber}` : '',
         c.contentType !== 'paragraph' ? `[${c.contentType.toUpperCase()}]` : ''
       ].filter(Boolean).join(' | ');

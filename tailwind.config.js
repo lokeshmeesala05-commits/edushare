@@ -8,6 +8,15 @@ export default {
   theme: {
     extend: {
       colors: {
+        brand: {
+          primary: '#2563EB', // Primary Blue
+          navy: '#1E3A8A',    // Navy Blue
+          emerald: '#10B981', // Emerald Green
+          amber: '#F59E0B',   // Amber
+          bg: '#F8FAFC',      // Light Background
+          text: '#1F2937',    // Text Dark
+          border: '#E5E7EB',  // Borders
+        },
         primary: {
           50: '#f0fdfa',
           100: '#ccfbf1',

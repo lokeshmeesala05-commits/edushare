@@ -271,21 +271,15 @@ const BrowseNotes: React.FC = () => {
   const hasFilters = searchQuery || selectedClass || selectedSubject || selectedLanguage;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
-      {/* Decorative blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-5 blur-3xl" />
-        <div className="absolute top-1/2 -right-40 w-80 h-80 bg-purple-600 rounded-full opacity-5 blur-3xl" />
-      </div>
-
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* ── Header ── */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-bold text-white">Digital Library</h1>
-              <p className="text-slate-400 mt-1">Free notes, papers &amp; textbooks for AP/TS students</p>
+              <h1 className="text-4xl font-bold text-brand-text dark:text-white">Digital Library</h1>
+              <p className="text-slate-600 dark:text-slate-400 mt-1">Free notes, papers &amp; textbooks for AP/TS students</p>
             </div>
             <Link
               to="/upload"
@@ -300,7 +294,7 @@ const BrowseNotes: React.FC = () => {
         </div>
 
         {/* ── Search Bar ── */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 mb-6">
+        <div className="card-base p-5 mb-6">
           <form onSubmit={handleSearchSubmit}>
             <div className="relative flex items-center mb-4">
               <div className="absolute left-4 pointer-events-none">
@@ -315,7 +309,7 @@ const BrowseNotes: React.FC = () => {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Search by topic, subject or keyword… e.g. 'Photosynthesis'"
-                className="w-full pl-12 pr-36 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
+                className="w-full pl-12 pr-36 py-3.5 bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl text-brand-text dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition text-sm"
               />
               <div className="absolute right-2 flex items-center gap-1">
                 {/* Language Toggle */}
@@ -345,7 +339,7 @@ const BrowseNotes: React.FC = () => {
                 {/* Search button */}
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-lg transition-all"
+                  className="px-4 py-2 bg-brand-primary hover:bg-brand-navy text-white text-sm font-medium rounded-lg transition-all"
                 >
                   Search
                 </button>
@@ -353,40 +347,40 @@ const BrowseNotes: React.FC = () => {
             </div>
 
             {/* Filters row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-4">
               <select
                 value={selectedClass}
                 onChange={e => setSelectedClass(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-brand-text dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-primary transition appearance-none cursor-pointer"
               >
-                <option value="" className="bg-slate-900">All Classes</option>
-                {CLASSES.map(o => <option key={o} value={o} className="bg-slate-900">{o}</option>)}
+                <option value="">All Classes</option>
+                {CLASSES.map(o => <option key={o} value={o}>{o}</option>)}
               </select>
               <select
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
-                className="appearance-none w-full bg-white/5 border border-white/10 rounded-xl pl-4 pr-10 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition shadow-inner"
+                className="bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-brand-text dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-primary transition appearance-none cursor-pointer"
               >
-                <option value="" className="bg-slate-900">All Subjects</option>
+                <option value="">All Subjects</option>
                 {availableSubjects.map(s => (
-                  <option key={s} value={s} className="bg-slate-900">{s}</option>
+                  <option key={s} value={s}>{s}</option>
                 ))}
               </select>
               <select
                 value={selectedLanguage}
                 onChange={e => setSelectedLanguage(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-brand-text dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-primary transition appearance-none cursor-pointer"
               >
-                <option value="" className="bg-slate-900">All Languages</option>
-                {LANGUAGES.map(o => <option key={o} value={o} className="bg-slate-900">{o}</option>)}
+                <option value="">All Languages</option>
+                {LANGUAGES.map(o => <option key={o} value={o}>{o}</option>)}
               </select>
               <select
                 value={selectedDocType}
                 onChange={e => setSelectedDocType(e.target.value)}
-                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-brand-text dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-primary transition appearance-none cursor-pointer"
               >
-                <option value="" className="bg-slate-900">All Types</option>
-                {DOC_TYPES.map(d => <option key={d.value} value={d.value} className="bg-slate-900">{d.label}</option>)}
+                <option value="">All Types</option>
+                {DOC_TYPES.map(d => <option key={d.value} value={d.value}>{d.label}</option>)}
               </select>
             </div>
           </form>
@@ -466,7 +460,7 @@ const BrowseNotes: React.FC = () => {
                 return (
                   <div
                     key={note.id}
-                    className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 group flex flex-col relative"
+                    className="card-base group flex flex-col relative overflow-hidden hover:-translate-y-1.5 hover:shadow-lg dark:hover:shadow-brand-primary/10"
                   >
                   {(isAdmin || user?.id === note.uploaded_by) && (
                     <button 
@@ -481,24 +475,24 @@ const BrowseNotes: React.FC = () => {
                   )}
                   {/* Card Header */}
                   <div className={`bg-gradient-to-br ${gradientClass} p-5 flex items-center justify-between`}>
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center text-2xl font-bold text-white">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center text-2xl font-bold text-white shadow-sm">
                       {icon}
                     </div>
                     <div className="text-right">
-                      <span className="block text-white/80 text-xs font-medium bg-white/20 px-2 py-0.5 rounded-full">
-                        {note.class_name}
+                      <span className="block text-brand-text bg-white/90 text-xs font-bold px-3 py-1 rounded-lg shadow-sm">
+                        Class {note.class_name}
                       </span>
                     </div>
                   </div>
 
                   {/* Card Body */}
-                  <div className="p-5 flex-1 flex flex-col">
+                  <div className="p-5 flex-1 flex flex-col bg-white dark:bg-slate-900">
                     <div className="mb-3">
-                      <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">
+                      <span className="text-xs font-bold text-brand-primary uppercase tracking-wide">
                         {note.subject}
                       </span>
                     </div>
-                    <h3 className="text-white font-semibold text-base mb-2 line-clamp-2 group-hover:text-indigo-300 transition-colors">
+                    <h3 className="text-brand-text dark:text-white font-bold text-lg mb-2 line-clamp-2 group-hover:text-brand-primary transition-colors">
                       {note.title}
                     </h3>
                     {note.description && (
@@ -508,18 +502,19 @@ const BrowseNotes: React.FC = () => {
                     )}
 
                     {/* Meta */}
-                    <div className="flex items-center gap-3 mt-auto mb-4">
-                      <span className="flex items-center gap-1 text-xs text-slate-400">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-3 mt-auto mb-5">
+                      <span className="flex items-center gap-1.5 text-xs text-slate-500">
+                        <svg className="w-4 h-4 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                         </svg>
                         {note.language}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-slate-400">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <span className="text-slate-300 dark:text-slate-600">•</span>
+                      <span className="flex items-center gap-1.5 text-xs text-slate-500">
+                        <svg className="w-4 h-4 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
-                        {note.downloads_count || 0} downloads
+                        {note.downloads_count || 0}
                       </span>
                     </div>
 
@@ -527,9 +522,9 @@ const BrowseNotes: React.FC = () => {
                     <div className="flex gap-2">
                       <Link
                         to={`/notes/${note.id}`}
-                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/10 text-slate-200 text-center transition-all duration-200 flex items-center justify-center gap-1.5"
+                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-brand-border dark:border-slate-700 text-brand-text dark:text-slate-200 text-center transition-all duration-200 flex items-center justify-center gap-1.5"
                       >
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -537,9 +532,9 @@ const BrowseNotes: React.FC = () => {
                       </Link>
                       <button
                         onClick={() => window.open(note.file_url, '_blank')}
-                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/10 text-slate-200 transition-all duration-200 flex items-center justify-center gap-1.5"
+                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-brand-border dark:border-slate-700 text-brand-text dark:text-slate-200 transition-all duration-200 flex items-center justify-center gap-1.5"
                       >
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -550,20 +545,20 @@ const BrowseNotes: React.FC = () => {
                         disabled={downloadingId === note.id || downloadedSession.has(note.id)}
                         className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 ${
                           downloadingId === note.id
-                            ? 'bg-indigo-500/30 text-indigo-300 cursor-not-allowed'
+                            ? 'bg-brand-primary/20 text-brand-primary cursor-not-allowed'
                             : downloadedSession.has(note.id)
-                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-default'
-                            : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-500/20 active:scale-95'
+                            ? 'bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/20 cursor-default'
+                            : 'bg-brand-primary hover:bg-brand-navy text-white shadow-md active:scale-95'
                         }`}
                       >
                         {downloadingId === note.id ? (
-                          <><div className="w-4 h-4 border-2 border-indigo-300 border-t-transparent rounded-full animate-spin" />Saving…</>
+                          <><div className="w-4 h-4 border-2 border-brand-primary border-t-transparent rounded-full animate-spin" />Saving…</>
                         ) : downloadedSession.has(note.id) ? (
                           <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>Downloaded</>
                         ) : (
-                          <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                           </svg>Download</>
                         )}

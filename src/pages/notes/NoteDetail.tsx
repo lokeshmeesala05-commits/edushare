@@ -231,20 +231,20 @@ const NoteDetail: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-brand-bg dark:bg-slate-950 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (notFound || !note) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-brand-bg dark:bg-slate-950 flex items-center justify-center px-4">
         <div className="text-center">
           <div className="text-6xl mb-4">📄</div>
-          <h1 className="text-2xl font-bold text-white mb-2">Note not found</h1>
-          <p className="text-slate-400 mb-6">This note may have been removed or isn't published yet.</p>
-          <Link to="/notes" className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-medium transition">
+          <h1 className="text-2xl font-bold text-brand-text dark:text-white mb-2">Note not found</h1>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">This note may have been removed or isn't published yet.</p>
+          <Link to="/notes" className="px-5 py-2.5 bg-brand-primary hover:bg-brand-navy text-white rounded-xl text-sm font-medium transition">
             ← Back to Library
           </Link>
         </div>
@@ -252,67 +252,63 @@ const NoteDetail: React.FC = () => {
     );
   }
 
-  const gradient = subjectColors[note.subject] || 'from-indigo-500 to-purple-600';
+  const gradient = subjectColors[note.subject] || 'from-brand-primary to-brand-navy';
   const icon = subjectIcons[note.subject] || '📄';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-5 blur-3xl" />
-        <div className="absolute bottom-0 -right-40 w-80 h-80 bg-purple-600 rounded-full opacity-5 blur-3xl" />
-      </div>
-
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300">
       <div className="relative max-w-4xl mx-auto px-4 py-10">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-          <Link to="/" className="hover:text-white transition">Home</Link>
+        <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-6">
+          <Link to="/" className="hover:text-brand-primary dark:hover:text-white transition">Home</Link>
           <span>/</span>
-          <Link to="/notes" className="hover:text-white transition">Library</Link>
+          <Link to="/notes" className="hover:text-brand-primary dark:hover:text-white transition">Library</Link>
           <span>/</span>
-          <span className="text-white truncate max-w-xs">{note.title}</span>
+          <span className="text-brand-text dark:text-white font-medium truncate max-w-xs">{note.title}</span>
         </div>
 
         {/* Hero Card */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden mb-6">
+        <div className="card-base overflow-hidden mb-6">
           {/* Colored Header */}
-          <div className={`bg-gradient-to-br ${gradient} p-8 flex items-center gap-5`}>
-            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl font-bold text-white flex-shrink-0">
+          <div className={`bg-gradient-to-br ${gradient} p-8 flex items-center gap-5 relative`}>
+            <div className="absolute inset-0 bg-black/5" />
+            <div className="relative w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-3xl font-bold text-white shadow-sm flex-shrink-0 backdrop-blur-sm">
               {icon}
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="relative flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-white/80 text-xs bg-white/20 px-2 py-0.5 rounded-full">{note.class_name}</span>
+                <span className="text-brand-text bg-white/90 font-bold text-xs px-3 py-1 rounded-lg shadow-sm">{note.class_name}</span>
                 {note.chapter && (
-                  <span className="text-white/70 text-xs">📌 {note.chapter}</span>
+                  <span className="text-white/90 font-medium text-xs">📌 {note.chapter}</span>
                 )}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight">{note.title}</h1>
-              <p className="text-white/70 text-sm mt-1">{note.subject} · {note.language}</p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight drop-shadow-sm">{note.title}</h1>
+              <p className="text-white/90 text-sm mt-1 font-medium">{note.subject} · {note.language}</p>
             </div>
           </div>
 
           {/* Meta + Actions */}
-          <div className="p-6">
+          <div className="p-6 bg-white dark:bg-slate-900">
             {note.description && (
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">{note.description}</p>
+              <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">{note.description}</p>
             )}
 
             {/* Stats row */}
             <div className="flex flex-wrap items-center gap-5 mb-6">
-              <div className="flex items-center gap-1.5 text-sm text-slate-400">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-center gap-1.5 text-sm text-slate-500">
+                <svg className="w-4 h-4 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                <span><strong className="text-white">{note.downloads_count || 0}</strong> downloads</span>
+                <span><strong className="text-brand-text dark:text-white">{note.downloads_count || 0}</strong> downloads</span>
               </div>
               {ratingCount > 0 && (
-                <div className="flex items-center gap-1.5 text-sm text-slate-400">
-                  <span className="text-yellow-400">★</span>
-                  <span><strong className="text-white">{avgRating}</strong>/5 ({ratingCount} ratings)</span>
+                <div className="flex items-center gap-1.5 text-sm text-slate-500">
+                  <span className="text-brand-amber">★</span>
+                  <span><strong className="text-brand-text dark:text-white">{avgRating}</strong>/5 ({ratingCount} ratings)</span>
                 </div>
               )}
-              <div className="flex items-center gap-1.5 text-sm text-slate-400">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-center gap-1.5 text-sm text-slate-500">
+                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span>{new Date(note.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' })}</span>
@@ -324,7 +320,7 @@ const NoteDetail: React.FC = () => {
               {/* View Button - always available */}
               <button
                 onClick={() => window.open(note.file_url, '_blank')}
-                className="py-3.5 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-lg bg-white/10 hover:bg-white/20 border border-white/10 text-slate-200"
+                className="py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-brand-border dark:border-slate-700 text-brand-text dark:text-slate-200 shadow-sm"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -338,16 +334,16 @@ const NoteDetail: React.FC = () => {
                 <button
                   onClick={handleDownload}
                   disabled={downloading || downloadedSession}
-                  className={`py-3.5 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-lg ${
+                  className={`py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-sm border ${
                     downloading 
-                      ? 'bg-indigo-500/30 text-indigo-300 cursor-wait'
+                      ? 'bg-brand-primary/10 text-brand-primary border-brand-primary/20 cursor-wait'
                       : downloadedSession
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 cursor-default'
-                      : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-indigo-500/25'
+                      ? 'bg-brand-emerald/10 text-brand-emerald border-brand-emerald/20 cursor-default'
+                      : 'bg-brand-primary hover:bg-brand-navy border-brand-primary text-white shadow-brand-primary/20 active:scale-95'
                   }`}
                 >
                   {downloading ? (
-                    <><div className="w-5 h-5 border-2 border-indigo-300 border-t-transparent rounded-full animate-spin" />Saving…</>
+                    <><div className="w-5 h-5 border-2 border-brand-primary border-t-transparent rounded-full animate-spin" />Saving…</>
                   ) : downloadedSession ? (
                     <><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -364,9 +360,9 @@ const NoteDetail: React.FC = () => {
               {isPDF && (
                 <button
                   onClick={() => setShowPDF(s => !s)}
-                  className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-semibold rounded-xl transition-all"
+                  className="flex items-center gap-2 px-6 py-3 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-brand-border dark:border-slate-700 text-brand-text dark:text-slate-200 font-semibold rounded-xl transition-all shadow-sm"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
@@ -376,14 +372,14 @@ const NoteDetail: React.FC = () => {
 
               <button
                 onClick={() => setIsChatOpen(true)}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 hover:from-indigo-600/40 hover:to-purple-600/40 border border-indigo-500/30 text-indigo-300 font-semibold rounded-xl transition-all shadow-lg"
+                className="flex items-center gap-2 px-6 py-3 bg-brand-primary/10 hover:bg-brand-primary/20 border border-brand-primary/20 text-brand-primary font-bold rounded-xl transition-all shadow-sm"
               >
-                🤖 Ask AI Tutor
+                🤖 Ask EduBot AI
               </button>
 
               <button
                 onClick={handleShare}
-                className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 font-semibold rounded-xl transition-all"
+                className="flex items-center gap-2 px-6 py-3 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-brand-border dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold rounded-xl transition-all shadow-sm"
                 title="Share this note"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -394,10 +390,10 @@ const NoteDetail: React.FC = () => {
 
               <button
                 onClick={toggleSave}
-                className={`flex items-center gap-2 px-6 py-3 border font-semibold rounded-xl transition-all ${
+                className={`flex items-center gap-2 px-6 py-3 border font-semibold rounded-xl transition-all shadow-sm ${
                   isSaved 
-                    ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20' 
-                    : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'
+                    ? 'bg-brand-amber/10 border-brand-amber/30 text-brand-amber hover:bg-brand-amber/20' 
+                    : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border-brand-border dark:border-slate-700 text-slate-600 dark:text-slate-300'
                 }`}
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -412,7 +408,7 @@ const NoteDetail: React.FC = () => {
 
               <Link
                 to="/notes"
-                className="flex items-center gap-2 px-5 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 rounded-xl transition-all text-sm"
+                className="flex items-center gap-2 px-5 py-3 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 font-medium rounded-xl transition-all text-sm ml-auto"
               >
                 ← Back to Library
               </Link>
@@ -422,8 +418,8 @@ const NoteDetail: React.FC = () => {
 
         {/* PDF Preview */}
         {showPDF && isPDF && (
-          <div id="pdf-viewer-container" className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden mb-6">
-            <div className="flex items-center justify-between p-4 border-b border-white/10">
+          <div id="pdf-viewer-container" className="card-base overflow-hidden mb-6">
+            <div className="flex items-center justify-between p-4 border-b border-brand-border dark:border-slate-800">
               <h2 className="text-white font-semibold text-sm flex items-center gap-2">
                 <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -447,8 +443,8 @@ const NoteDetail: React.FC = () => {
         )}
 
         {/* Star Rating */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
-          <h2 className="text-white font-semibold mb-4">
+        <div className="card-base p-6 mb-6">
+          <h2 className="text-brand-text dark:text-white font-semibold mb-4">
             {ratingSubmitted ? '✅ Thanks for rating!' : '⭐ Rate this note'}
           </h2>
           <div className="flex items-center gap-2 mb-3">
@@ -463,24 +459,24 @@ const NoteDetail: React.FC = () => {
               >
                 <span className={
                   star <= (hoverRating || userRating)
-                    ? 'text-yellow-400'
-                    : 'text-slate-600'
+                    ? 'text-brand-amber'
+                    : 'text-slate-300 dark:text-slate-600'
                 }>★</span>
               </button>
             ))}
             {(userRating > 0 || hoverRating > 0) && (
-              <span className="text-slate-300 text-sm ml-2">
+              <span className="text-slate-500 font-medium text-sm ml-2">
                 {['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][hoverRating || userRating]}
               </span>
             )}
           </div>
           {!user && (
-            <p className="text-slate-400 text-xs">
-              <Link to="/login" className="text-indigo-400 hover:underline">Sign in</Link> to rate this note.
+            <p className="text-slate-500 text-xs">
+              <Link to="/login" className="text-brand-primary font-medium hover:underline">Sign in</Link> to rate this note.
             </p>
           )}
           {ratingCount > 0 && (
-            <p className="text-slate-400 text-xs mt-2">
+            <p className="text-slate-500 text-xs mt-2 font-medium">
               Average: {avgRating}/5 from {ratingCount} {ratingCount === 1 ? 'rating' : 'ratings'}
             </p>
           )}

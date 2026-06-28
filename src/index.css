@@ -8,123 +8,31 @@
   }
 }
 
-/* Global "Warm Notebook" theme overrides for light mode */
-html:not(.dark) body,
-html:not(.dark) .min-h-screen,
-html:not(.dark) [class*="bg-slate-950"],
-html:not(.dark) [class*="bg-slate-900"],
-html:not(.dark) [class*="from-slate-900"],
-html:not(.dark) [class*="via-indigo-950"],
-html:not(.dark) [class*="bg-gradient-to-br"] {
-  background-color: #fdfbf7 !important; /* Warm ivory cream background */
-  background-image: none !important; /* Disable dark gradients */
-  color: #1c2434 !important; /* Dark charcoal text */
+/* Clean Base Styles */
+html, body {
+  @apply antialiased min-h-screen transition-colors duration-300;
 }
 
-/* Override containers/cards and forms */
-html:not(.dark) .bg-white\/5,
-html:not(.dark) .bg-white\/10,
-html:not(.dark) .bg-slate-900\/50,
-html:not(.dark) .bg-slate-900\/80,
-html:not(.dark) .bg-slate-900 {
-  background-color: #faf6f0 !important; /* Warm notebook card background */
-  background-image: none !important;
+body {
+  @apply bg-brand-bg text-brand-text;
 }
 
-html:not(.dark) .bg-white {
-  background-color: #faf6f0 !important;
+html.dark body {
+  @apply bg-slate-950 text-slate-50;
 }
 
-/* Fix text colors */
-html:not(.dark) .text-white {
-  color: #1a2332 !important; /* Deep charcoal for normal white text */
+/* Card Base Styles */
+.card-base {
+  @apply bg-white rounded-xl shadow-sm border border-brand-border transition-all duration-300;
+}
+html.dark .card-base {
+  @apply bg-slate-900 border-slate-800;
 }
 
-/* Ensure button/link white texts remain white on colored backgrounds */
-html:not(.dark) [class*="bg-indigo-"] > *,
-html:not(.dark) [class*="bg-gradient-to-r"] > *,
-html:not(.dark) [class*="bg-red-"] > *,
-html:not(.dark) [class*="bg-green-"] > *,
-html:not(.dark) [class*="bg-orange-"] > *,
-html:not(.dark) button[class*="bg-indigo"],
-html:not(.dark) button[class*="bg-red"],
-html:not(.dark) a[class*="bg-indigo"],
-html:not(.dark) a[class*="bg-gradient"] {
-  color: #ffffff !important;
+/* Smooth Focus States */
+input, select, textarea {
+  @apply transition-all duration-200 focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary outline-none;
 }
-/* Keep gradient card header text white */
-html:not(.dark) [class*="from-blue-"] *,
-html:not(.dark) [class*="from-green-"] *,
-html:not(.dark) [class*="from-orange-"] *,
-html:not(.dark) [class*="from-red-"] *,
-html:not(.dark) [class*="from-purple-"] *,
-html:not(.dark) [class*="from-cyan-"] *,
-html:not(.dark) [class*="from-yellow-"] *,
-html:not(.dark) [class*="from-teal-"] *,
-html:not(.dark) [class*="from-emerald-"] * {
-  color: #ffffff !important;
-}
-
-/* Borders */
-html:not(.dark) .border-white\/10,
-html:not(.dark) .border-white\/20,
-html:not(.dark) .border-slate-200,
-html:not(.dark) .border-slate-100 {
-  border-color: #ebdcb9 !important; /* Warm paper golden/sand border */
-}
-
-html:not(.dark) .text-slate-900 {
-  color: #1a2332 !important;
-}
-
-html:not(.dark) .text-slate-700 {
-  color: #334155 !important;
-}
-
-html:not(.dark) .text-slate-400,
-html:not(.dark) .text-slate-300 {
-  color: #475569 !important; /* Darker slate for readability */
-}
-
-html:not(.dark) .text-indigo-600,
-html:not(.dark) .text-indigo-400,
-html:not(.dark) .text-indigo-300 {
-  color: #1e3a8a !important; /* Royal Blue */
-}
-
-html:not(.dark) .bg-indigo-600 {
-  background-color: #1e3a8a !important; /* Royal Blue */
-}
-
-html:not(.dark) .hover\:bg-indigo-500:hover {
-  background-color: #2563eb !important; /* Royal Blue Hover */
-}
-
-html:not(.dark) .bg-indigo-500\/10 {
-  background-color: rgba(30, 58, 138, 0.08) !important;
-}
-
-html:not(.dark) .border-indigo-500\/20 {
-  border-color: rgba(30, 58, 138, 0.15) !important;
-}
-
-html:not(.dark) .bg-slate-100 {
-  background-color: #f1ebd9 !important;
-}
-
-html:not(.dark) .text-slate-600 {
-  color: #475569 !important;
-}
-
-/* Form Inputs */
-html:not(.dark) input,
-html:not(.dark) select,
-html:not(.dark) textarea {
-  background-color: #fcfaf2 !important;
-  border-color: #ebdcb9 !important;
-  color: #1a2332 !important;
-}
-html:not(.dark) input::placeholder,
-html:not(.dark) textarea::placeholder {
-  color: #94a3b8 !important;
+html.dark input, html.dark select, html.dark textarea {
+  @apply bg-slate-900 border-slate-700 text-slate-100 focus:ring-brand-primary/30;
 }

@@ -16,6 +16,7 @@ import StudentDownloads from './pages/dashboard/StudentDownloads';
 import StudentRequests from './pages/dashboard/StudentRequests';
 import MissingResourcesAnalytics from './pages/admin/MissingResourcesAnalytics';
 import ManageNoteRequests from './pages/admin/ManageNoteRequests';
+import ManageUsers from './pages/admin/ManageUsers';
 import Profile from './pages/dashboard/Profile';
 
 function App() {
@@ -91,6 +92,11 @@ function App() {
               <Route path="/admin/note-requests" element={
                 <AuthGuard>
                   <ManageNoteRequests />
+                </AuthGuard>
+              } />
+              <Route path="/admin/users" element={
+                <AuthGuard>
+                  <ManageUsers />
                 </AuthGuard>
               } />
             </Routes>

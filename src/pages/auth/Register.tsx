@@ -9,6 +9,11 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState<'student' | 'teacher'>('student');
+  const [phone, setPhone] = useState('');
+  const [schoolName, setSchoolName] = useState('');
+  const [subject, setSubject] = useState('');
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -30,7 +35,11 @@ const Register: React.FC = () => {
     setError('');
 
     if (!fullName || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields.');
+      setError('Please fill in all required fields.');
+      return;
+    }
+    if (role === 'teacher' && (!phone || !schoolName || !subject)) {
+      setError('Phone number, School name, and Subject are required for teachers.');
       return;
     }
     if (password !== confirmPassword) {
@@ -43,7 +52,8 @@ const Register: React.FC = () => {
     }
 
     setLoading(true);
-    const { error } = await signUp(email, password, fullName);
+    const signupRole = role === 'teacher' ? 'pending_teacher' : 'student';
+    const { error } = await signUp(email, password, fullName, signupRole, phone, schoolName, subject);
     setLoading(false);
 
     if (error) {
@@ -63,21 +73,21 @@ const Register: React.FC = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center px-4">
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-10 shadow-2xl text-center max-w-md w-full">
+      <div className="min-h-screen bg-brand-bg dark:bg-slate-950 flex items-center justify-center px-4">
+        <div className="card-base p-10 text-center max-w-md w-full">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-full mb-5">
             <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-3">Check your email!</h2>
-          <p className="text-slate-400 mb-6">
-            We've sent a confirmation link to <span className="text-indigo-400 font-medium">{email}</span>.
+          <h2 className="text-2xl font-bold text-brand-text dark:text-white mb-3">Check your email!</h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            We've sent a confirmation link to <span className="text-brand-primary font-medium">{email}</span>.
             Click the link to activate your account.
           </p>
           <Link
             to="/login"
-            className="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-500 hover:to-purple-500 transition-all"
+            className="inline-block px-6 py-3 bg-brand-primary hover:bg-brand-navy text-white font-semibold rounded-xl shadow-md transition-all"
           >
             Go to Login
           </Link>
@@ -87,7 +97,7 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-transparent transition-colors duration-200 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 flex items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Background blobs - Dark mode only */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden dark:block">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600 rounded-full opacity-10 blur-3xl" />
@@ -97,7 +107,7 @@ const Register: React.FC = () => {
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-navy rounded-2xl shadow-lg mb-4">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -108,7 +118,7 @@ const Register: React.FC = () => {
         </div>
 
         {/* Card */}
-        <div className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-8 shadow-xl dark:shadow-2xl">
+        <div className="card-base p-8">
           {error && (
             <div className="mb-5 flex items-center gap-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl px-4 py-3">
               <svg className="w-5 h-5 text-red-500 dark:text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -119,6 +129,39 @@ const Register: React.FC = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            
+            {/* Role Selection */}
+            <div className="flex gap-4 p-1 bg-slate-100 dark:bg-slate-900 rounded-xl mb-6">
+              <button
+                type="button"
+                onClick={() => setRole('student')}
+                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+                  role === 'student' 
+                    ? 'bg-white dark:bg-slate-800 text-brand-text dark:text-white shadow-sm' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                }`}
+              >
+                🎓 I am a Student
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('teacher')}
+                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+                  role === 'teacher' 
+                    ? 'bg-white dark:bg-slate-800 text-brand-text dark:text-white shadow-sm' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                }`}
+              >
+                👨‍🏫 I am a Teacher
+              </button>
+            </div>
+
+            {role === 'teacher' && (
+              <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 border border-brand-primary/20 rounded-xl mb-4 text-sm text-brand-navy dark:text-indigo-200">
+                Teacher accounts require admin approval before you can manage content. Please provide your verifiable details.
+              </div>
+            )}
+
             {/* Full Name */}
             <div>
               <label htmlFor="register-name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -130,7 +173,7 @@ const Register: React.FC = () => {
                 value={fullName}
                 onChange={e => setFullName(e.target.value)}
                 placeholder="Your name"
-                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 required
               />
             </div>
@@ -146,11 +189,67 @@ const Register: React.FC = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 autoComplete="email"
                 required
               />
             </div>
+
+            {/* Teacher Specific Fields */}
+            {role === 'teacher' && (
+              <>
+                <div>
+                  <label htmlFor="register-phone" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    id="register-phone"
+                    type="tel"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    placeholder="Your contact number"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                    required={role === 'teacher'}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="register-school" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    School Name & District
+                  </label>
+                  <input
+                    id="register-school"
+                    type="text"
+                    value={schoolName}
+                    onChange={e => setSchoolName(e.target.value)}
+                    placeholder="e.g. ZPHS High School, Hyderabad"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                    required={role === 'teacher'}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="register-subject" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Subject You Teach
+                  </label>
+                  <select
+                    id="register-subject"
+                    value={subject}
+                    onChange={e => setSubject(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 text-brand-text dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-primary transition appearance-none"
+                    required={role === 'teacher'}
+                  >
+                    <option value="" disabled>Select a subject</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Science">Science</option>
+                    <option value="Social Studies">Social Studies</option>
+                    <option value="English">English</option>
+                    <option value="Telugu">Telugu</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
+                  </select>
+                </div>
+              </>
+            )}
 
             {/* Password */}
             <div>
@@ -164,7 +263,7 @@ const Register: React.FC = () => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 pr-12 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-brand-border dark:border-slate-700 rounded-xl px-4 py-3 pr-12 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                   required
                 />
                 <button
@@ -213,10 +312,10 @@ const Register: React.FC = () => {
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
-                className={`w-full bg-slate-50 dark:bg-white/5 border rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:border-transparent transition ${
+                className={`w-full bg-slate-50 dark:bg-slate-900 border rounded-xl px-4 py-3 text-brand-text dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:border-transparent transition ${
                   confirmPassword && confirmPassword !== password
                     ? 'border-red-500/50 focus:ring-red-500'
-                    : 'border-slate-200 dark:border-white/10 focus:ring-indigo-500'
+                    : 'border-brand-border dark:border-slate-700 focus:ring-brand-primary'
                 }`}
                 required
               />
@@ -230,7 +329,7 @@ const Register: React.FC = () => {
               id="register-submit"
               type="submit"
               disabled={loading}
-              className="w-full py-3 mt-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 mt-2 bg-brand-primary hover:bg-brand-navy text-white font-semibold rounded-xl transition-all duration-200 shadow-md shadow-brand-primary/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -245,7 +344,7 @@ const Register: React.FC = () => {
 
           <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition">
+            <Link to="/login" className="text-brand-primary hover:text-brand-navy dark:text-brand-primary dark:hover:text-white font-medium transition">
               Sign in
             </Link>
           </p>

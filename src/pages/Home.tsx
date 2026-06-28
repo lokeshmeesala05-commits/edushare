@@ -11,17 +11,6 @@ interface FeaturedNote {
   downloads_count: number;
 }
 
-const subjectColors: Record<string, string> = {
-  Mathematics:     'from-blue-500 to-blue-600',
-  Science:         'from-green-500 to-emerald-600',
-  'Social Studies':'from-orange-500 to-amber-600',
-  Telugu:          'from-red-500 to-rose-600',
-  English:         'from-purple-500 to-violet-600',
-  Physics:         'from-cyan-500 to-sky-600',
-  Chemistry:       'from-yellow-500 to-orange-500',
-  Biology:         'from-teal-500 to-green-600',
-};
-
 const subjectIcons: Record<string, string> = {
   Mathematics: '∑', Science: '⚗', 'Social Studies': '🌍',
   Telugu: 'అ', English: 'A', Physics: '⚡', Chemistry: '🧪', Biology: '🧬',

@@ -17,15 +17,17 @@ interface TeacherData {
 
 const ManageUsers: React.FC = () => {
   const { user } = useAuth();
-  const [tab, setTab] = useState<'pending' | 'approved'>('pending');
+  const [tab, setTab] = useState<'pending' | 'approved' | 'admins'>('pending');
   const [pendingTeachers, setPendingTeachers] = useState<TeacherData[]>([]);
   const [approvedTeachers, setApprovedTeachers] = useState<TeacherData[]>([]);
+  const [adminUsers, setAdminUsers] = useState<TeacherData[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
     if (tab === 'pending') fetchPendingTeachers();
     if (tab === 'approved') fetchApprovedTeachers();
+    if (tab === 'admins') fetchAdmins();
   }, [tab]);
 
   const fetchPendingTeachers = async () => {
@@ -49,6 +51,19 @@ const ManageUsers: React.FC = () => {
       setApprovedTeachers(data || []);
     } catch (err) {
       console.error('Error fetching approved teachers:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAdmins = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.rpc('get_admins');
+      if (error) throw error;
+      setAdminUsers(data || []);
+    } catch (err) {
+      console.error('Error fetching admins:', err);
     } finally {
       setLoading(false);
     }
@@ -85,6 +100,24 @@ const ManageUsers: React.FC = () => {
     } catch (err: any) {
       console.error('Error promoting to admin:', err);
       alert("Failed to promote: " + err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDemoteAdmin = async (adminId: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to remove Admin privileges from ${name}? They will be demoted back to a Teacher.`)) return;
+    
+    setActionLoading(adminId);
+    try {
+      const { error } = await supabase.rpc('demote_admin', { target_user_id: adminId });
+      if (error) throw error;
+      
+      setAdminUsers(prev => prev.filter(t => t.id !== adminId));
+      alert(`${name} is no longer an Admin.`);
+    } catch (err: any) {
+      console.error('Error demoting admin:', err);
+      alert("Failed to demote: " + err.message);
     } finally {
       setActionLoading(null);
     }
@@ -147,21 +180,31 @@ const ManageUsers: React.FC = () => {
         >
           ✅ Approved Teachers
         </button>
+        <button
+          onClick={() => setTab('admins')}
+          className={`px-6 py-2 text-sm font-medium rounded-lg transition-all ${
+            tab === 'admins' 
+              ? 'bg-white dark:bg-slate-800 text-brand-text dark:text-white shadow-sm' 
+              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+          }`}
+        >
+          👑 Admins
+        </button>
       </div>
 
       <div className="card-base p-6">
         <h2 className="text-lg font-bold text-brand-text dark:text-white mb-4">
-          {tab === 'pending' ? 'Pending Teacher Requests' : 'Active Teachers'}
+          {tab === 'pending' ? 'Pending Teacher Requests' : tab === 'approved' ? 'Active Teachers' : 'Administrators'}
         </h2>
         
         {loading ? (
           <div className="flex justify-center py-8">
             <div className="w-8 h-8 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
           </div>
-        ) : (tab === 'pending' ? pendingTeachers : approvedTeachers).length === 0 ? (
+        ) : (tab === 'pending' ? pendingTeachers : tab === 'approved' ? approvedTeachers : adminUsers).length === 0 ? (
           <div className="text-center py-10 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
             <p className="text-slate-500 dark:text-slate-400">
-              {tab === 'pending' ? 'No pending teacher requests at the moment.' : 'No active teachers found.'}
+              {tab === 'pending' ? 'No pending teacher requests at the moment.' : tab === 'approved' ? 'No active teachers found.' : 'No other administrators found.'}
             </p>
           </div>
         ) : (
@@ -178,7 +221,7 @@ const ManageUsers: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {(tab === 'pending' ? pendingTeachers : approvedTeachers).map((t) => (
+                {(tab === 'pending' ? pendingTeachers : tab === 'approved' ? approvedTeachers : adminUsers).map((t) => (
                   <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
                     <td className="px-4 py-4 font-medium text-brand-text dark:text-white">
                       {t.raw_user_meta_data?.full_name || 'N/A'}
@@ -216,13 +259,24 @@ const ManageUsers: React.FC = () => {
                             {actionLoading === t.id ? 'Processing...' : 'Make Admin'}
                           </button>
                         )}
-                        <button
-                          onClick={() => handleDelete(t.id, t.raw_user_meta_data?.full_name || 'this user')}
-                          disabled={actionLoading === t.id}
-                          className="px-3 py-1.5 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white border border-red-200 dark:border-red-500/20 text-xs font-medium rounded-lg transition-all disabled:opacity-50"
-                        >
-                          {actionLoading === t.id ? 'Processing...' : 'Delete'}
-                        </button>
+                        {tab === 'admins' && t.id !== user?.id && (
+                          <button
+                            onClick={() => handleDemoteAdmin(t.id, t.raw_user_meta_data?.full_name || 'this user')}
+                            disabled={actionLoading === t.id}
+                            className="px-3 py-1.5 bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 hover:bg-orange-500 hover:text-white border border-orange-200 dark:border-orange-500/20 text-xs font-medium rounded-lg transition-all disabled:opacity-50"
+                          >
+                            {actionLoading === t.id ? 'Processing...' : 'Remove Admin'}
+                          </button>
+                        )}
+                        {t.id !== user?.id && (
+                          <button
+                            onClick={() => handleDelete(t.id, t.raw_user_meta_data?.full_name || 'this user')}
+                            disabled={actionLoading === t.id}
+                            className="px-3 py-1.5 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white border border-red-200 dark:border-red-500/20 text-xs font-medium rounded-lg transition-all disabled:opacity-50"
+                          >
+                            {actionLoading === t.id ? 'Processing...' : 'Delete'}
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

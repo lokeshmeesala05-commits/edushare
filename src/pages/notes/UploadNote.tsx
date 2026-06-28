@@ -73,7 +73,7 @@ const UploadNote: React.FC = () => {
       const { data: { publicUrl } } = supabase.storage.from('notes').getPublicUrl(filePath);
 
       setProgress(85);
-      const isAutoApproved = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'teacher';
+      const isAutoApproved = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'super_admin' || user?.user_metadata?.role === 'teacher';
       
       const { error: insertError } = await supabase.from('notes').insert([{
         title,

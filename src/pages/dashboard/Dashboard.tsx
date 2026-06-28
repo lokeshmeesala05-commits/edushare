@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
   const [rejectReason, setRejectReason] = useState('');
   const [pendingSubjectFilter, setPendingSubjectFilter] = useState<string>('all');
 
-  const isAdmin = user?.user_metadata?.role === 'admin';
+  const isAdmin = user?.user_metadata?.role === 'admin' || user?.user_metadata?.role === 'super_admin';
   const isTeacher = user?.user_metadata?.role === 'teacher';
   const teacherSubject = user?.user_metadata?.subject;
 

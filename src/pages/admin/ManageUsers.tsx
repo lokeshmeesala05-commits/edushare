@@ -142,13 +142,15 @@ const ManageUsers: React.FC = () => {
     }
   };
 
-  if (!user || user.user_metadata?.role !== 'admin') {
+  if (!user || (user.user_metadata?.role !== 'admin' && user.user_metadata?.role !== 'super_admin')) {
     return (
       <div className="p-8 text-center text-red-500">
         You do not have permission to view this page.
       </div>
     );
   }
+
+  const isSuperAdmin = user.user_metadata?.role === 'super_admin';
 
   return (
     <div className="space-y-6">
@@ -180,16 +182,18 @@ const ManageUsers: React.FC = () => {
         >
           ✅ Approved Teachers
         </button>
-        <button
-          onClick={() => setTab('admins')}
-          className={`px-6 py-2 text-sm font-medium rounded-lg transition-all ${
-            tab === 'admins' 
-              ? 'bg-white dark:bg-slate-800 text-brand-text dark:text-white shadow-sm' 
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-          }`}
-        >
-          👑 Admins
-        </button>
+        {isSuperAdmin && (
+          <button
+            onClick={() => setTab('admins')}
+            className={`px-6 py-2 text-sm font-medium rounded-lg transition-all ${
+              tab === 'admins' 
+                ? 'bg-white dark:bg-slate-800 text-brand-text dark:text-white shadow-sm' 
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+            }`}
+          >
+            👑 Admins
+          </button>
+        )}
       </div>
 
       <div className="card-base p-6">
@@ -250,7 +254,7 @@ const ManageUsers: React.FC = () => {
                             {actionLoading === t.id ? 'Approving...' : 'Approve'}
                           </button>
                         )}
-                        {tab === 'approved' && (
+                        {tab === 'approved' && isSuperAdmin && (
                           <button
                             onClick={() => handleMakeAdmin(t.id, t.raw_user_meta_data?.full_name || 'this user')}
                             disabled={actionLoading === t.id}
@@ -259,7 +263,7 @@ const ManageUsers: React.FC = () => {
                             {actionLoading === t.id ? 'Processing...' : 'Make Admin'}
                           </button>
                         )}
-                        {tab === 'admins' && t.id !== user?.id && (
+                        {tab === 'admins' && isSuperAdmin && t.id !== user?.id && (
                           <button
                             onClick={() => handleDemoteAdmin(t.id, t.raw_user_meta_data?.full_name || 'this user')}
                             disabled={actionLoading === t.id}
@@ -268,7 +272,7 @@ const ManageUsers: React.FC = () => {
                             {actionLoading === t.id ? 'Processing...' : 'Remove Admin'}
                           </button>
                         )}
-                        {t.id !== user?.id && (
+                        {isSuperAdmin && t.id !== user?.id && (
                           <button
                             onClick={() => handleDelete(t.id, t.raw_user_meta_data?.full_name || 'this user')}
                             disabled={actionLoading === t.id}

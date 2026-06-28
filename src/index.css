@@ -12,7 +12,10 @@
 html:not(.dark) body,
 html:not(.dark) .min-h-screen,
 html:not(.dark) [class*="bg-slate-950"],
-html:not(.dark) [class*="bg-slate-900"] {
+html:not(.dark) [class*="bg-slate-900"],
+html:not(.dark) [class*="from-slate-900"],
+html:not(.dark) [class*="via-indigo-950"],
+html:not(.dark) [class*="bg-gradient-to-br"] {
   background-color: #fdfbf7 !important; /* Warm ivory cream background */
   background-image: none !important; /* Disable dark gradients */
   color: #1c2434 !important; /* Dark charcoal text */
@@ -37,13 +40,28 @@ html:not(.dark) .text-white {
   color: #1a2332 !important; /* Deep charcoal for normal white text */
 }
 
-/* Ensure button white texts remain white */
-html:not(.dark) button.text-white,
-html:not(.dark) a.text-white,
-html:not(.dark) .bg-indigo-600 .text-white,
-html:not(.dark) .bg-indigo-600 *,
-html:not(.dark) .bg-gradient-to-r .text-white,
-html:not(.dark) .bg-gradient-to-r * {
+/* Ensure button/link white texts remain white on colored backgrounds */
+html:not(.dark) [class*="bg-indigo-"] > *,
+html:not(.dark) [class*="bg-gradient-to-r"] > *,
+html:not(.dark) [class*="bg-red-"] > *,
+html:not(.dark) [class*="bg-green-"] > *,
+html:not(.dark) [class*="bg-orange-"] > *,
+html:not(.dark) button[class*="bg-indigo"],
+html:not(.dark) button[class*="bg-red"],
+html:not(.dark) a[class*="bg-indigo"],
+html:not(.dark) a[class*="bg-gradient"] {
+  color: #ffffff !important;
+}
+/* Keep gradient card header text white */
+html:not(.dark) [class*="from-blue-"] *,
+html:not(.dark) [class*="from-green-"] *,
+html:not(.dark) [class*="from-orange-"] *,
+html:not(.dark) [class*="from-red-"] *,
+html:not(.dark) [class*="from-purple-"] *,
+html:not(.dark) [class*="from-cyan-"] *,
+html:not(.dark) [class*="from-yellow-"] *,
+html:not(.dark) [class*="from-teal-"] *,
+html:not(.dark) [class*="from-emerald-"] * {
   color: #ffffff !important;
 }
 

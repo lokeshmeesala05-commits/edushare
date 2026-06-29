@@ -283,7 +283,7 @@ const BrowseNotes: React.FC = () => {
             </div>
             <Link
               to="/upload"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/25 text-sm self-start sm:self-auto"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium rounded-xl transition-all shadow-lg shadow-blue-500/25 text-sm self-start sm:self-auto"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -414,7 +414,7 @@ const BrowseNotes: React.FC = () => {
         {/* ── Loading ── */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
-            <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
             <p className="text-slate-400 text-sm">Loading notes…</p>
           </div>
         )}
@@ -442,7 +442,7 @@ const BrowseNotes: React.FC = () => {
               </button>
               <button
                 onClick={() => setRequestModalOpen(true)}
-                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/25"
+                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-blue-500/25"
               >
                 Request this note
               </button>

@@ -186,7 +186,7 @@ const Navbar: React.FC = () => {
             {!user && (
               <>
                 <Link to="/login" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Log in</Link>
-                <Link to="/register" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-white/5 rounded-lg">Sign up</Link>
+                <Link to="/register" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-white/5 rounded-lg">Sign up</Link>
               </>
             )}
           </div>

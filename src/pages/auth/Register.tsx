@@ -104,7 +104,7 @@ const Register: React.FC = () => {
       {/* Background blobs - Dark mode only */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden dark:block">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600 rounded-full opacity-10 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-10 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600 rounded-full opacity-10 blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md">
@@ -160,7 +160,7 @@ const Register: React.FC = () => {
             </div>
 
             {role === 'teacher' && (
-              <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 border border-brand-primary/20 rounded-xl mb-4 text-sm text-brand-navy dark:text-indigo-200">
+              <div className="p-4 bg-brand-primary/5 dark:bg-brand-primary/10 border border-brand-primary/20 rounded-xl mb-4 text-sm text-brand-navy dark:text-blue-200">
                 Teacher accounts require admin approval before you can manage content. Please provide your verifiable details.
               </div>
             )}

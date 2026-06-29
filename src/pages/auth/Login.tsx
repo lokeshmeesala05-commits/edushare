@@ -35,7 +35,7 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-brand-bg dark:bg-slate-950 transition-colors duration-300 flex items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Background blobs - Dark mode only */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none hidden dark:block">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full opacity-10 blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-600 rounded-full opacity-10 blur-3xl" />
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600 rounded-full opacity-10 blur-3xl" />
       </div>
 

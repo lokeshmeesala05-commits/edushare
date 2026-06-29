@@ -23,7 +23,7 @@ const FEATURES = [
     icon: '🎤',
     title: 'Voice Search',
     desc: 'Speak in Telugu or English to instantly find notes without typing a single letter.',
-    gradient: 'from-indigo-500 to-purple-600',
+    gradient: 'from-blue-500 to-blue-600',
   },
   {
     icon: '📥',
@@ -41,7 +41,7 @@ const FEATURES = [
     icon: '🤖',
     title: 'AI Tutor (EduBot)',
     desc: 'Chat with our smart AI. It reads your PDFs and answers your questions in English and Telugu.',
-    gradient: 'from-blue-500 to-cyan-600',
+    gradient: 'from-blue-400 to-blue-500',
   },
 ];
 
@@ -134,11 +134,11 @@ const Home: React.FC = () => {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
               Learning for Everyone
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-bold shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-bold shadow-sm">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               AI Powered Learning
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-700 dark:text-purple-300 text-xs sm:text-sm font-bold shadow-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 text-xs sm:text-sm font-bold shadow-sm">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
               Free Downloads
             </span>
@@ -146,7 +146,7 @@ const Home: React.FC = () => {
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-brand-text dark:text-white mb-4 sm:mb-6 leading-tight">
             Education for <br className="hidden lg:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-x">everyone, everywhere.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 animate-gradient-x">everyone, everywhere.</span>
           </h1>
           
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mb-8 sm:mb-10 leading-relaxed font-medium">
@@ -154,8 +154,8 @@ const Home: React.FC = () => {
           </p>
 
           <form onSubmit={handleSearch} className="relative w-full max-w-xl mb-8 sm:mb-10 group z-10">
-            <div className="relative flex flex-col sm:flex-row items-center bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-indigo-500/30 rounded-2xl sm:rounded-[2rem] p-3 shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgb(99,102,241,0.15)] focus-within:ring-4 focus-within:ring-indigo-500/30 focus-within:border-indigo-500 transition-all duration-300 gap-2 sm:gap-0">
-              <div className="hidden sm:block pl-5 pr-3 text-indigo-500">
+            <div className="relative flex flex-col sm:flex-row items-center bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-blue-500/30 rounded-2xl sm:rounded-[2rem] p-3 shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgb(37,99,235,0.15)] focus-within:ring-4 focus-within:ring-blue-500/30 focus-within:border-blue-500 transition-all duration-300 gap-2 sm:gap-0">
+              <div className="hidden sm:block pl-5 pr-3 text-blue-500">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </div>
               <input
@@ -166,10 +166,10 @@ const Home: React.FC = () => {
                 className="w-full sm:flex-1 bg-transparent border-none px-4 sm:px-2 py-3 sm:py-0 text-brand-text dark:text-white placeholder-slate-400 font-medium outline-none focus:ring-0 text-base"
               />
               <div className="flex items-center gap-3 w-full sm:w-auto px-2 sm:px-0">
-                <button type="button" onClick={handleVoiceSearch} className="flex-1 sm:flex-none flex justify-center items-center p-3 sm:p-3 bg-slate-100/80 dark:bg-slate-800/80 text-indigo-600 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-xl sm:rounded-[1.5rem] transition-colors shadow-sm border border-slate-200 dark:border-slate-700" title="Voice Search">
+                <button type="button" onClick={handleVoiceSearch} className="flex-1 sm:flex-none flex justify-center items-center p-3 sm:p-3 bg-slate-100/80 dark:bg-slate-800/80 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-xl sm:rounded-[1.5rem] transition-colors shadow-sm border border-slate-200 dark:border-slate-700" title="Voice Search">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
                 </button>
-                <button type="submit" className="flex-1 sm:flex-none flex justify-center items-center px-8 py-3.5 sm:py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl sm:rounded-[1.5rem] transition-all shadow-lg hover:shadow-indigo-500/25 text-lg">
+                <button type="submit" className="flex-1 sm:flex-none flex justify-center items-center px-8 py-3.5 sm:py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold rounded-xl sm:rounded-[1.5rem] transition-all shadow-lg hover:shadow-blue-500/25 text-lg">
                   Search
                 </button>
               </div>
@@ -288,7 +288,7 @@ const Home: React.FC = () => {
       {/* Features */}
       <section ref={featuresRef} className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative">
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -z-10" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl -z-10" />
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
             <h2 className="text-4xl sm:text-5xl font-extrabold text-brand-text dark:text-white mb-6">Why EduShare?</h2>
@@ -316,8 +316,8 @@ const Home: React.FC = () => {
 
       {/* CTA */}
       <section ref={ctaRef} className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative">
-        <div className="absolute top-0 right-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10" />
-        <div className="max-w-5xl mx-auto bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[3rem] p-10 sm:p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl">
+        <div className="absolute top-0 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10" />
+        <div className="max-w-5xl mx-auto bg-gradient-to-r from-blue-600 to-blue-500 rounded-[3rem] p-10 sm:p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl">
           
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           
@@ -332,10 +332,10 @@ const Home: React.FC = () => {
 
           <div className="flex-1 text-center z-10">
             <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 drop-shadow-md tracking-tight">📂 Share Your Knowledge</h2>
-            <p className="text-indigo-100 text-lg sm:text-xl mb-10 max-w-lg mx-auto font-medium leading-relaxed">
+            <p className="text-blue-100 text-lg sm:text-xl mb-10 max-w-lg mx-auto font-medium leading-relaxed">
               Help thousands of students by sharing your notes, question papers, and study materials.
             </p>
-            <Link to="/upload" className="inline-flex items-center justify-center px-10 py-5 bg-white text-indigo-600 font-black rounded-2xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-2xl gap-3 text-xl border-4 border-white/20 hover:border-white/40">
+            <Link to="/upload" className="inline-flex items-center justify-center px-10 py-5 bg-white text-blue-600 font-black rounded-2xl hover:bg-blue-50 hover:scale-105 transition-all shadow-2xl gap-3 text-xl border-4 border-white/20 hover:border-white/40">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
               Upload Materials Now
             </Link>

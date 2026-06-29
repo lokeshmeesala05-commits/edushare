@@ -48,7 +48,7 @@ function App() {
             </div>
           )}
           <Navbar />
-          <main className="flex-grow overflow-x-hidden">
+          <main className="flex-grow overflow-x-hidden w-full min-w-0">
             <Routes>
               {/* Public routes */}
               <Route path="/" element={<Home />} />

@@ -5,10 +5,12 @@
 @layer base {
   body {
     @apply antialiased text-slate-900 dark:text-slate-100 transition-colors duration-300;
-    background-color: #ffffff;
+    background-color: #f8fafc;
     background-image: 
-      radial-gradient(circle at 15% 50%, rgba(219, 234, 254, 0.4), transparent 25%),
-      radial-gradient(circle at 85% 30%, rgba(233, 213, 255, 0.4), transparent 25%);
+      radial-gradient(circle at 15% 10%, rgba(219, 234, 254, 0.5), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(233, 213, 255, 0.4), transparent 40%),
+      radial-gradient(circle at 50% 80%, rgba(254, 226, 226, 0.3), transparent 50%);
+    background-attachment: fixed;
   }
   .dark body {
     background-color: #020617;
@@ -21,14 +23,6 @@
 /* Clean Base Styles */
 html, body {
   @apply antialiased min-h-screen transition-colors duration-300;
-}
-
-body {
-  @apply bg-brand-bg text-brand-text;
-}
-
-html.dark body {
-  @apply bg-slate-950 text-slate-50;
 }
 
 /* Card Base Styles */

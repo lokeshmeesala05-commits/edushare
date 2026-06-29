@@ -123,14 +123,10 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 w-full bg-brand-bg dark:bg-slate-950 transition-colors duration-300">
+    <div className="flex-1 w-full bg-transparent transition-colors duration-300">
       
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12 overflow-hidden">
-        {/* Vibrant animated background blobs */}
-        <div className="absolute top-0 right-0 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 blur-[80px] sm:blur-[120px] rounded-full pointer-events-none animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-0 left-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-gradient-to-tr from-cyan-500/20 via-blue-500/20 to-emerald-500/20 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-        
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left z-10 w-full">
           
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">

@@ -145,7 +145,7 @@ const Home: React.FC = () => {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-brand-text dark:text-white mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold tracking-tight text-brand-text dark:text-white mb-4 sm:mb-6 leading-tight">
             Education for <br className="hidden lg:block"/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 animate-gradient-x">everyone, everywhere.</span>
           </h1>

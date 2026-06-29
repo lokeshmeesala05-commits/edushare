@@ -127,8 +127,8 @@ const Home: React.FC = () => {
     <div className="flex-1 w-full bg-transparent transition-colors duration-300">
       
       {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
-        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left z-10 w-full">
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 md:pt-24 md:pb-24 max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12">
+        <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left z-10 w-full">
           
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold shadow-sm">
@@ -146,7 +146,7 @@ const Home: React.FC = () => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-brand-text dark:text-white mb-4 sm:mb-6 leading-tight">
-            Education for <br className="hidden lg:block"/>
+            Education for <br className="hidden md:block"/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 animate-gradient-x">everyone, everywhere.</span>
           </h1>
           
@@ -177,7 +177,7 @@ const Home: React.FC = () => {
             </div>
           </form>
 
-          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 relative z-10 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 relative z-10 w-full sm:w-auto">
             <Link to="/notes" className="w-full sm:w-auto justify-center px-8 py-3.5 bg-brand-text dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-brand-text font-extrabold rounded-xl sm:rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center gap-2">
               📚 Browse Library
             </Link>
@@ -189,7 +189,7 @@ const Home: React.FC = () => {
         </div>
         
         {/* Hero Educational Illustration */}
-        <div className="flex-1 w-full max-w-md sm:max-w-lg lg:max-w-none relative z-10 mt-12 lg:mt-0">
+        <div className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-none relative z-10 mt-12 md:mt-0">
            <div className="relative p-4 md:p-6 flex justify-center items-center">
              <HeroIllustration className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
            </div>

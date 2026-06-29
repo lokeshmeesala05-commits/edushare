@@ -33,11 +33,11 @@ export const HeroIllustration: React.FC<{ className?: string }> = ({ className =
       <line x1="330" y1="130" x2="340" y2="200" stroke="#fbbf24" strokeWidth="4" />
       <circle cx="340" cy="200" r="8" fill="#f59e0b" />
       {/* Cap Base */}
-      <path d="M180,180 L320,180 L300,225 L200,225 Z" className="fill-slate-800 dark:fill-slate-900" />
+      <path d="M180,180 L320,180 L300,225 L200,225 Z" className="fill-slate-800 dark:fill-slate-700" />
       {/* Cap Top (Diamond) */}
-      <path d="M250,110 L370,150 L250,190 L130,150 Z" className="fill-slate-900 dark:fill-black" />
+      <path d="M250,110 L370,150 L250,190 L130,150 Z" className="fill-slate-900 dark:fill-slate-800" />
       {/* Cap Button */}
-      <circle cx="250" cy="150" r="6" className="fill-slate-700" />
+      <circle cx="250" cy="150" r="6" className="fill-slate-700 dark:fill-slate-600" />
       
       {/* Sparkles/Stars */}
       <circle cx="90" cy="120" r="5" className="fill-amber-400 animate-pulse" style={{ animationDelay: '0s' }} />

@@ -127,7 +127,7 @@ const Home: React.FC = () => {
       
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
-        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left z-10 w-full">
+        <div className="flex-1 flex flex-col items-center text-center z-10 w-full">
           
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold shadow-sm">
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
             </div>
           </form>
 
-          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 relative z-10 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10 w-full sm:w-auto">
             <Link to="/notes" className="w-full sm:w-auto justify-center px-8 py-3.5 bg-brand-text dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-brand-text font-extrabold rounded-xl sm:rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center gap-2">
               📚 Browse Library
             </Link>
@@ -187,15 +187,7 @@ const Home: React.FC = () => {
           </div>
         </div>
         
-        {/* Hero Educational Illustration */}
-        <div className="flex-1 w-full max-w-lg lg:max-w-none relative z-10 hidden md:block">
-           <div className="relative p-4 md:p-6 flex justify-center items-center">
-             <img src="/hero-illustration.png" alt="Education Illustration" className="w-full max-w-2xl h-auto aspect-video object-cover rounded-3xl shadow-2xl animate-float-delayed relative z-10 border border-white/20" />
-             {/* Vibrant Background blobs for illustration */}
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-pink-500/30 to-orange-500/30 rounded-full blur-3xl -z-10 animate-pulse" style={{ animationDuration: '3s' }} />
-             <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-blue-500/40 to-cyan-500/40 rounded-full blur-2xl -z-10 animate-bounce" style={{ animationDuration: '5s' }} />
-           </div>
-        </div>
+
       </section>
 
       {/* Stats Section */}

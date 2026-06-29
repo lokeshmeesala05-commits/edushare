@@ -2,7 +2,7 @@ import React from 'react';
 
 export const HeroIllustration: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%" className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 80 440 310" width="100%" height="100%" className={className}>
       {/* Decorative background blob - adapts to light/dark mode */}
       <path 
         className="fill-blue-100 dark:fill-blue-900/30 transition-colors duration-300"

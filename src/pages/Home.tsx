@@ -190,7 +190,7 @@ const Home: React.FC = () => {
         {/* Hero Educational Illustration */}
         <div className="flex-1 w-full max-w-lg lg:max-w-none relative z-10 hidden lg:block">
            <div className="relative p-4 md:p-6 flex justify-center items-center">
-             <img src="/hero-books.png" alt="Education Illustration" className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
+             <img src="/hero-books-v3.png" alt="Education Illustration" className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
            </div>
         </div>
 

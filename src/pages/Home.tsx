@@ -124,7 +124,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 w-full bg-transparent transition-colors duration-300">
+    <div className="flex-1 w-full bg-transparent transition-colors duration-300 overflow-x-hidden">
       
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
@@ -191,7 +191,7 @@ const Home: React.FC = () => {
         {/* Hero Educational Illustration */}
         <div className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-none relative z-10 mt-12 md:mt-0 flex justify-center">
            <div className="relative p-4 md:p-6 w-full flex justify-center items-center">
-             <HeroIllustration className="w-full max-w-[120%] sm:max-w-[130%] md:max-w-[140%] h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10 transform scale-110 sm:scale-125 md:scale-150" />
+             <HeroIllustration className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
            </div>
         </div>
 

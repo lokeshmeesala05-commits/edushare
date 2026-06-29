@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import heroIllustration from '../assets/hero.png';
+import { HeroIllustration } from '../components/HeroIllustration';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface FeaturedNote {
@@ -191,7 +191,7 @@ const Home: React.FC = () => {
         {/* Hero Educational Illustration */}
         <div className="flex-1 w-full max-w-lg lg:max-w-none relative z-10 hidden lg:block">
            <div className="relative p-4 md:p-6 flex justify-center items-center">
-             <img src={heroIllustration} alt="Education Illustration" className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
+             <HeroIllustration className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
            </div>
         </div>
 

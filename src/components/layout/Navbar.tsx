@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -7,7 +7,27 @@ const Navbar: React.FC = () => {
   const { user, signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isActive = (path: string) => {
+    if (path === '/' && location.pathname !== '/') return false;
+    return location.pathname.startsWith(path);
+  };
+
+  const linkClass = (path: string) => 
+    `px-3 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ${
+      isActive(path) 
+        ? 'text-brand-primary bg-brand-primary/10 dark:bg-white/10' 
+        : 'text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5'
+    }`;
+
+  const mobileLinkClass = (path: string) => 
+    `block px-3 py-2 text-sm rounded-lg ${
+      isActive(path)
+        ? 'text-brand-primary bg-brand-primary/10 dark:bg-white/10 font-bold'
+        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 font-medium'
+    }`;
 
   const handleSignOut = async () => {
     await signOut();
@@ -38,28 +58,28 @@ const Navbar: React.FC = () => {
 
             {/* Desktop Nav Links */}
             <div className="hidden md:flex items-center gap-4">
-              <Link to="/" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+              <Link to="/" className={linkClass('/')}>
                 Home
               </Link>
-              <Link to="/notes" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+              <Link to="/notes" className={linkClass('/notes')}>
                 Browse Notes
               </Link>
               {user && (
                 <>
-                  <Link to="/upload" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+                  <Link to="/upload" className={linkClass('/upload')}>
                     Upload
                   </Link>
-                  <Link to="/dashboard" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+                  <Link to="/dashboard" className={linkClass('/dashboard')}>
                     Dashboard
                   </Link>
-                  <Link to="/student/downloads" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+                  <Link to="/student/downloads" className={linkClass('/student/downloads')}>
                     Downloads
                   </Link>
-                  <Link to="/student/requests" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+                  <Link to="/student/requests" className={linkClass('/student/requests')}>
                     Requests
                   </Link>
                   {isAdmin && (
-                    <Link to="/admin/users" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
+                    <Link to="/admin/users" className={linkClass('/admin/users')}>
                       Manage Users
                     </Link>
                   )}
@@ -139,17 +159,17 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu */}
         {mobileOpen && (
           <div className="md:hidden border-t border-slate-200 dark:border-white/10 py-3 space-y-1 bg-white dark:bg-slate-900 px-4 -mx-4 shadow-lg">
-            <Link to="/" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Home</Link>
-            <Link to="/notes" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Browse Notes</Link>
+            <Link to="/" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/')}>Home</Link>
+            <Link to="/notes" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/notes')}>Browse Notes</Link>
             {user && (
               <>
-                <Link to="/profile" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Profile</Link>
-                <Link to="/upload" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Upload</Link>
-                <Link to="/dashboard" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Dashboard</Link>
-                <Link to="/student/downloads" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Downloads</Link>
-                <Link to="/student/requests" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Requests</Link>
+                <Link to="/profile" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/profile')}>Profile</Link>
+                <Link to="/upload" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/upload')}>Upload</Link>
+                <Link to="/dashboard" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/dashboard')}>Dashboard</Link>
+                <Link to="/student/downloads" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/student/downloads')}>Downloads</Link>
+                <Link to="/student/requests" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/student/requests')}>Requests</Link>
                 {isAdmin && (
-                  <Link to="/admin/users" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg">Manage Users</Link>
+                  <Link to="/admin/users" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/admin/users')}>Manage Users</Link>
                 )}
                 <button onClick={handleSignOut} className="block w-full text-left px-3 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-white/5 rounded-lg">Sign out</button>
               </>

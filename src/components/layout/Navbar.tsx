@@ -37,29 +37,29 @@ const Navbar: React.FC = () => {
             </Link>
 
             {/* Desktop Nav Links */}
-            <div className="hidden md:flex items-center gap-1">
-              <Link to="/" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+            <div className="hidden md:flex items-center gap-4">
+              <Link to="/" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                 Home
               </Link>
-              <Link to="/notes" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+              <Link to="/notes" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                 Browse Notes
               </Link>
               {user && (
                 <>
-                  <Link to="/upload" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/upload" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                     Upload
                   </Link>
-                  <Link to="/dashboard" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/dashboard" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                     Dashboard
                   </Link>
-                  <Link to="/student/downloads" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/student/downloads" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                     Downloads
                   </Link>
-                  <Link to="/student/requests" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+                  <Link to="/student/requests" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                     Requests
                   </Link>
                   {isAdmin && (
-                    <Link to="/admin/users" className="px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all">
+                    <Link to="/admin/users" className="px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-primary dark:hover:text-brand-primary hover:bg-brand-primary/10 dark:hover:bg-white/5 rounded-lg transition-all duration-300">
                       Manage Users
                     </Link>
                   )}

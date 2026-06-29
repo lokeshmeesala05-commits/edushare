@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 interface FeaturedNote {
   id: string;
@@ -50,6 +51,12 @@ const Home: React.FC = () => {
   const [featuredNotes, setFeaturedNotes] = useState<FeaturedNote[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [realStats, setRealStats] = useState({ notes: 0, downloads: 0, subjects: 0, users: 0 });
+
+  // Scroll reveal hooks for sections
+  const statsRef = useScrollReveal();
+  const popularRef = useScrollReveal();
+  const featuresRef = useScrollReveal();
+  const ctaRef = useScrollReveal();
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -129,7 +136,7 @@ const Home: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold shadow-sm">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-              Trusted by Govt. Students
+              Learning for Everyone
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-bold shadow-sm">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -147,12 +154,12 @@ const Home: React.FC = () => {
           </h1>
           
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mb-8 sm:mb-10 leading-relaxed font-medium">
-            Discover free notes, textbooks & question papers. Find resources in <span className="inline-block px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20">Telugu</span> & <span className="inline-block px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold border border-blue-500/20">English</span> medium — verified by admins.
+            Discover free notes, textbooks, previous papers and AI-powered learning resources for students. Learn smarter in one place.
           </p>
 
           <form onSubmit={handleSearch} className="relative w-full max-w-xl mb-8 sm:mb-10 group z-10">
-            <div className="relative flex flex-col sm:flex-row items-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-2 border-indigo-500/20 rounded-2xl sm:rounded-full p-2 shadow-[0_8px_30px_rgb(0,0,0,0.12)] focus-within:ring-4 focus-within:ring-indigo-500/30 focus-within:border-indigo-500 transition-all gap-2 sm:gap-0">
-              <div className="hidden sm:block pl-4 pr-2 text-indigo-400">
+            <div className="relative flex flex-col sm:flex-row items-center bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-indigo-500/30 rounded-2xl sm:rounded-[2rem] p-3 shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgb(99,102,241,0.15)] focus-within:ring-4 focus-within:ring-indigo-500/30 focus-within:border-indigo-500 transition-all duration-300 gap-2 sm:gap-0">
+              <div className="hidden sm:block pl-5 pr-3 text-indigo-500">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </div>
               <input
@@ -162,11 +169,11 @@ const Home: React.FC = () => {
                 placeholder="Search '10th science'..."
                 className="w-full sm:flex-1 bg-transparent border-none px-4 sm:px-2 py-3 sm:py-0 text-brand-text dark:text-white placeholder-slate-400 font-medium outline-none focus:ring-0 text-base"
               />
-              <div className="flex items-center gap-2 w-full sm:w-auto px-2 sm:px-0">
-                <button type="button" onClick={handleVoiceSearch} className="flex-1 sm:flex-none flex justify-center items-center p-3 sm:p-2.5 bg-slate-100 dark:bg-slate-800 text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 rounded-xl sm:rounded-full transition-colors sm:mx-1 shadow-sm border border-slate-200 dark:border-slate-700" title="Voice Search">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+              <div className="flex items-center gap-3 w-full sm:w-auto px-2 sm:px-0">
+                <button type="button" onClick={handleVoiceSearch} className="flex-1 sm:flex-none flex justify-center items-center p-3 sm:p-3 bg-slate-100/80 dark:bg-slate-800/80 text-indigo-600 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-xl sm:rounded-[1.5rem] transition-colors shadow-sm border border-slate-200 dark:border-slate-700" title="Voice Search">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
                 </button>
-                <button type="submit" className="flex-1 sm:flex-none flex justify-center items-center px-6 py-3 sm:py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl sm:rounded-full transition-all shadow-lg hover:shadow-indigo-500/25">
+                <button type="submit" className="flex-1 sm:flex-none flex justify-center items-center px-8 py-3.5 sm:py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl sm:rounded-[1.5rem] transition-all shadow-lg hover:shadow-indigo-500/25 text-lg">
                   Search
                 </button>
               </div>
@@ -196,7 +203,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-16 pt-8 max-w-7xl mx-auto relative z-20">
+      <section ref={statsRef} className="px-4 sm:px-6 lg:px-8 pb-16 pt-8 max-w-7xl mx-auto relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
             { label: 'Notes Available', value: realStats.notes, icon: '📘', gradient: 'from-blue-500 to-cyan-500', shadow: 'shadow-blue-500/20' },
@@ -216,8 +223,8 @@ const Home: React.FC = () => {
       </section>
 
       {/* Popular Notes */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-24 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8">
+      <section ref={popularRef} className="px-4 sm:px-6 lg:px-8 pb-24 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10">
           <div>
             <h2 className="text-3xl font-bold text-brand-text dark:text-white flex items-center gap-2">
               🔥 Popular Notes
@@ -283,11 +290,13 @@ const Home: React.FC = () => {
       </section>
 
       {/* Features */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 bg-slate-50 dark:bg-slate-900/50">
+      <section ref={featuresRef} className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative">
+        <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -z-10" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -z-10" />
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-text dark:text-white mb-4">Why EduShare?</h2>
-            <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 font-medium">Built for government school students across Andhra Pradesh & Telangana.</p>
+          <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-brand-text dark:text-white mb-6">Why EduShare?</h2>
+            <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 font-medium">Built to empower students everywhere with seamless access to high-quality educational materials.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {FEATURES.map((feature, i) => (
@@ -310,14 +319,15 @@ const Home: React.FC = () => {
       </section>
 
       {/* CTA */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="max-w-5xl mx-auto bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
+      <section ref={ctaRef} className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative">
+        <div className="absolute top-0 right-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10" />
+        <div className="max-w-5xl mx-auto bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[3rem] p-10 sm:p-16 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 shadow-2xl">
           
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           
           <div className="w-32 sm:w-48 hidden md:block shrink-0 z-10">
-             <div className="w-full aspect-square bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-5xl sm:text-6xl shadow-inner relative border border-white/20">
-               👨‍💻
+             <div className="w-full aspect-square bg-white/10 backdrop-blur-md rounded-[2.5rem] flex items-center justify-center text-5xl sm:text-6xl shadow-inner relative border border-white/20">
+               <span className="animate-float">👨‍💻</span>
                <div className="absolute -top-4 -right-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-yellow-900 shadow-lg animate-bounce border-2 border-white">
                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                </div>
@@ -326,8 +336,8 @@ const Home: React.FC = () => {
 
           <div className="flex-1 text-center z-10">
             <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 drop-shadow-md tracking-tight">📂 Share Your Knowledge</h2>
-            <p className="text-indigo-100 text-lg mb-10 max-w-lg mx-auto font-medium leading-relaxed">
-              Help thousands of government school students learn for free. Upload your notes, question papers, and materials to make a difference.
+            <p className="text-indigo-100 text-lg sm:text-xl mb-10 max-w-lg mx-auto font-medium leading-relaxed">
+              Help thousands of students by sharing your notes, question papers, and study materials.
             </p>
             <Link to="/upload" className="inline-flex items-center justify-center px-10 py-5 bg-white text-indigo-600 font-black rounded-2xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-2xl gap-3 text-xl border-4 border-white/20 hover:border-white/40">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>

@@ -4,7 +4,17 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900;
+    @apply antialiased text-slate-900 dark:text-slate-100 transition-colors duration-300;
+    background-color: #ffffff;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(219, 234, 254, 0.4), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(233, 213, 255, 0.4), transparent 25%);
+  }
+  .dark body {
+    background-color: #020617;
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(30, 58, 138, 0.15), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(88, 28, 135, 0.15), transparent 25%);
   }
 }
 

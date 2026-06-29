@@ -126,10 +126,19 @@ const Home: React.FC = () => {
         
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left z-10 w-full">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-bold mb-6 sm:mb-8 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
-            <span className="w-2 h-2 rounded-full bg-indigo-500 absolute" />
-            <span className="ml-2">Free for all AP & TS students</span>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+              Trusted by Govt. Students
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-bold shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              AI Powered Learning
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-700 dark:text-purple-300 text-xs sm:text-sm font-bold shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              Free Downloads
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-brand-text dark:text-white mb-4 sm:mb-6 leading-tight">
@@ -178,7 +187,7 @@ const Home: React.FC = () => {
         {/* Hero Educational Illustration */}
         <div className="flex-1 w-full max-w-lg lg:max-w-none relative z-10 hidden md:block">
            <div className="relative p-4 md:p-6 flex justify-center items-center">
-             <img src="/hero-illustration.png" alt="Education Illustration" className="w-full max-w-md h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
+             <img src="/hero-illustration.png" alt="Education Illustration" className="w-full max-w-2xl h-auto aspect-video object-cover rounded-3xl shadow-2xl animate-float-delayed relative z-10 border border-white/20" />
              {/* Vibrant Background blobs for illustration */}
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-pink-500/30 to-orange-500/30 rounded-full blur-3xl -z-10 animate-pulse" style={{ animationDuration: '3s' }} />
              <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-blue-500/40 to-cyan-500/40 rounded-full blur-2xl -z-10 animate-bounce" style={{ animationDuration: '5s' }} />
@@ -190,19 +199,17 @@ const Home: React.FC = () => {
       <section className="px-4 sm:px-6 lg:px-8 pb-16 pt-8 max-w-7xl mx-auto relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
-            { label: 'Notes Available', value: realStats.notes, icon: '📘', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/40', border: 'border-blue-200 dark:border-blue-800' },
-            { label: 'Total Downloads', value: realStats.downloads, icon: '⬇️', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/40', border: 'border-emerald-200 dark:border-emerald-800' },
-            { label: 'Subjects Covered', value: realStats.subjects, icon: '📙', color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-100 dark:bg-orange-900/40', border: 'border-orange-200 dark:border-orange-800' },
-            { label: 'Registered Students', value: realStats.users, icon: '🎓', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/40', border: 'border-purple-200 dark:border-purple-800' },
+            { label: 'Notes Available', value: realStats.notes, icon: '📘', gradient: 'from-blue-500 to-cyan-500', shadow: 'shadow-blue-500/20' },
+            { label: 'Total Downloads', value: realStats.downloads, icon: '⬇️', gradient: 'from-emerald-500 to-green-500', shadow: 'shadow-emerald-500/20' },
+            { label: 'Subjects Covered', value: realStats.subjects, icon: '📙', gradient: 'from-orange-500 to-amber-500', shadow: 'shadow-orange-500/20' },
+            { label: 'Registered Students', value: realStats.users, icon: '🎓', gradient: 'from-purple-500 to-pink-500', shadow: 'shadow-purple-500/20' },
           ].map((stat, i) => (
-            <div key={i} className={`bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border-2 ${stat.border} flex items-center gap-5 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-default group`}>
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shrink-0 ${stat.bg} group-hover:scale-110 transition-transform duration-300`}>
+            <div key={i} className={`bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-lg border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 cursor-default group animate-float`} style={{ animationDelay: `${i * 0.2}s` }}>
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-4 bg-gradient-to-br ${stat.gradient} text-white shadow-lg ${stat.shadow} group-hover:scale-110 transition-transform duration-300`}>
                 {stat.icon}
               </div>
-              <div>
-                <div className="text-2xl font-bold text-brand-text dark:text-white mb-0.5">{stat.value}</div>
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">{stat.label}</div>
-              </div>
+              <div className="text-4xl font-extrabold text-brand-text dark:text-white mb-2">{stat.value}</div>
+              <div className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -234,35 +241,41 @@ const Home: React.FC = () => {
             const icon = subjectIcons[note.subject] || '📄';
             
             return (
-              <div key={note.id} className={`bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-md border-b-8 border-2 ${colorCode.split(' ')[0]} ${colorCode.split(' ')[3]} hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group flex flex-col cursor-pointer`} onClick={() => navigate(`/notes/${note.id}`)}>
-                <div className="flex justify-between items-start mb-4">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-bold shadow-sm ${colorCode.split(' ')[1]} ${colorCode.split(' ')[2]} ${colorCode.split(' ')[4] || ''}`}>
+              <div key={note.id} className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-md border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group flex flex-col relative overflow-hidden cursor-pointer" onClick={() => navigate(`/notes/${note.id}`)}>
+                {/* Background decorative gradient */}
+                <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full blur-3xl opacity-20 ${colorCode.split(' ')[1]}`} />
+                
+                <div className="flex justify-between items-start mb-6 relative z-10">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shadow-sm ${colorCode.split(' ')[1]} ${colorCode.split(' ')[2]} ${colorCode.split(' ')[4] || ''}`}>
                     {icon}
                   </div>
-                  <span className="px-2.5 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-[10px] font-bold rounded-full uppercase tracking-wide">
-                    {note.class_name} Class
-                  </span>
+                  <div className="flex flex-col gap-2 items-end">
+                    <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-full shadow-sm">
+                      {note.class_name} Class
+                    </span>
+                    <span className={`px-3 py-1 text-xs font-bold rounded-full shadow-sm ${colorCode.split(' ')[1]} ${colorCode.split(' ')[2]} ${colorCode.split(' ')[4] || ''}`}>
+                      {note.subject}
+                    </span>
+                  </div>
                 </div>
                 
-                <p className={`text-[10px] font-bold uppercase tracking-wider mb-1.5 ${colorCode.split(' ')[1]}`}>{note.subject}</p>
-                <h3 className="font-bold text-brand-text dark:text-white text-lg mb-3 line-clamp-2 leading-tight flex-1">{note.title}</h3>
+                <h3 className="font-extrabold text-brand-text dark:text-white text-xl mb-4 line-clamp-2 leading-tight flex-1 relative z-10">{note.title}</h3>
                 
-                <div className="flex flex-col gap-2 text-xs text-slate-500 mb-5">
-                  <span className="flex items-center gap-1.5">
+                <div className="flex items-center gap-4 text-sm text-slate-500 font-medium mb-6 relative z-10">
+                  <span className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700">
                     <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                    {note.downloads_count || 0} downloads
+                    {note.downloads_count || 0}
                   </span>
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex items-center gap-1.5 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700">
                     <span className="w-4 text-center">🌍</span>
-                    {note.language} Medium
+                    {note.language}
                   </span>
                 </div>
                 
-                <div className="mt-auto flex items-center justify-end">
-                  <span className={`text-sm font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform ${colorCode.split(' ')[2]}`}>
-                    View Details &rarr;
-                  </span>
-                </div>
+                <button className={`mt-auto w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md ${colorCode.split(' ')[1]} ${colorCode.split(' ')[2]} ${colorCode.split(' ')[4] || ''} hover:opacity-90 relative z-10`}>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                  Download Notes
+                </button>
               </div>
             );
           })}
@@ -278,12 +291,18 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {FEATURES.map((feature, i) => (
-              <div key={i} className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-sm border-2 border-slate-100 dark:border-slate-800 flex flex-col items-start hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 bg-gradient-to-br ${feature.gradient} text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
-                  {feature.icon}
+              <div key={i} className="bg-white dark:bg-slate-900 rounded-[2rem] p-10 shadow-md border border-slate-100 dark:border-slate-800 flex flex-col items-start hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 group relative overflow-hidden">
+                <div className={`absolute -right-10 -top-10 w-40 h-40 rounded-full blur-3xl opacity-10 bg-gradient-to-br ${feature.gradient}`} />
+                <div className="flex justify-between w-full items-start mb-8 relative z-10">
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl bg-gradient-to-br ${feature.gradient} text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300`}>
+                    {feature.icon}
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-brand-primary group-hover:bg-brand-primary/10 transition-colors">
+                    <svg className="w-5 h-5 -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-brand-text dark:text-white mb-3">{feature.title}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">{feature.desc}</p>
+                <h3 className="text-2xl font-extrabold text-brand-text dark:text-white mb-4 relative z-10">{feature.title}</h3>
+                <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed font-medium relative z-10">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -306,13 +325,13 @@ const Home: React.FC = () => {
           </div>
 
           <div className="flex-1 text-center z-10">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 drop-shadow-md">Have notes to share?</h2>
-            <p className="text-indigo-100 text-sm sm:text-base mb-8 max-w-lg mx-auto font-medium">
-              Help thousands of students by uploading your notes. Every contribution makes a huge difference.
+            <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 drop-shadow-md tracking-tight">📂 Share Your Knowledge</h2>
+            <p className="text-indigo-100 text-lg mb-10 max-w-lg mx-auto font-medium leading-relaxed">
+              Help thousands of government school students learn for free. Upload your notes, question papers, and materials to make a difference.
             </p>
-            <Link to="/upload" className="inline-flex items-center justify-center px-8 py-4 bg-white text-indigo-600 font-extrabold rounded-2xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-xl gap-2 text-lg">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-              Upload Now
+            <Link to="/upload" className="inline-flex items-center justify-center px-10 py-5 bg-white text-indigo-600 font-black rounded-2xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-2xl gap-3 text-xl border-4 border-white/20 hover:border-white/40">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+              Upload Materials Now
             </Link>
           </div>
 

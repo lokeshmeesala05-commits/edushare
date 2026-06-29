@@ -127,7 +127,7 @@ const Home: React.FC = () => {
       
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
-        <div className="flex-1 flex flex-col items-center text-center z-10 w-full">
+        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left z-10 w-full">
           
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6 sm:mb-8">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-bold shadow-sm">
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
             </div>
           </form>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 relative z-10 w-full sm:w-auto">
             <Link to="/notes" className="w-full sm:w-auto justify-center px-8 py-3.5 bg-brand-text dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-100 text-white dark:text-brand-text font-extrabold rounded-xl sm:rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center gap-2">
               📚 Browse Library
             </Link>
@@ -187,6 +187,12 @@ const Home: React.FC = () => {
           </div>
         </div>
         
+        {/* Hero Educational Illustration */}
+        <div className="flex-1 w-full max-w-lg lg:max-w-none relative z-10 hidden lg:block">
+           <div className="relative p-4 md:p-6 flex justify-center items-center">
+             <img src="/hero-illustration.png" alt="Education Illustration" className="w-full max-w-lg h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
+           </div>
+        </div>
 
       </section>
 
@@ -314,11 +320,8 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           
           <div className="w-32 sm:w-48 hidden md:block shrink-0 z-10">
-             <div className="w-full aspect-square bg-white/10 backdrop-blur-md rounded-[2.5rem] flex items-center justify-center text-5xl sm:text-6xl shadow-inner relative border border-white/20">
-               <span className="animate-float">👨‍💻</span>
-               <div className="absolute -top-4 -right-4 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-yellow-900 shadow-lg animate-bounce border-2 border-white">
-                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-               </div>
+             <div className="w-full h-full flex items-end justify-center text-[100px] sm:text-[130px] drop-shadow-2xl animate-float">
+               👨‍💻
              </div>
           </div>
 
@@ -334,11 +337,8 @@ const Home: React.FC = () => {
           </div>
 
           <div className="w-32 sm:w-48 hidden md:block shrink-0 relative z-10">
-             <div className="w-full aspect-square bg-white/10 backdrop-blur-md rounded-[2.5rem] flex items-center justify-center text-5xl sm:text-7xl shadow-inner border border-white/20 rotate-6 relative">
+             <div className="w-full h-full flex items-end justify-center text-[100px] sm:text-[130px] drop-shadow-2xl animate-float-delayed rotate-6">
                📁
-               <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-emerald-400 rounded-full flex items-center justify-center text-emerald-900 shadow-lg animate-pulse border-2 border-white">
-                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-               </div>
              </div>
           </div>
           

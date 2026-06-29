@@ -124,7 +124,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 w-full bg-transparent transition-colors duration-300 overflow-x-hidden">
+    <div className="flex-1 w-full bg-transparent transition-colors duration-300">
       
       {/* Hero Section */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-24 lg:pb-24 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
@@ -243,7 +243,7 @@ const Home: React.FC = () => {
             const icon = subjectIcons[note.subject] || '📄';
             
             return (
-              <div key={note.id} className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-md border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 group flex flex-col relative overflow-hidden cursor-pointer" onClick={() => navigate(`/notes/${note.id}`)}>
+              <div key={note.id} className={`relative overflow-hidden group bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-md border border-slate-100 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 flex flex-col cursor-pointer`} onClick={() => navigate(`/notes/${note.id}`)}>
                 {/* Background decorative gradient */}
                 <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full blur-3xl opacity-20 ${colorCode.split(' ')[1]}`} />
                 
@@ -285,7 +285,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Features */}
-      <section ref={featuresRef} className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative">
+      <section ref={featuresRef} className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 relative overflow-hidden">
         <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -z-10" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl -z-10" />
         <div className="max-w-7xl mx-auto">

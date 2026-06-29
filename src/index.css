@@ -22,8 +22,7 @@
 
 /* Clean Base Styles */
 html, body {
-  @apply antialiased min-h-screen transition-colors duration-300 overflow-x-hidden;
-  width: 100%;
+  @apply antialiased min-h-screen transition-colors duration-300;
 }
 
 /* Card Base Styles */

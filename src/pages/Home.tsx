@@ -189,7 +189,7 @@ const Home: React.FC = () => {
         </div>
         
         {/* Hero Educational Illustration */}
-        <div className="flex-1 w-full max-w-lg lg:max-w-none relative z-10 hidden lg:block">
+        <div className="flex-1 w-full max-w-md sm:max-w-lg lg:max-w-none relative z-10 mt-12 lg:mt-0">
            <div className="relative p-4 md:p-6 flex justify-center items-center">
              <HeroIllustration className="w-full max-w-2xl h-auto object-contain animate-float-delayed drop-shadow-2xl relative z-10" />
            </div>

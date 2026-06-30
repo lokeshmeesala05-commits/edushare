@@ -1,5 +1,4 @@
-// We renamed the API key export but kept the file name gemini.ts to avoid changing other imports
-export const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+export const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 // Helper function to build the initial system prompt for the tutor
 export const buildTutorContext = (note: {

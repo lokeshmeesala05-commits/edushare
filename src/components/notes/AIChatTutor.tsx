@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { processDocument } from '../../lib/documentProcessor';
 import type { DocumentChunk, FileType } from '../../lib/documentProcessor';
 import { buildRagContext } from '../../lib/ragEngine';
-import { GROQ_API_KEY, buildTutorContext } from '../../lib/gemini';
+import { GEMINI_API_KEY, buildTutorContext } from '../../lib/gemini';
 import { QuickActions } from './QuickActions';
 import { X, Bot, FileText, CheckCircle2, AlertCircle, Loader2, Mic } from 'lucide-react';
 interface AIChatTutorProps {
@@ -23,7 +23,7 @@ interface Message {
   content: string;
 }
 
-const MODEL = 'llama-3.1-8b-instant';
+const MODEL = 'gemini-1.5-flash';
 
 const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavigateToPage }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -43,7 +43,7 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
   const [initialized, setInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const isConfigured = !!GROQ_API_KEY;
+  const isConfigured = !!GEMINI_API_KEY;
 
   useEffect(() => {
     if (isOpen && isConfigured && !initialized) {
@@ -114,23 +114,29 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
     // Keep only the last 4 messages (2 full conversation turns) to avoid hitting TPM limits on long chats
     const recentMessages = newMessages.slice(1).slice(-4);
     
-    const apiMessages = [
-      { role: 'system', content: messages[0].content + contextString },
-      ...recentMessages
-    ];
+    // Build Gemini Payload
+    const systemInstruction = {
+      parts: [{ text: messages[0].content + contextString }]
+    };
+
+    const contents = recentMessages.map(msg => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }]
+    }));
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: MODEL,
-          messages: apiMessages,
-          temperature: 0.2, // Low temperature for high factual accuracy
-          max_tokens: 1500
+          system_instruction: systemInstruction,
+          contents: contents,
+          generationConfig: {
+            temperature: 0.2,
+            maxOutputTokens: 1500,
+          }
         })
       });
 
@@ -140,7 +146,8 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
       }
 
       const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.choices[0].message.content }]);
+      const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      setMessages(prev => [...prev, { role: 'assistant', content: replyText }]);
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.');
       setMessages(prev => prev.slice(0, -1));
@@ -269,7 +276,7 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
           <AlertCircle className="w-12 h-12 text-rose-500 mb-4" />
           <h3 className="text-white font-bold text-lg mb-2">Setup Required</h3>
           <p className="text-slate-400 text-sm leading-relaxed">
-            Please add your <code className="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">VITE_GROQ_API_KEY</code> to the <code className="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">.env</code> file to enable AI features.
+            Please add your <code className="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">VITE_GEMINI_API_KEY</code> to the <code className="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">.env</code> file to enable AI features.
           </p>
         </div>
       ) : isProcessing ? (

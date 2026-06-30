@@ -5,7 +5,9 @@ export interface RagResult {
   sourceChunks: DocumentChunk[];
 }
 
-const MAX_FULL_TEXT_CHARS = 16000;
+// Lowered from 16000 to 4000 to prevent hitting Groq's 6000 TPM free-tier limit.
+// If the document is larger than 4000 chars, it will use BM25 to extract only the most relevant chunks.
+const MAX_FULL_TEXT_CHARS = 4000;
 
 // ─── QUERY PARSER ────────────────────────────────────────────────────────────
 // Parse user queries like "5th lesson 4th question" or "chapter 3 question 12"
@@ -146,9 +148,9 @@ const bm25Search = (userMessage: string, chunks: DocumentChunk[]): DocumentChunk
     return { ...chunk, score };
   });
 
-  // Sort by score descending, take top 6
+  // Sort by score descending, take top 4 (reduced from 6 to save tokens)
   scored.sort((a, b) => (b as any).score - (a as any).score);
-  return scored.slice(0, 6);
+  return scored.slice(0, 4);
 };
 
 // ─── MAIN RAG CONTEXT BUILDER ────────────────────────────────────────────────
@@ -242,13 +244,14 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     console.log('⚠️ Structural metadata requested but not found. Falling back to BM25 with disclaimer.');
     // Still use BM25 to find best available content — disclaimer is added below
     const bm25Results = bm25Search(userMessage, chunks);
-    const tocChunks = chunks.slice(0, 2).filter(c => !bm25Results.includes(c));
+    const tocChunks = chunks.slice(0, 1).filter(c => !bm25Results.includes(c));
     finalChunks = [...tocChunks, ...bm25Results].sort((a, b) => a.index - b.index);
   } else {
     // Fallback to BM25
     console.log('🔄 Falling back to BM25 search because no suitable exact matches.');
     const bm25Results = bm25Search(userMessage, chunks);
-    const tocChunks = chunks.slice(0, 2).filter(c => !bm25Results.includes(c));
+    // Include 1 TOC chunk instead of 2 to save tokens
+    const tocChunks = chunks.slice(0, 1).filter(c => !bm25Results.includes(c));
     finalChunks = [...tocChunks, ...bm25Results].sort((a, b) => a.index - b.index);
   }
 

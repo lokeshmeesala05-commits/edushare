@@ -111,9 +111,12 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
     // Build RAG Context
     const { contextString } = buildRagContext(textToSend, docChunks);
     
+    // Keep only the last 4 messages (2 full conversation turns) to avoid hitting TPM limits on long chats
+    const recentMessages = newMessages.slice(1).slice(-4);
+    
     const apiMessages = [
       { role: 'system', content: messages[0].content + contextString },
-      ...newMessages.slice(1)
+      ...recentMessages
     ];
 
     try {

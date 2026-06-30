@@ -27,8 +27,8 @@ Rules:
 - Whenever you use information from the document, ALWAYS cite the exact source at the end of your response using THIS format:
   
   📄 ${note.title}
-  📖 Page [X]
-  📘 [Section Name] (Only include this line if you are 100% sure of the exact section/lesson name. If you are not sure, completely omit this line.)
+  📖 Page [X] (Use the exact page number from the [Source: Page X] tag. If not available, omit this line. NEVER guess!)
+  📘 [Section Name] (Only include this line if you are 100% sure of the exact section/lesson name from the Source tag. If you are not sure, omit this line. NEVER guess!)
 - Always answer in the same language as the user's question.
 - If the user asks in Telugu, reply only in proper Telugu script.
 - Explain concepts step by step using simple language suitable for students.

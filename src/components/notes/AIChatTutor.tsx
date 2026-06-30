@@ -142,7 +142,7 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
           contents: contents,
           generationConfig: {
             temperature: 0.2,
-            maxOutputTokens: 1500,
+            maxOutputTokens: 8192,
           }
         })
       });
@@ -184,7 +184,10 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
   };
 
   const renderMarkdown = (text: string) => {
-    let html = text
+    // Strip any bullet points that Gemini might have added to the citation lines
+    let cleanedText = text.replace(/^[\*\-]\s*(📄|📖|📘)/gm, '$1');
+
+    let html = cleanedText
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/`(.*?)`/g, '<code class="bg-slate-800 px-1 rounded text-emerald-300 text-xs">$1</code>')

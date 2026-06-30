@@ -5,9 +5,9 @@ export interface RagResult {
   sourceChunks: DocumentChunk[];
 }
 
-// Lowered from 16000 to 4000 to prevent hitting Groq's 6000 TPM free-tier limit.
-// If the document is larger than 4000 chars, it will use BM25 to extract only the most relevant chunks.
-const MAX_FULL_TEXT_CHARS = 4000;
+// Gemini 2.5 Flash has a 1,000,000 token limit.
+// We can comfortably pass up to 150,000 characters without issue.
+const MAX_FULL_TEXT_CHARS = 150000;
 
 // ─── QUERY PARSER ────────────────────────────────────────────────────────────
 // Parse user queries like "5th lesson 4th question" or "chapter 3 question 12"
@@ -283,10 +283,7 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     }).join('\n\n') +
     `\n=== END ===`;
 
-  // Absolute hard limit to prevent TPM limit (1 token ~ 4 chars. 2500 chars = ~600 tokens)
-  if (contextString.length > 2500) {
-    contextString = contextString.substring(0, 2500) + '...\n[TRUNCATED TO SAVE CONTEXT LIMIT]';
-  }
+  // No truncation needed for Gemini 2.5 Flash, it handles 1M tokens natively!
 
   return { contextString, sourceChunks: finalChunks };
 };

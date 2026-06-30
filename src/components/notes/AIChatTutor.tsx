@@ -188,6 +188,7 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
     let cleanedText = text.replace(/^[\*\-]\s*(📄|📖|📘)/gm, '$1');
 
     let html = cleanedText
+      .replace(/!\[(.*?)\]\((.*?)\)/g, '<div class="mt-4 mb-2 overflow-hidden rounded-xl border border-white/10 bg-slate-800 shadow-lg"><img src="$2" alt="$1" class="w-full h-auto object-cover" /><div class="px-3 py-1.5 bg-slate-800/80 backdrop-blur-sm text-[10px] text-slate-400 font-medium">$1</div></div>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/`(.*?)`/g, '<code class="bg-slate-800 px-1 rounded text-emerald-300 text-xs">$1</code>')

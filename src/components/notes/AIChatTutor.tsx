@@ -23,7 +23,7 @@ interface Message {
   content: string;
 }
 
-const MODEL = 'llama-3.3-70b-versatile';
+const MODEL = 'llama-3.1-8b-instant';
 
 const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavigateToPage }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -132,7 +132,8 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
       });
 
       if (!response.ok) {
-        throw new Error('Failed to connect to EduBot API');
+        const errData = await response.json().catch(() => null);
+        throw new Error(errData?.error?.message || `API Error: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();

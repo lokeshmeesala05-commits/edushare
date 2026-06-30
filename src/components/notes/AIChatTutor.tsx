@@ -23,7 +23,7 @@ interface Message {
   content: string;
 }
 
-const MODEL = 'gemini-1.5-flash-latest';
+const MODEL = 'gemini-2.5-flash';
 
 const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavigateToPage }) => {
   const [messages, setMessages] = useState<Message[]>([]);

@@ -199,7 +199,7 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
     // 📄 Title
     // 📖 Page X
     // 📘 Section
-    const citationRegex = /📄 (.*?)<br \/>\s*📖 Page (\d+)(?:<br \/>\s*📘 (.*?))(?:<br \/>|$)/g;
+    const citationRegex = /📄 (.*?)<br \/>\s*📖 Page (\d+)(?:<br \/>\s*📘 (.*?))?(?:<br \/>|$)/g;
     html = html.replace(citationRegex, (_match, title, pageNum, section) => {
       // Build button markup with available metadata
       let metaLines = `📄 ${title}<br/>📖 Page ${pageNum}`;

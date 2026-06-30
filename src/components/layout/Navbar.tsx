@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
             </Link>
 
             {/* Desktop Nav Links */}
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-4">
               <Link to="/" className={linkClass('/')}>
                 Home
               </Link>
@@ -123,7 +123,7 @@ const Navbar: React.FC = () => {
                   <div className="w-8 h-8 bg-gradient-to-br from-brand-primary to-brand-navy rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm shadow-brand-primary/20">
                     {initials}
                   </div>
-                  <span className="hidden md:block text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
+                  <span className="hidden lg:block text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
                     {user?.user_metadata?.full_name || user.email}
                   </span>
                 </Link>
@@ -153,7 +153,7 @@ const Navbar: React.FC = () => {
 
             {/* Mobile hamburger */}
             <button
-              className="md:hidden p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              className="lg:hidden p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               onClick={() => setMobileOpen(o => !o)}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-slate-200 dark:border-white/10 py-3 space-y-1 bg-white dark:bg-slate-900 px-4 -mx-4 shadow-lg">
+          <div className="lg:hidden border-t border-slate-200 dark:border-white/10 py-3 space-y-1 bg-white dark:bg-slate-900 px-4 -mx-4 shadow-lg">
             <Link to="/" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/')}>Home</Link>
             <Link to="/notes" onClick={() => setMobileOpen(false)} className={mobileLinkClass('/notes')}>Browse Notes</Link>
             {user && (

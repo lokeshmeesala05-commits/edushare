@@ -37,7 +37,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white flex flex-col font-sans transition-colors duration-200 overflow-x-clip">
+          <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white flex flex-col font-sans transition-colors duration-200">
           {/* Offline banner */}
           {!isOnline && (
             <div className="bg-orange-500 text-white text-center text-sm py-2 px-4 font-medium flex items-center justify-center gap-2">
@@ -48,7 +48,7 @@ function App() {
             </div>
           )}
           <Navbar />
-          <main className="flex-grow overflow-x-hidden w-full min-w-0">
+          <main className="flex-grow">
             <Routes>
               {/* Public routes */}
               <Route path="/" element={<Home />} />

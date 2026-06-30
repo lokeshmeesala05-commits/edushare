@@ -23,7 +23,7 @@ interface Message {
   content: string;
 }
 
-const MODEL = 'gemini-1.5-flash';
+const MODEL = 'gemini-1.5-flash-latest';
 
 const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavigateToPage }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -111,8 +111,15 @@ const AIChatTutor: React.FC<AIChatTutorProps> = ({ isOpen, onClose, note, onNavi
     // Build RAG Context
     const { contextString } = buildRagContext(textToSend, docChunks);
     
+    // Gemini strictly requires the conversation history to START with a 'user' role.
+    // We must remove the initial assistant greeting from the API payload.
+    let historyToPass = newMessages.slice(1);
+    if (historyToPass.length > 0 && historyToPass[0].role === 'assistant') {
+      historyToPass = historyToPass.slice(1);
+    }
+    
     // Keep only the last 4 messages (2 full conversation turns) to avoid hitting TPM limits on long chats
-    const recentMessages = newMessages.slice(1).slice(-4);
+    const recentMessages = historyToPass.slice(-4);
     
     // Build Gemini Payload
     const systemInstruction = {

@@ -269,8 +269,8 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
     Do not try to answer from the content below, just ask the user to provide the question directly.\n`;
   }
 
-  // Build context string
-  const contextString = disclaimer +
+  // Build context string and enforce a strict hard limit on total characters
+  let contextString = disclaimer +
     `\n\n=== RELEVANT SECTIONS FROM DOCUMENT ===\n` +
     finalChunks.map(c => {
       const meta = [
@@ -282,6 +282,11 @@ export const buildRagContext = (userMessage: string, chunks: DocumentChunk[]): R
       return `[Source: ${meta}]\n${c.text}`;
     }).join('\n\n') +
     `\n=== END ===`;
+
+  // Absolute hard limit to prevent TPM limit (1 token ~ 4 chars. 2500 chars = ~600 tokens)
+  if (contextString.length > 2500) {
+    contextString = contextString.substring(0, 2500) + '...\n[TRUNCATED TO SAVE CONTEXT LIMIT]';
+  }
 
   return { contextString, sourceChunks: finalChunks };
 };

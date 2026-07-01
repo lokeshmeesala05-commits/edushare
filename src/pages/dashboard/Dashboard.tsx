@@ -486,16 +486,12 @@ const NoteCard: React.FC<{ note: Note; statusBadge: (s: string) => React.ReactNo
     <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{note.subject} · Class {note.class_name}</p>
     <div className="flex items-center justify-between mt-auto pt-2 border-t border-slate-100 dark:border-slate-800">
       <span className="text-xs text-slate-400 dark:text-slate-500">{note.language}</span>
-      {note.file_url && (
-        <a
-          href={note.file_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-brand-primary hover:text-brand-navy font-medium transition group-hover:underline"
-        >
-          View File →
-        </a>
-      )}
+      <Link
+        to={`/notes/${note.id}`}
+        className="text-xs text-brand-primary hover:text-brand-navy font-medium transition group-hover:underline"
+      >
+        View Details →
+      </Link>
     </div>
     {note.approval_status === 'rejected' && note.rejection_reason && (
       <div className="mt-3 p-2.5 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg">
